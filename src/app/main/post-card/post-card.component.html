@@ -77,7 +77,7 @@
                 <div class="ctrl ctrl-dots"></div>
             </section>
             <section class="instapost__action">
-                <button class="btn btn-like" (click)="onToggleLikeTest()">
+                <button class="btn btn-like" (click)="onToggleLike()">
                     <svg class="like-icon" *ngIf="isLiked">
                         <use xlink:href="#like-filled" />
                     </svg>
@@ -124,7 +124,7 @@
                 Vedi tutti i commenti
             </a>-->
             <section class="instapost__timestamp">
-                {{post.dataPost | date: 'dd/MM/yyyy'}}
+                {{post.datePost | date: 'dd/MM/yyyy'}}
             </section>
             <section class="instapost__add-comment">
 
@@ -138,7 +138,7 @@
                 <button 
                             class="btn btn-send-comment" 
                             type="submit" 
-                            (click)="onSubmit()" 
+                            (click)="onSubmitComment()" 
                             [disabled]="!commento">
                     Invia
                 </button>
