@@ -1,0 +1,82 @@
+<header>
+	<div class="loading" *ngIf="!loadingProfile">
+		<p>loading...</p>
+	</div>
+	<div class="container" *ngIf="loadingProfile">
+
+		<div class="profile">
+
+			<div class="profile-image">
+
+				<img src={{profilo.proPic}} alt="" style="max-width: 180px; max-height: 180px;">
+
+			</div>
+
+			<div class="profile-user-settings">
+
+				<h1 class="profile-user-name">{{profilo.nickname}}</h1>
+
+				<button class="btn profile-edit-btn" *ngIf="myProfile" routerLink="/profile/edit">Modifica</button>
+				<button class="btn profile-edit-btn" *ngIf="!myProfile" (click)="onToggleFollow()">
+					<span *ngIf="following">Followed</span>
+					<span *ngIf="!following">Follow</span>
+				</button>
+				<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+
+			</div>
+
+			<div class="profile-stats">
+
+				<ul>
+					<li><span class="profile-stat-count">{{posts.length}}</span> post</li>
+					<li (click)="viewFollowersList()"><span class="profile-stat-count">{{followers.length}}</span> followers</li>
+					<li (click)="viewFollowingList()"><span class="profile-stat-count">{{follows.length}}</span> following</li>
+				</ul>
+
+			</div>
+
+			<div class="profile-bio">
+
+				<span class="profile-real-name">{{profilo.nome}}</span><p>{{profilo.biografia}}</p>
+
+			</div>
+
+		</div>
+		<!-- End of profile section -->
+
+	</div>
+	<!-- End of container -->
+
+</header>
+
+<!--
+	POSTS SECTION: QUI CI SONO TUTTI I POST DI UN PROFILO.
+-->
+<div class="loading" *ngIf="!loadingPosts">loading...</div>
+
+<main *ngIf="loadingPosts">
+
+	<div class="container">
+
+		<div class="gallery" >
+
+			<div class="wrapper" *ngFor="let post of posts">
+				<div class="gallery-item" tabindex="0" (click)="openPost(post.idPost)">
+					<img src={{post.urlImg}} class="gallery-image" alt="">
+	
+					<div class="gallery-item-info">
+	
+
+	
+					</div>
+	
+				</div>
+			</div>
+		</div>
+		<!-- End of gallery -->
+
+
+	</div>
+	<!-- End of container -->
+
+</main>

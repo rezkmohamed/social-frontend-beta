@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { Like } from "../models/like.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
+import { ProfilesService } from "../profiles.service";
 
 @Component({
     selector: 'app-post-card',
@@ -10,14 +12,18 @@ import { Profile } from "../models/profile.model";
 export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
-
-
+    //idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
+    idSession: string = "";
+    isLiked: boolean = false;
+    loadingComment: boolean = true; //andrebbe inizializzato a false
+    likesAlPost: Like[] = [];
 
     commento: string;
     isDropdown: boolean = false;
 
-    ngOnInit(): void {
+    constructor(private profilesService: ProfilesService){}
 
+    ngOnInit(): void {
 
     }
 

@@ -106,7 +106,7 @@
                 Vedi tutti gli 817 commenti
             </a>-->
             <div class="loading" *ngIf="!loadingComment">loading...</div>
-            <section class="instapost__description" *ngIf="loadingComment && profiliCommentatori.length">
+            <section class="instapost__description" *ngIf="loadingComment">
                 <div *ngFor="let comment of commentiView; let i = index">
                     <a class="user instalink" [routerLink]="['/profiles', comment.id]">
                         {{comment.nickname}}
@@ -124,7 +124,7 @@
                 Vedi tutti i commenti
             </a>-->
             <section class="instapost__timestamp">
-                {{post.datePost | date: 'dd/MM/yyyy'}}
+                {{post.datePost}}
             </section>
             <section class="instapost__add-comment">
 

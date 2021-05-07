@@ -4,6 +4,8 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { HeaderComponent } from "./header/header.component";
+import { HomepageComponent } from "./homepage/homepage.component";
+import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 
@@ -12,14 +14,16 @@ import { PostCardComponent } from "./post-card/post-card.component";
     declarations: [
         MainComponent,
         HeaderComponent,
-        PostCardComponent
+        PostCardComponent,
+        HomepageComponent
     ],
     imports: [
         RouterModule,
         CommonModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MainRoutingModule
     ],
     exports: [
         MainComponent,

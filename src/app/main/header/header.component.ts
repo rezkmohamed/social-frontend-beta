@@ -9,8 +9,8 @@ import { Router } from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
     @ViewChild('f') searchForm: NgForm;
-    idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-
+    //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
+    idSession: string;
 
     constructor(private router: Router) { }
 
