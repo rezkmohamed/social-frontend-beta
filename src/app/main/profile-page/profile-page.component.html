@@ -1,8 +1,8 @@
 <header>
-	<div class="loading" *ngIf="!loadingProfile">
+	<div class="loading" *ngIf="loadingProfile">
 		<p>loading...</p>
 	</div>
-	<div class="container" *ngIf="loadingProfile">
+	<div class="container" *ngIf="!loadingProfile">
 
 		<div class="profile">
 
@@ -29,15 +29,15 @@
 
 				<ul>
 					<li><span class="profile-stat-count">{{posts.length}}</span> post</li>
-					<li (click)="viewFollowersList()"><span class="profile-stat-count">{{followers.length}}</span> followers</li>
-					<li (click)="viewFollowingList()"><span class="profile-stat-count">{{follows.length}}</span> following</li>
+					<li (click)="viewFollowersList()"><span class="profile-stat-count">{{followers}}</span> followers</li>
+					<li (click)="viewFollowingList()"><span class="profile-stat-count">{{following}}</span> following</li>
 				</ul>
 
 			</div>
 
 			<div class="profile-bio">
 
-				<span class="profile-real-name">{{profilo.nome}}</span><p>{{profilo.biografia}}</p>
+				<span class="profile-real-name">{{profilo.name}}</span><p>{{profilo.bio}}</p>
 
 			</div>
 
@@ -52,9 +52,9 @@
 <!--
 	POSTS SECTION: QUI CI SONO TUTTI I POST DI UN PROFILO.
 -->
-<div class="loading" *ngIf="!loadingPosts">loading...</div>
+<div class="loading" *ngIf="loadingPosts">loading...</div>
 
-<main *ngIf="loadingPosts">
+<main *ngIf="!loadingPosts">
 
 	<div class="container">
 

@@ -8,6 +8,7 @@ import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
 import { PostCardComponent } from "./post-card/post-card.component";
+import { ProfilePageComponent } from "./profile-page/profile-page.component";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { PostCardComponent } from "./post-card/post-card.component";
         MainComponent,
         HeaderComponent,
         PostCardComponent,
-        HomepageComponent
+        HomepageComponent,
+        ProfilePageComponent
     ],
     imports: [
         RouterModule,
