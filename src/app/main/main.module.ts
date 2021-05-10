@@ -9,6 +9,8 @@ import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
+import { ProfileElementViewComponent } from "./profiles-list-view/profile-element-view/profile-element-view.component";
+import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { ProfilePageComponent } from "./profile-page/profile-page.component";
         HeaderComponent,
         PostCardComponent,
         HomepageComponent,
-        ProfilePageComponent
+        ProfilePageComponent,
+        ProfilesListViewComponent,
+        ProfileElementViewComponent
     ],
     imports: [
         RouterModule,

@@ -1,6 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Profile } from "./models/profile.model";
+import { User } from "./models/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +9,7 @@ import { Profile } from "./models/profile.model";
 export class ProfilesService {
     private urlBase: string = "http://localhost:8080/";
     private noBioProfilePage: string = "nessuna biografia aggiunta";
-    private noProPicImg: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREmdCaf7nI2mtqMatOavcK6g93qwLWykuiZQ&usqp=CAU";
+    private noProPicImg: string = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
 
     constructor(private http: HttpClient){}
 
@@ -22,6 +23,19 @@ export class ProfilesService {
         if(profile.proPic == null || profile.proPic == undefined){
             profile.proPic = this.noProPicImg;
         }
+    }
+
+    login(email: string, password: string){
+        return this.http.put<User>(this.urlBase + "login",{
+            body: {email, password}
+        });
+    }
+
+    createAccount(profile: Profile){
+        return this.http.post(
+            this.urlBase + "register",
+            profile
+        );
     }
 
     fetchAccounts(){

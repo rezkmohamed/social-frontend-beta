@@ -7,7 +7,7 @@ import { ProfilePageComponent } from "./profile-page/profile-page.component";
 
 const routes: Routes = [
     { path: '', component: MainComponent, children: [
-        { path: '', component: HomepageComponent },
+        { path: 'homepage', component: HomepageComponent },
         { path: 'profiles', children: [
             {path: ':id', component: ProfilePageComponent}
         ]}
