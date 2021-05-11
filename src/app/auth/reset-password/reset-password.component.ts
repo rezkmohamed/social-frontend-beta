@@ -1,0 +1,29 @@
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { AuthService } from "../auth.service";
+
+@Component({
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss']
+})
+export class ResetPasswordComponent implements OnInit, OnDestroy {
+    @ViewChild('f') resetForm: NgForm;
+    errorReset: boolean = false;
+    formSubmitted: boolean = false;
+    resetPswSubscription: Subscription;
+
+    constructor(private authService: AuthService, private router: Router){}
+
+    ngOnInit(){}
+
+    onSubmit(){}
+
+    ngOnDestroy(){}
+
+    onNavigate(){
+        this.router.navigate(['/auth/login']);
+    }
+}

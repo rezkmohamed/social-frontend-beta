@@ -78,7 +78,13 @@ export class ProfilesListViewComponent implements OnInit{
     //metodo che filla i profiles con i profiles che hanno messo like
     //al post
     getLikes(){
+        let startId: number = 21;
+        let idPost: string = this.router.url.substring(startId, this.router.url.length);
+        console.log(idPost);
 
+        this.profilesService.getLikesForPost(idPost).subscribe(response => {
+            console.log(response);
+        });
     }
 
     getFollowers(){

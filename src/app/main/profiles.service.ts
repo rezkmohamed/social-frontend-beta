@@ -31,10 +31,15 @@ export class ProfilesService {
         });
     }
 
-    createAccount(profile: Profile){
+    createAccount(username: string, nickname: string, email: string, password: string){
         return this.http.post(
             this.urlBase + "register",
-            profile
+            {
+                name: username,
+                nickname: nickname,
+                email: email,
+                password: password
+            }
         );
     }
 
@@ -50,5 +55,7 @@ export class ProfilesService {
         return this.http.get<any[]>(this.urlBase + "posts/homepage/"+ idProfile);
     }
     
-
+    getLikesForPost(idPost: String){
+        return this.http.get<any[]>(this.urlBase + "profiles/likes/" + idPost);
+    }
 }

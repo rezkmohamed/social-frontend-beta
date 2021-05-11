@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
         const password = this.registraForm.value.password;
         const nickname = this.registraForm.value.username;
         this.authService.signup(email, password, nickname);
-        this.router.navigate(['/auth/login']);
+        //this.router.navigate(['/auth/login']);
         this.registraForm.reset();
     }
     
