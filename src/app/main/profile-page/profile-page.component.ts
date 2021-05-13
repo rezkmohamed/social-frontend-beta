@@ -12,6 +12,7 @@ import { ProfilesService } from "../profiles.service";
 export class ProfilePageComponent implements OnInit {
     //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
     idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    idProfilo: string = "";
     profilo: Profile;
     posts: Post[] = [];
     loadingProfile: boolean = true;
@@ -37,8 +38,17 @@ export class ProfilePageComponent implements OnInit {
     }
     
     private fillProfile(){
-        this.profilesService.fetchAccount(this.idSession).subscribe(
+        let inizioIdDaCercare = 10;
+        this.idProfilo = this.router.url.substring(inizioIdDaCercare, this.router.url.length);
+        console.log(this.idProfilo);
+        this.getAccount(this.idProfilo);
+    }
+
+    private getAccount(idProfilo: string){
+        this.profilesService.fetchAccount(idProfilo).subscribe(
             response => {
+                console.log(response);
+                console.log(response.posts);
                 this.profilo = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
                 this.profilesService.adjustProfilePageData(this.profilo);
                 console.log(this.profilo);
@@ -46,13 +56,14 @@ export class ProfilePageComponent implements OnInit {
                 this.following = response.followingCounter;
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
                 this.loadingProfile = false;
+                this.posts = [];
                 for(let post of response.posts){
                     const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.date, post.idProfile, post.commentsCounter, post.likesCounter);
+                    this.posts.push(postResponse);
                 }
                 this.loadingPosts = false;
             }
         )
     }
-
 
 }
