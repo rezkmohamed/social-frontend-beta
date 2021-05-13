@@ -3,6 +3,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { ChatContentComponent } from "./chat/chat-content/chat-content.component";
+import { ChatRoutingModule } from "./chat/chat-routing.module";
+import { ChatComponent } from "./chat/chat.component";
+import { ChatModule } from "./chat/chat.module";
+import { SidebarComponent } from "./chat/sidebar/sidebar.component";
 import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
@@ -21,7 +26,7 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         HomepageComponent,
         ProfilePageComponent,
         ProfilesListViewComponent,
-        ProfileElementViewComponent
+        ProfileElementViewComponent,
     ],
     imports: [
         RouterModule,
@@ -29,7 +34,8 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        MainRoutingModule
+        MainRoutingModule,
+        ChatModule
     ],
     exports: [
         MainComponent,

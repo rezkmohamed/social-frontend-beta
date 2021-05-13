@@ -20,7 +20,7 @@ export class ProfilesService {
         if(profile.name == null || profile.name == undefined){
             profile.name = profile.nickname;
         }
-        if(profile.proPic == null || profile.proPic == undefined){
+        if(profile.proPic == null || profile.proPic == undefined || profile.proPic == ""){
             profile.proPic = this.noProPicImg;
         }
     }
@@ -54,8 +54,16 @@ export class ProfilesService {
     fetchHomePage(idProfile: string){
         return this.http.get<any[]>(this.urlBase + "posts/homepage/"+ idProfile);
     }
-    
+
     getLikesForPost(idPost: String){
         return this.http.get<any[]>(this.urlBase + "profiles/likes/" + idPost);
+    }
+
+    getFollowersProfile(idProfile: string){
+        return this.http.get<any[]>(this.urlBase + "profiles/" + idProfile + "/followers");
+    }
+
+    getFollowingProfile(idProfile: string){
+        return this.http.get<any[]>(this.urlBase + "profiles/" + idProfile + "/following");
     }
 }

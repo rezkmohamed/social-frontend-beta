@@ -75,8 +75,7 @@ export class ProfilesListViewComponent implements OnInit{
         }
     }
 
-    //metodo che filla i profiles con i profiles che hanno messo like
-    //al post
+    //metodo che filla i profiles con i profiles che hanno messo like al post
     getLikes(){
         let startId: number = 21;
         let idPost: string = this.router.url.substring(startId, this.router.url.length);
@@ -88,10 +87,22 @@ export class ProfilesListViewComponent implements OnInit{
     }
 
     getFollowers(){
+        let startId: number = 25;
+        let idProfile: string = this.router.url.substring(startId, this.router.url.length);
+        console.log(idProfile);
 
+        this.profilesService.getFollowersProfile(idProfile).subscribe(response => {
+            console.log(response);
+        });
     }
 
     getFollowing(){
-        
+        let startId: number = 23;
+        let idProfile: string = this.router.url.substring(startId, this.router.url.length);
+        console.log(idProfile);
+    
+        this.profilesService.getFollowingProfile(idProfile).subscribe(response => {
+            console.log(response);
+        });
     }
 }

@@ -29,10 +29,13 @@ export class HomepageComponent implements OnInit {
                         response[i].urlImg, response[i].description,
                         response[i].date, response[i].idProfile);
 
-                        this.profiles[i] = new Profile(response[i].profile.id,
-                        response[i].profile.name, response[i].profile.nickname,
-                        response[i].profile.bio, response[i].profile.proPic,
-                        response[i].profile.email);
+                        let profile: Profile = new Profile(response[i].profile.id,
+                            response[i].profile.name, response[i].profile.nickname,
+                            response[i].profile.bio, response[i].profile.proPic,
+                            response[i].profile.email);
+                        this.profilesService.adjustProfilePageData(profile);
+                        this.profiles[i] = profile;
+                        console.log(this.profiles[i]);
                 }
             }
         });
