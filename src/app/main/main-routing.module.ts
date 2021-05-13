@@ -6,6 +6,7 @@ import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
+import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
         { path: 'homepage', component: HomepageComponent },
         { path: 'profiles', children: [
             { path: ':id', component: ProfilePageComponent },
+            { path: 'search/:name', component: SearchProfilesComponent },
             { path: 'list/followers/:idprofile', component: ProfilesListViewComponent },
             { path: 'list/likes/:idpost', component: ProfilesListViewComponent },
             { path: 'list/follows/:idprofiles', component: ProfilesListViewComponent }

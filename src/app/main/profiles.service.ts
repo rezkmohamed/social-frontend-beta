@@ -68,6 +68,10 @@ export class ProfilesService {
         return this.http.get<any[]>(this.urlBase + "profiles/" + idProfile + "/following");
     }
 
+    searchProfiles(profileName: string){
+        return this.http.get<any[]>(this.urlBase + "profiles/search/" + profileName);
+    }
+
     createPost(post: Post){
         return this.http.post<Post>(this.urlBase + "posts", post);
     }

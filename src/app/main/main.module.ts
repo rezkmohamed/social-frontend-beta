@@ -4,11 +4,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AddPostComponent } from "./add-post/add-post.component";
-import { ChatContentComponent } from "./chat/chat-content/chat-content.component";
-import { ChatRoutingModule } from "./chat/chat-routing.module";
-import { ChatComponent } from "./chat/chat.component";
 import { ChatModule } from "./chat/chat.module";
-import { SidebarComponent } from "./chat/sidebar/sidebar.component";
 import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
@@ -17,6 +13,7 @@ import { PostCardComponent } from "./post-card/post-card.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { ProfileElementViewComponent } from "./profiles-list-view/profile-element-view/profile-element-view.component";
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
+import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
 
 @NgModule({
@@ -28,7 +25,8 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         ProfilePageComponent,
         ProfilesListViewComponent,
         ProfileElementViewComponent,
-        AddPostComponent
+        AddPostComponent,
+        SearchProfilesComponent
     ],
     imports: [
         RouterModule,
@@ -37,7 +35,7 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         FormsModule,
         ReactiveFormsModule,
         MainRoutingModule,
-        ChatModule
+        ChatModule,
     ],
     exports: [
         MainComponent,
