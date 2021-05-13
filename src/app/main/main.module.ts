@@ -3,6 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { AddPostComponent } from "./add-post/add-post.component";
 import { ChatContentComponent } from "./chat/chat-content/chat-content.component";
 import { ChatRoutingModule } from "./chat/chat-routing.module";
 import { ChatComponent } from "./chat/chat.component";
@@ -27,6 +28,7 @@ import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-vi
         ProfilePageComponent,
         ProfilesListViewComponent,
         ProfileElementViewComponent,
+        AddPostComponent
     ],
     imports: [
         RouterModule,

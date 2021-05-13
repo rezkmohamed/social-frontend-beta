@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Post } from "./models/post.model";
 import { Profile } from "./models/profile.model";
 import { User } from "./models/user.model";
 
@@ -65,5 +66,9 @@ export class ProfilesService {
 
     getFollowingProfile(idProfile: string){
         return this.http.get<any[]>(this.urlBase + "profiles/" + idProfile + "/following");
+    }
+
+    createPost(post: Post){
+        return this.http.post<Post>(this.urlBase + "posts", post);
     }
 }
