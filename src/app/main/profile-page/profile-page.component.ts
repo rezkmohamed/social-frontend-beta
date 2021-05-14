@@ -17,9 +17,12 @@ export class ProfilePageComponent implements OnInit {
     posts: Post[] = [];
     loadingProfile: boolean = true;
     loadingPosts: boolean = true;
+    //
+    myProfile: boolean = false;
+    following: boolean = false;
     //FIXME
     followers: number; 
-    following: number; 
+    follows: number; 
 
     constructor(private profilesService: ProfilesService,
                 private router: Router,
@@ -47,13 +50,14 @@ export class ProfilePageComponent implements OnInit {
     private getAccount(idProfilo: string){
         this.profilesService.fetchAccount(idProfilo).subscribe(
             response => {
-                console.log(response);
-                console.log(response.posts);
                 this.profilo = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
                 this.profilesService.adjustProfilePageData(this.profilo);
-                console.log(this.profilo);
                 this.followers = response.followersCounter;
                 this.following = response.followingCounter;
+                if(idProfilo === this.idSession){
+                    this.myProfile = true;
+                    console.log(this.myProfile);
+                }
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
                 this.loadingProfile = false;
                 this.posts = [];
@@ -64,6 +68,14 @@ export class ProfilePageComponent implements OnInit {
                 this.loadingPosts = false;
             }
         )
+    }
+
+    viewFollowersList(){
+        this.router.navigate(['/profiles/list/followers', this.idProfilo]);
+    }
+
+    viewFollowingList(){
+        this.router.navigate(['/profiles/list/follows', this.idProfilo]);
     }
 
 }

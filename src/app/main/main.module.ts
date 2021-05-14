@@ -11,6 +11,7 @@ import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
+import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
 import { ProfileElementViewComponent } from "./profiles-list-view/profile-element-view/profile-element-view.component";
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
@@ -26,7 +27,8 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         ProfilesListViewComponent,
         ProfileElementViewComponent,
         AddPostComponent,
-        SearchProfilesComponent
+        SearchProfilesComponent,
+        UpdateProfileComponent
     ],
     imports: [
         RouterModule,

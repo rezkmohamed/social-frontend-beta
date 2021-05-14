@@ -5,6 +5,7 @@ import { ChatComponent } from "./chat/chat.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
+import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
 import { SearchProfilesComponent } from "./search-profiles/search-profiles.component";
 
@@ -20,6 +21,11 @@ const routes: Routes = [
             { path: 'list/likes/:idpost', component: ProfilesListViewComponent },
             { path: 'list/follows/:idprofiles', component: ProfilesListViewComponent }
         ]},
+        {
+            path: 'profile', children: [
+                {path: 'edit', component: UpdateProfileComponent}
+            ]
+        },
         { path: 'chat', component: ChatComponent },
         { path: 'posts', children: [
             { path: 'add', component: AddPostComponent }

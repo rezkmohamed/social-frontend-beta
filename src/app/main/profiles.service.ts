@@ -44,6 +44,10 @@ export class ProfilesService {
         );
     }
 
+    updateProfile(profile: Profile){
+        return this.http.put(this.urlBase + "profiles", profile);
+    }
+
     fetchAccounts(){
         return this.http.get<any[]>(this.urlBase + "profiles");
     }
