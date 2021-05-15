@@ -79,4 +79,8 @@ export class ProfilesService {
     createPost(post: Post){
         return this.http.post<Post>(this.urlBase + "posts", post);
     }
+
+    getPost(idPost: string){
+        return this.http.get<any>(this.urlBase + "posts/" + idPost);
+    }
 }

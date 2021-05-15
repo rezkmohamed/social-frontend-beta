@@ -4,6 +4,7 @@ import { AddPostComponent } from "./add-post/add-post.component";
 import { ChatComponent } from "./chat/chat.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
+import { DetailFullCompont } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
 import { ProfilesListViewComponent } from "./profiles-list-view/profiles-list-view.component";
@@ -29,8 +30,10 @@ const routes: Routes = [
         { path: 'chat', component: ChatComponent },
         { path: 'posts', children: [
             { path: 'add', component: AddPostComponent }
+        ]},
+        { path: 'post', children: [
+            { path: ':id', component: DetailFullCompont }
         ]}
-
     ]}
 ];
 

@@ -22,7 +22,7 @@ export class AddPostComponent implements OnInit {
         let urlImg = this.addPostForm.value.urlImg;
         let descrizione = this.addPostForm.value.descrizione;
         //let idSessione: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-        let idSessione: string = "gfg";
+        let idSessione: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
 
         this.profilesService.createPost(new Post(null,urlImg, descrizione, new Date(Date.now()).toDateString(), idSessione)).subscribe(response => {
             console.log(response);

@@ -70,6 +70,11 @@ export class ProfilePageComponent implements OnInit {
         )
     }
 
+
+    openPost(idPost: string){
+        this.router.navigate([`/post/${idPost}`]);
+    }
+
     viewFollowersList(){
         this.router.navigate(['/profiles/list/followers', this.idProfilo]);
     }
