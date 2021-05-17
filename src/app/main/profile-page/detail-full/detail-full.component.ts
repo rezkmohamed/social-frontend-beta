@@ -32,8 +32,10 @@ export class DetailFullCompont implements OnInit {
     private getPost(){
         this.profilesService.getPost(this.idPost).subscribe(response => {
             let responsePost = new Post(response.idPost, response.urlImg, response.description, response.date, response.idProfile);
+            responsePost.likesCounter = response.likesCounter;
             this.post = responsePost;
             this.loadingPost = false;
+
             let responseProfile = new Profile(response.profile.id, response.profile.name, response.profile.nickname, response.profile.bio, response.profile.proPic, response.profile.email);
             this.profilo = responseProfile;
             this.loadingProfile = false;

@@ -24,6 +24,7 @@ export class PostCardComponent implements OnInit {
     constructor(private profilesService: ProfilesService){}
 
     ngOnInit(): void {
+        console.log(this.post);
         this.checkLike();
     }
 
