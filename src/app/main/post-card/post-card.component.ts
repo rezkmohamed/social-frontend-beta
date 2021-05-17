@@ -13,9 +13,9 @@ export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
     //idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
-    idSession: string = "";
+    idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
     isLiked: boolean = false;
-    loadingComment: boolean = true; //andrebbe inizializzato a false
+    loadingComment: boolean = true;
     likesAlPost: Like[] = [];
 
     commento: string;
@@ -24,7 +24,16 @@ export class PostCardComponent implements OnInit {
     constructor(private profilesService: ProfilesService){}
 
     ngOnInit(): void {
+        this.checkLike();
+    }
 
+    private checkLike(){
+        this.profilesService.getLike(this.idSession, this.post.idPost).subscribe(response => {
+            console.log(response);
+            if(response.idPost === this.post.idPost && response.idProfile === this.idSession){
+                this.isLiked = true;
+            }
+        })
     }
 
     onToggleLike(){

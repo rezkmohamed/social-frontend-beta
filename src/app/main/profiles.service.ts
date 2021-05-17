@@ -83,4 +83,8 @@ export class ProfilesService {
     getPost(idPost: string){
         return this.http.get<any>(this.urlBase + "posts/" + idPost);
     }
+
+    getLike(idProfile: string, idPost: string){
+        return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
+    }
 }
