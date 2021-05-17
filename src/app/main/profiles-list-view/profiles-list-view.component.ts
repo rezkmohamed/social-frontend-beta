@@ -83,6 +83,11 @@ export class ProfilesListViewComponent implements OnInit{
 
         this.profilesService.getLikesForPost(idPost).subscribe(response => {
             console.log(response);
+            for(let i = 0; i < response.length; i++){
+                let profileResponse = new Profile(response[i].id, response[i].name, response[i].nickname, response[i].bio, response[i].proPic, response[i].email);
+                this.profiles.push(profileResponse);
+            }
+            this.loadingProfiles = false;
         });
     }
 

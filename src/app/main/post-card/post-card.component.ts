@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { Router } from "@angular/router";
 import { Like } from "../models/like.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
@@ -21,7 +22,7 @@ export class PostCardComponent implements OnInit {
     commento: string;
     isDropdown: boolean = false;
 
-    constructor(private profilesService: ProfilesService){}
+    constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit(): void {
         console.log(this.post);
@@ -42,7 +43,7 @@ export class PostCardComponent implements OnInit {
     }   
 
     viewLikesList(){
-
+        this.router.navigate(['/profiles/list/likes', this.post.idPost]);
     }
 
     onSubmitComment(){
