@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Like } from "./models/like.model";
 import { Post } from "./models/post.model";
 import { Profile } from "./models/profile.model";
 import { User } from "./models/user.model";
@@ -86,5 +87,16 @@ export class ProfilesService {
 
     getLike(idProfile: string, idPost: string){
         return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
+    }
+
+    addLike(idProfile: string, idPost: string, like: Like){
+        return this.http.post(
+            this.urlBase + "likes/add/" + idPost + "/" + idProfile, 
+            like
+        );
+    }
+
+    removeLike(idProfile: string, idPost: string){
+        return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile);
     }
 }

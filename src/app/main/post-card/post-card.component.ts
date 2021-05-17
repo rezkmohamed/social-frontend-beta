@@ -39,7 +39,21 @@ export class PostCardComponent implements OnInit {
     }
 
     onToggleLike(){
+        if(this.isLiked){
+            this.profilesService.removeLike(this.idSession, this.post.idPost).subscribe(response => {
+                console.log(response);
+                this.isLiked = false;
+                this.post.likesCounter--;
+            })
+        } else {
+            let like: Like = new Like(null, (new Date(Date.now())).toDateString(), this.post.idPost, this.idSession);
 
+            this.profilesService.addLike(this.idSession, this.post.idPost, like).subscribe(response => {
+                console.log(response);
+                this.isLiked = true;
+                this.post.likesCounter++;
+            });
+        }
     }   
 
     viewLikesList(){
