@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Follow } from "../models/follow.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { ProfilesService } from "../profiles.service";
@@ -37,7 +38,6 @@ export class ProfilePageComponent implements OnInit {
                 this.fillProfile();
             }
         )
-
     }
     
     private fillProfile(){
@@ -50,13 +50,17 @@ export class ProfilePageComponent implements OnInit {
     private getAccount(idProfilo: string){
         this.profilesService.fetchAccount(idProfilo).subscribe(
             response => {
+                console.log(response);
                 this.profilo = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
                 this.profilesService.adjustProfilePageData(this.profilo);
                 this.followers = response.followersCounter;
-                this.following = response.followingCounter;
+                this.follows = response.followingCounter;
                 if(idProfilo === this.idSession){
                     this.myProfile = true;
                     console.log(this.myProfile);
+                }
+                else {
+                    this.followCheck();
                 }
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
                 this.loadingProfile = false;
@@ -70,6 +74,33 @@ export class ProfilePageComponent implements OnInit {
         )
     }
 
+    private followCheck(){
+        console.log("follow check:");
+        this.profilesService.getFollow(this.idSession, this.idProfilo).subscribe(response => {
+            if(response == null || response == undefined){
+                this.following = false;
+            } else if(response.idFollower === this.idSession && response.idFollowed === this.idProfilo){
+                this.following = true;
+            }
+        });
+    }
+
+    onToggleFollow(){
+        if(this.following){
+            this.profilesService.removeFollow(this.idSession, this.idProfilo).subscribe(response => {
+                console.log(response);
+            });
+            this.followers--;
+            this.following = false;
+        } else {
+            let followToAdd: Follow = new Follow(null, new Date(Date.now()).toDateString(), this.idSession, this.idProfilo);
+            this.profilesService.addFollow(this.idSession, this.idProfilo, followToAdd).subscribe(response => {
+                console.log(response);
+            });
+            this.followers++;
+            this.following = true;
+        }
+    }
 
     openPost(idPost: string){
         this.router.navigate([`/post/${idPost}`]);

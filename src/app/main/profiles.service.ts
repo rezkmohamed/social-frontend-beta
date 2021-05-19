@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Follow } from "./models/follow.model";
 import { Like } from "./models/like.model";
 import { Post } from "./models/post.model";
 import { Profile } from "./models/profile.model";
@@ -98,5 +99,17 @@ export class ProfilesService {
 
     removeLike(idProfile: string, idPost: string){
         return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile);
+    }
+
+    getFollow(idFollower: string, idFollowed: string){
+        return this.http.get<any>(this.urlBase + "followers/get/" + idFollower + "/" + idFollowed);
+    }
+
+    addFollow(idFollower: string, idFollowed: string, follow: Follow){
+        return this.http.post(this.urlBase + "profiles/" + idFollower + "/follow/" + idFollowed, follow);
+    }
+
+    removeFollow(idFollower: string, idFollowed: string){
+        return this.http.delete(this.urlBase + "profiles/" + idFollower + "/unfollow/" + idFollowed);
     }
 }
