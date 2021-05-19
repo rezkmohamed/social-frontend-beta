@@ -27,7 +27,7 @@ export class HomepageComponent implements OnInit {
                 if(response[i]){
                     this.posts[i] = new Post(response[i].idPost, 
                         response[i].urlImg, response[i].description,
-                        response[i].date, response[i].idProfile);
+                        response[i].date, response[i].idProfile, null, response[i].likesCounter);
 
                         let profile: Profile = new Profile(response[i].profile.id,
                             response[i].profile.name, response[i].profile.nickname,

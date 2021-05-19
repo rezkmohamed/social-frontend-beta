@@ -37,6 +37,7 @@ export class DetailFullCompont implements OnInit {
             this.loadingPost = false;
 
             let responseProfile = new Profile(response.profile.id, response.profile.name, response.profile.nickname, response.profile.bio, response.profile.proPic, response.profile.email);
+            this.profilesService.adjustProfilePageData(responseProfile);
             this.profilo = responseProfile;
             this.loadingProfile = false;
             
