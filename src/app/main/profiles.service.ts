@@ -4,7 +4,6 @@ import { Follow } from "./models/follow.model";
 import { Like } from "./models/like.model";
 import { Post } from "./models/post.model";
 import { Profile } from "./models/profile.model";
-import { User } from "./models/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -29,9 +28,12 @@ export class ProfilesService {
     }
 
     login(email: string, password: string){
-        return this.http.put<User>(this.urlBase + "login",{
-            body: {email, password}
-        });
+        return this.http.post(this.urlBase + "login",
+            {
+                email: email, 
+                pass: password
+            }
+        );
     }
 
     createAccount(username: string, nickname: string, email: string, password: string){

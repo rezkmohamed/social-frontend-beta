@@ -23,10 +23,11 @@ export class LoginComponent implements OnInit{
         const email = this.loginForm.value.email;
         const password = this.loginForm.value.password;
         this.loginSubscription = this.authService.login(email, password).subscribe(response => {
+            console.log(response);
             if(response){
                 let user: {email: string, password: string, id: number} = JSON.parse(localStorage.getItem("sessione"));
                 let idUser: number = user.id;
-                this.router.navigate([`/profiles/${idUser}`]);
+                //this.router.navigate([`/profiles/${idUser}`]);
             } else {
                 this.errorLogin = true;
             }

@@ -60,6 +60,7 @@ export class ProfilePageComponent implements OnInit {
                     console.log(this.myProfile);
                 }
                 else {
+                    console.log("i'm inside follow check");
                     this.followCheck();
                 }
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
@@ -77,9 +78,12 @@ export class ProfilePageComponent implements OnInit {
     private followCheck(){
         console.log("follow check:");
         this.profilesService.getFollow(this.idSession, this.idProfilo).subscribe(response => {
+            console.log(response);
             if(response == null || response == undefined){
+                console.log(false);
                 this.following = false;
             } else if(response.idFollower === this.idSession && response.idFollowed === this.idProfilo){
+                console.log(true);
                 this.following = true;
             }
         });
