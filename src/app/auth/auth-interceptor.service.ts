@@ -1,4 +1,4 @@
-import { HttpHandler, HttpInterceptor, HttpParams, HttpRequest } from "@angular/common/http";
+import { HttpHandler, HttpHeaders, HttpInterceptor, HttpParams, HttpRequest } from "@angular/common/http";
 import { take, exhaustMap } from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth.service";
@@ -26,8 +26,9 @@ export class AuthInterceptorService implements HttpInterceptor {
                 /**
                  * contesto loggato, aggiungo il token alla richiesta.
                  */
+                console.log("user logged in")
                 const modifiedReq = req.clone({
-                    params: new HttpParams().set('Authorization', user.token)
+                    headers: new HttpHeaders().set('Authorization' , "Bearer " + user.token)
                 });
                 return next.handle(modifiedReq);
             })

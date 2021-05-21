@@ -1,7 +1,11 @@
 import { Injectable, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
 import { User } from "../main/models/user.model";
 import { ProfilesService } from "../main/profiles.service";
+import { format, compareAsc, addMinutes } from 'date-fns'
+import { add } from "date-fns/esm";
+
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +16,7 @@ export class AuthService implements OnInit{
     private tokenExpirationTimer: any;
 
 
-    constructor(private profilesService: ProfilesService){}
+    constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit(): void {
     }
@@ -32,9 +36,13 @@ export class AuthService implements OnInit{
         this.profilesService.login(email, password).subscribe(response => {
             console.log(response.headers.get("Authentication"));
             let token: string = response.headers.get("Authentication").substring(startingToken, response.headers.get("Authentication").length);
-            let user: User = new User(email, token, null);
-            localStorage.setItem("sessione", JSON.stringify(user));
+            let date: Date = add(new Date(), {minutes: 5});
+            console.log(date);
+            let userLogged: User = new User(email, token, date);
+            this.user.next(userLogged);
+            localStorage.setItem("sessione", JSON.stringify(userLogged));
             flag.next(true);
+            this.router.navigate(['/homepage']);
         });
         return flag.asObservable();
     }
@@ -44,7 +52,9 @@ export class AuthService implements OnInit{
     }
 
     logout(){
+        this.user.next(null);
         localStorage.removeItem("sessione");
+        this.router.navigate(['/auth/login']);
     }
 
     autoLogout(){

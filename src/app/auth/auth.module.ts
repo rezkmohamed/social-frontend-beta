@@ -26,13 +26,6 @@ import { ResetPasswordComponent } from "./reset-password/reset-password.componen
                 { path: 'resetpassword', component: ResetPasswordComponent}
             ]}
         ])
-    ],
-    providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptorService,
-            multi: true
-        }
     ]
 })
 export class AuthModule {}
