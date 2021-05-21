@@ -23,9 +23,7 @@ export class AuthService implements OnInit{
     
     signup(email: string, password: string, username: string){
         let nickname = username;
-        this.profilesService.createAccount(username, nickname, email, password).subscribe(response => {
-            console.log(response);
-        });
+        return this.profilesService.createAccount(username, nickname, email, password)
     }
 
     //FIXME

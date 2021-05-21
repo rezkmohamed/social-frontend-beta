@@ -10,6 +10,8 @@ import { AuthService } from "../auth.service";
 })
 export class RegisterComponent implements OnInit {
     @ViewChild('f') registraForm: NgForm;
+    emailExists: boolean = false;
+    BAD_REQUEST: number = 400;
 
     constructor(private authService: AuthService, private router: Router){}
 
@@ -25,9 +27,16 @@ export class RegisterComponent implements OnInit {
         const email = this.registraForm.value.email;
         const password = this.registraForm.value.password;
         const nickname = this.registraForm.value.username;
-        this.authService.signup(email, password, nickname);
+        this.authService.signup(email, password, nickname).subscribe(response => {
+            console.log(response);
+            this.router.navigate(['/auth/login']);
+        }, error => {
+            console.log(error);
+            if(error.status === this.BAD_REQUEST){
+                this.emailExists = true;
+            }
+        });;
         //this.router.navigate(['/auth/login']);
-        this.registraForm.reset();
     }
     
 }

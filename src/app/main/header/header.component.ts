@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
     selector: 'app-header-component',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
     //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
     idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
 
-    constructor(private router: Router) { }
+    constructor(private authService: AuthService ,private router: Router) { }
 
     ngOnInit(): void {
     }
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
     }
 
     onLogout(){
-      //this.authService.logout();
+        this.authService.logout();
         this.router.navigate(['/auth/login']);
     }
 }
