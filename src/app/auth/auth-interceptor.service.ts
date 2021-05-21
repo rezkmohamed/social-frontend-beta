@@ -7,12 +7,6 @@ import { AuthService } from "./auth.service";
 export class AuthInterceptorService implements HttpInterceptor {
     constructor(private authService: AuthService){}
 
-    /**
-     * FIXME
-     * @param req 
-     * @param next 
-     * @returns 
-     */
     intercept(req: HttpRequest<any>, next: HttpHandler){
         return this.authService.user.pipe(
             take(1),

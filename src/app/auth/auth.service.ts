@@ -36,7 +36,7 @@ export class AuthService implements OnInit{
         this.profilesService.login(email, password).subscribe(response => {
             console.log(response.headers.get("Authentication"));
             let token: string = response.headers.get("Authentication").substring(startingToken, response.headers.get("Authentication").length);
-            let date: Date = add(new Date(), {minutes: 5});
+            let date: Date = add(new Date(), {minutes: 150});
             console.log(date);
             let userLogged: User = new User(email, token, date);
             this.user.next(userLogged);
@@ -48,7 +48,26 @@ export class AuthService implements OnInit{
     }
 
     autoLogin(){
+        const userData: {email: string, _token: string, _tokenExpirationDate: string} = JSON.parse(localStorage.getItem('sessione'));
+        //caso in cui non c'è utente, esco dal metodo.
+        console.log(userData);
+        if(!userData){
+            console.log("no user found");
+            return;
+        }
 
+        const loadedUser = new User(userData.email, userData._token, new Date(userData._tokenExpirationDate));
+        console.log(loadedUser.token);
+        if(loadedUser.token){
+            console.log("user found");
+            this.user.next(loadedUser);
+
+            const expirationDuration =        
+            new Date(loadedUser.tokenExpirationDate).getTime() -
+            new Date().getTime();
+
+            this.autoLogout(expirationDuration);
+        }
     }
 
     logout(){
@@ -57,8 +76,10 @@ export class AuthService implements OnInit{
         this.router.navigate(['/auth/login']);
     }
 
-    autoLogout(){
-        
+    autoLogout(expirationDuration: number){
+        this.tokenExpirationTimer = setTimeout(() => {
+            this.logout();
+        }, expirationDuration);
     }
 
     resetPassword(){
