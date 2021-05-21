@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit{
     ngOnInit(): void {
     }
     
+
     onSubmit(){
         const email = this.loginForm.value.email;
         const password = this.loginForm.value.password;
@@ -34,6 +35,8 @@ export class LoginComponent implements OnInit{
         })
     }
 
+
+    
     ngOnDestroy(): void { 
         this.loginSubscription ? this.loginSubscription.unsubscribe() : null;
     }
