@@ -5,6 +5,7 @@ import { User } from "../main/models/user.model";
 import { ProfilesService } from "../main/profiles.service";
 import { format, compareAsc, addMinutes } from 'date-fns'
 import { add } from "date-fns/esm";
+import { Profile } from "../main/models/profile.model";
 
 
 @Injectable({
@@ -40,6 +41,11 @@ export class AuthService implements OnInit{
             this.user.next(userLogged);
             localStorage.setItem("sessione", JSON.stringify(userLogged));
             flag.next(true);
+            this.profilesService.fetchAccount("3a751805-3141-41e4-ac94-9cee1bd262a0").subscribe(response => {
+                let responseProfile: Profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
+                this.profilesService.setProfileLogged(responseProfile);
+            })
+
             this.router.navigate(['/homepage']);
         });
         return flag.asObservable();

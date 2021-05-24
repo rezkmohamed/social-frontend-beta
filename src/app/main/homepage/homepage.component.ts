@@ -21,7 +21,6 @@ export class HomepageComponent implements OnInit {
         this.fetchPostsInit();
     }
     
-    //TEST METHOD
     fetchPostsInit(){
         this.profilesService.fetchHomePage("3a751805-3141-41e4-ac94-9cee1bd262a0").subscribe(response => {
             console.log(response);

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { CommentPost } from "./models/comment.model";
 import { Follow } from "./models/follow.model";
 import { Like } from "./models/like.model";
 import { Post } from "./models/post.model";
@@ -13,7 +14,17 @@ export class ProfilesService {
     private noBioProfilePage: string = "nessuna biografia aggiunta";
     private noProPicImg: string = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
 
+    private profileLogged: Profile;
+
     constructor(private http: HttpClient){}
+
+    setProfileLogged(profile: Profile){
+        this.profileLogged = profile;
+    }
+
+    getProfileLogged(){
+        return new Profile(this.profileLogged.id, this.profileLogged.name, this.profileLogged.nickname, this.profileLogged.bio, this.profileLogged.proPic, this.profileLogged.email);
+    }
 
     adjustProfilePageData(profile: Profile) {
         if(profile.bio == null || profile.bio == undefined){
@@ -116,7 +127,7 @@ export class ProfilesService {
         return this.http.delete(this.urlBase + "profiles/" + idFollower + "/unfollow/" + idFollowed);
     }
 
-    addComment(comment: Comment){
+    addComment(comment: CommentPost){
         return this.http.post(this.urlBase + "comments" , comment);
     }
 
