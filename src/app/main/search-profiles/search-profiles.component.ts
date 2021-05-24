@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Profile } from "../models/profile.model";
 import { ProfilesService } from "../profiles.service";
 
@@ -14,10 +14,16 @@ export class SearchProfilesComponent implements OnInit {
     profiles: Profile[] = [];
     profilesLoaded: boolean = false;
 
-    constructor(private profilesService: ProfilesService, private route: Router){}
+    constructor(private profilesService: ProfilesService, private route: Router,private activatedRoute: ActivatedRoute){}
 
     ngOnInit() {
         this.searchProfiles();
+
+        this.activatedRoute.params.subscribe(
+            (params: Params) => {
+                this.searchProfiles();
+            }
+        )
     }
 
     private searchProfiles(){
@@ -25,6 +31,9 @@ export class SearchProfilesComponent implements OnInit {
         this.route.url.length);
         console.log(this.daCercare);
         
+        this.profiles = [];
+        this.profilesLoaded = false;
+
         this.profilesService.searchProfiles(this.daCercare).subscribe(response => {
             console.log(response);
             for(let i = 0; i < response.length; i++){
