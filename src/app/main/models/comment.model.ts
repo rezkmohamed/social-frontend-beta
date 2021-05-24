@@ -5,6 +5,7 @@ export class CommentPost {
         public date: string,
         public idPost: string,
         public idProfile: string,
+        public nicknameProfile: string,
         public commentLikesCounter?: number
     ){}
 }

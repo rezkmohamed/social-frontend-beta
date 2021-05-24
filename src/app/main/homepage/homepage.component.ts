@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { CommentPost } from "../models/comment.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { ProfilesService } from "../profiles.service";
@@ -12,6 +13,7 @@ import { ProfilesService } from "../profiles.service";
 export class HomepageComponent implements OnInit {
     posts: Post[] = [];
     profiles: Profile[] = [];
+    commenti: Map<number, CommentPost[]> = new Map<number, CommentPost[]>();
 
     constructor(private profilesService: ProfilesService){}
 
@@ -22,12 +24,21 @@ export class HomepageComponent implements OnInit {
     //TEST METHOD
     fetchPostsInit(){
         this.profilesService.fetchHomePage("3a751805-3141-41e4-ac94-9cee1bd262a0").subscribe(response => {
+            console.log(response);
             for(let i = 0; i < response.length; i++){
                 console.log(response[i]);
                 if(response[i]){
-                    this.posts[i] = new Post(response[i].idPost, 
-                        response[i].urlImg, response[i].description,
-                        response[i].date, response[i].idProfile, null, response[i].likesCounter);
+                        this.posts[i] = new Post(response[i].idPost, 
+                            response[i].urlImg, response[i].description,
+                            response[i].date, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter);
+
+                        
+                        let comments: CommentPost[] = [];
+                        for(let comment of response[i].comments){
+                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter);
+                            comments.push(commentResponse);
+                        }
+                        this.commenti.set(i, comments);
 
                         let profile: Profile = new Profile(response[i].profile.id,
                             response[i].profile.name, response[i].profile.nickname,

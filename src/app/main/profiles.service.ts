@@ -115,4 +115,12 @@ export class ProfilesService {
     removeFollow(idFollower: string, idFollowed: string){
         return this.http.delete(this.urlBase + "profiles/" + idFollower + "/unfollow/" + idFollowed);
     }
+
+    addComment(comment: Comment){
+        return this.http.post(this.urlBase + "comments" , comment);
+    }
+
+    getCommentsForPost(idPost: string){
+        return this.http.get<any[]>(this.urlBase + "comments/" + idPost);
+    }
 }

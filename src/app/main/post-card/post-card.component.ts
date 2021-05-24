@@ -1,9 +1,12 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
+import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { ProfilesService } from "../profiles.service";
+
+
 
 @Component({
     selector: 'app-post-card',
@@ -13,6 +16,7 @@ import { ProfilesService } from "../profiles.service";
 export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
+    @Input('comments') comments: CommentPost[];
     //idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
     idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
     isLiked: boolean = false;
@@ -68,6 +72,7 @@ export class PostCardComponent implements OnInit {
     }
 
     onSubmitComment(){
+        console.log(this.commento);
 
     }
 

@@ -110,9 +110,9 @@
             </a>-->
             <div class="loading" *ngIf="!loadingComment">loading...</div>
             <section class="instapost__description" *ngIf="loadingComment">
-                <div *ngFor="let comment of commentiView; let i = index">
-                    <a class="user instalink" [routerLink]="['/profiles', comment.id]">
-                        {{comment.nickname}}
+                <div *ngFor="let comment of comments; let i = index">
+                    <a class="user instalink" [routerLink]="['/profiles', comment.idProfile]">
+                        {{comment.nicknameProfile}}
                     </a>
                     <span>{{comment.comment}}</span> 
                     <span *ngIf="isCommentsLikesLoaded" style="padding-left: 3px; cursor: pointer;" (click)="onToggleLikeComment(commenti[i], i)">(<span>
