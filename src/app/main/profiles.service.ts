@@ -16,7 +16,9 @@ export class ProfilesService {
 
     private profileLogged: Profile;
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient){
+        
+    }
 
     setProfileLogged(profile: Profile){
         this.profileLogged = profile;

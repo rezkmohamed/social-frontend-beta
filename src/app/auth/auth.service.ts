@@ -41,11 +41,6 @@ export class AuthService implements OnInit{
             this.user.next(userLogged);
             localStorage.setItem("sessione", JSON.stringify(userLogged));
             flag.next(true);
-            this.profilesService.fetchAccount("3a751805-3141-41e4-ac94-9cee1bd262a0").subscribe(response => {
-                let responseProfile: Profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
-                this.profilesService.setProfileLogged(responseProfile);
-            })
-
             this.router.navigate(['/homepage']);
         });
         return flag.asObservable();
@@ -65,6 +60,12 @@ export class AuthService implements OnInit{
         if(loadedUser.token){
             console.log("user found");
             this.user.next(loadedUser);
+
+            this.profilesService.fetchAccount("3a751805-3141-41e4-ac94-9cee1bd262a0").subscribe(response => {
+                let responseProfile: Profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
+                this.profilesService.setProfileLogged(responseProfile);
+            })
+
 
             const expirationDuration =        
             new Date(loadedUser.tokenExpirationDate).getTime() -

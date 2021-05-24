@@ -12,6 +12,7 @@ import { ProfilesService } from "../../profiles.service";
 export class DetailFullCompont implements OnInit {
     profilo: Profile;
     post: Post;
+    comments: CommentPost[] = [];
     idPost: string;
     idProfilo: string;
     loadingProfile: boolean = true;
@@ -42,6 +43,8 @@ export class DetailFullCompont implements OnInit {
                 let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter);
                 comments.push(commentResponse);
             }
+
+            this.comments = comments;
             this.post = responsePost;
             this.loadingPost = false;
 
