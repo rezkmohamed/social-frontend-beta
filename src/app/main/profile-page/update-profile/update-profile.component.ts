@@ -55,8 +55,30 @@ export class UpdateProfileComponent implements OnInit {
         })
     }
 
+    private startingEmailForm(){
+        this.emailForm = new FormGroup({
+            'email': new FormControl(this.profile.email, [Validators.required, Validators.email]),
+            'password': new FormControl(null, [Validators.required]),
+            'confirm': new FormControl(null, [Validators.required])
+        });
+    }
+
     onChangeMail(){
-        //TO-DO
+        if((this.emailForm.get('password').valid && 
+        this.emailForm.get('confirm').valid ) && 
+        this.emailForm.touched) {
+            let profileUpdated: Profile = this.profile;
+            profileUpdated.email = this.emailForm.value.email;
+            
+            this.profilesService.updateProfile(profileUpdated).subscribe(response => {
+                console.log(response);
+                this.emailChangeSubmitted = true;
+                this.emailChangeSuccess = true;
+            }, error => {
+                console.log(error);
+                this.emailChangeSuccess = false;
+            })
+        }
     }
 
     onChangePassword(){
@@ -67,6 +89,7 @@ export class UpdateProfileComponent implements OnInit {
         this.profilesService.fetchAccount(this.idSession).subscribe(response => {
             this.profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
             this.loadingProfile = false;
+            this.startingEmailForm();
         })
     }
 }

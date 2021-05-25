@@ -66,6 +66,23 @@ export class ProfilesService {
         return this.http.put(this.urlBase + "profiles", profile);
     }
 
+    /**
+     * FIXME
+     * @param profile 
+     * @param password 
+     * @returns 
+     */
+    updateEmail(profile: Profile, password: string){
+        return this.http.put(this.urlBase + "profiles", {
+            id: profile.id,
+            name: profile.name,
+            nickname: profile.nickname,
+            bio: profile.bio,
+            proPic: profile.proPic,
+            email: profile.email,
+        });
+    }
+
     fetchAccounts(){
         return this.http.get<any[]>(this.urlBase + "profiles");
     }
@@ -79,15 +96,15 @@ export class ProfilesService {
     }
 
     getLikesForPost(idPost: String){
-        return this.http.get<any[]>(this.urlBase + "profiles/likes/" + idPost);
+        return this.http.get<any[]>(this.urlBase + "likes/" + idPost);
     }
 
     getFollowersProfile(idProfile: string){
-        return this.http.get<any[]>(this.urlBase + "profiles/" + idProfile + "/followers");
+        return this.http.get<any[]>(this.urlBase + "followers/" + idProfile + "/followers");
     }
 
     getFollowingProfile(idProfile: string){
-        return this.http.get<any[]>(this.urlBase + "profiles/" + idProfile + "/following");
+        return this.http.get<any[]>(this.urlBase + "followers/" + idProfile + "/following");
     }
 
     searchProfiles(profileName: string){
@@ -122,11 +139,11 @@ export class ProfilesService {
     }
 
     addFollow(idFollower: string, idFollowed: string, follow: Follow){
-        return this.http.post(this.urlBase + "profiles/" + idFollower + "/follow/" + idFollowed, follow);
+        return this.http.post(this.urlBase + "followers/" + idFollower + "/follow/" + idFollowed, follow);
     }
 
     removeFollow(idFollower: string, idFollowed: string){
-        return this.http.delete(this.urlBase + "profiles/" + idFollower + "/unfollow/" + idFollowed);
+        return this.http.delete(this.urlBase + "followers/" + idFollower + "/unfollow/" + idFollowed);
     }
 
     addComment(comment: CommentPost){

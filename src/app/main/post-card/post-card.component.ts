@@ -24,7 +24,7 @@ export class PostCardComponent implements OnInit {
     isLiked: boolean = false;
     loadingComment: boolean = true;
     likesAlPost: Like[] = [];
-
+    
     commento: string;
     isDropdown: boolean = false;
 
