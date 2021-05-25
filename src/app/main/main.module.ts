@@ -4,7 +4,6 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AddPostComponent } from "./add-post/add-post.component";
-import { ChatModule } from "./chat/chat.module";
 import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
@@ -39,7 +38,6 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         FormsModule,
         ReactiveFormsModule,
         MainRoutingModule,
-        ChatModule,
     ],
     exports: [
         MainComponent,

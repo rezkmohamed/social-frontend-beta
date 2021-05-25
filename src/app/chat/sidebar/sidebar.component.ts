@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit(): void {
         this.conversations = this.conversazioniService.conversations;
-        this.idSession = JSON.parse(localStorage.getItem("sessione")).id.toString();
+        //this.idSession = JSON.parse(localStorage.getItem("sessione")).id.toString();
     }
 
 
