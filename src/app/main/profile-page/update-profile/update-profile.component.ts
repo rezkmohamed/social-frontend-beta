@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Profile } from "../../models/profile.model";
+import { User } from "../../models/user.model";
 import { ProfilesService } from "../../profiles.service";
 
 @Component({
@@ -55,7 +56,6 @@ export class UpdateProfileComponent implements OnInit {
         let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
         this.generalDataFormSubmitted = true;
 
-
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             console.log(response);
             console.log(response.status);
@@ -77,20 +77,34 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     onChangeMail(){
+
         if((this.emailForm.get('password').valid && 
         this.emailForm.get('confirm').valid ) && 
         this.emailForm.touched) {
             let profileUpdated: Profile = this.profile;
+            let userRequest: {
+                idUser: string,
+                nickname: string,
+                email: string,
+                pass: string
+            } = {idUser: this.idLoggedUser,nickname: this.profile.nickname, email: this.profile.email, pass: this.emailForm.get('password').value};
             profileUpdated.email = this.emailForm.value.email;
-            
-            this.profilesService.updateProfile(profileUpdated).subscribe(response => {
-                console.log(response);
-                this.emailChangeSubmitted = true;
-                this.emailChangeSuccess = true;
+            this.emailChangeSubmitted = true;
+
+            this.profilesService.checkPassword(userRequest).subscribe(response =>{
+                if(response.status === 200){
+                    this.profilesService.updateProfile(profileUpdated).subscribe(response => {
+                        console.log(response);
+                        this.emailChangeSuccess = true;
+                    }, error => {
+                        console.log(error);
+                        this.emailChangeSuccess = false;
+                    });
+                }
             }, error => {
                 console.log(error);
                 this.emailChangeSuccess = false;
-            })
+            });
         }
     }
 

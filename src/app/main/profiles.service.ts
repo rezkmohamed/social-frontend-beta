@@ -7,6 +7,14 @@ import { Post } from "./models/post.model";
 import { Profile } from "./models/profile.model";
 import { User } from "./models/user.model";
 
+class UserRequest{
+    constructor(
+        public idUser: string,
+        public nickname: string,
+        public email: string,
+        public pass: string){}
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -17,9 +25,7 @@ export class ProfilesService {
 
     private userLogged: User;
 
-    constructor(private http: HttpClient){
-        
-    }
+    constructor(private http: HttpClient){}
 
     setProfileLogged(user: User){
         this.userLogged = user;
@@ -61,6 +67,12 @@ export class ProfilesService {
                 password: password
             }
         );
+    }
+
+    checkPassword(userRequest: UserRequest){
+        return this.http.post<any>(this.urlBase + "checkpassword", 
+        userRequest,
+        { observe: 'response' });
     }
 
     updateProfile(profile: Profile) {
