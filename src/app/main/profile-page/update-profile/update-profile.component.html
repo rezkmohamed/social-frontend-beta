@@ -3,6 +3,16 @@
         <div class="col-3"></div>
         <div class="col-6">
             <div class="loading" *ngIf="loadingProfile">loading...</div>
+
+            <div class="alert alert-danger" role="alert"
+            *ngIf="!generalDataChanged && generalDataFormSubmitted">
+            Errore nella modifica dei dati!
+            </div>
+
+            <div class="alert alert-success" role="alert" *ngIf="generalDataChanged && generalDataFormSubmitted">
+                Dati cambiati con successo
+            </div>
+
             <form *ngIf="!loadingProfile" (ngSubmit)="onChangeGeneralData()" #f="ngForm">
                 <h3>Nickname:</h3>
                 <input 

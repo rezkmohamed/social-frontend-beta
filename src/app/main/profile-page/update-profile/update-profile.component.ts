@@ -18,6 +18,7 @@ export class UpdateProfileComponent implements OnInit {
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
     generalDataChanged: boolean = false;
+    generalDataFormSubmitted: boolean = false;
     /**
      * cambio mail
      */
@@ -52,10 +53,18 @@ export class UpdateProfileComponent implements OnInit {
     
     onChangeGeneralData(){
         let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
+        this.generalDataFormSubmitted = true;
+
 
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             console.log(response);
             console.log(response.status);
+            if(response.status === 200){
+                this.generalDataChanged = true;
+            }
+        }, error => {
+            console.log(error);
+            this.generalDataChanged = false;
         })
     }
 

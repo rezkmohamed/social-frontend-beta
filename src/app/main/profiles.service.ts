@@ -65,7 +65,8 @@ export class ProfilesService {
 
     updateProfile(profile: Profile) {
         return this.http.put<any>(this.urlBase + "profiles", 
-            profile
+            profile,
+            { observe: 'response' }
         );
     }
 
