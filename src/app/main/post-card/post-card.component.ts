@@ -20,7 +20,7 @@ export class PostCardComponent implements OnInit {
     @Input('comments') comments: CommentPost[];
     //idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
     //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
-    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id;
 
     profileLogged: Profile;
     isLiked: boolean = false;
@@ -34,6 +34,7 @@ export class PostCardComponent implements OnInit {
 
     ngOnInit(): void {
         console.log(this.post);
+        console.log(this.idLoggedUser);
         this.checkLike();
     }
 
@@ -81,6 +82,7 @@ export class PostCardComponent implements OnInit {
         this.profilesService.addComment(newComment).subscribe(response => {
             console.log(response);
         });
+        console.log(this.profilesService.getProfileLogged());
         newComment.nicknameProfile = this.profilesService.getProfileLogged().nickname;
         this.comments.push(newComment);
         this.commento = "";

@@ -5,6 +5,7 @@ import { Follow } from "./models/follow.model";
 import { Like } from "./models/like.model";
 import { Post } from "./models/post.model";
 import { Profile } from "./models/profile.model";
+import { User } from "./models/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -14,18 +15,18 @@ export class ProfilesService {
     private noBioProfilePage: string = "nessuna biografia aggiunta";
     private noProPicImg: string = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
 
-    private profileLogged: Profile;
+    private userLogged: User;
 
     constructor(private http: HttpClient){
         
     }
 
-    setProfileLogged(profile: Profile){
-        this.profileLogged = profile;
+    setProfileLogged(user: User){
+        this.userLogged = user;
     }
 
     getProfileLogged(){
-        return new Profile(this.profileLogged.id, this.profileLogged.name, this.profileLogged.nickname, this.profileLogged.bio, this.profileLogged.proPic, this.profileLogged.email);
+        return this.userLogged;
     }
 
     adjustProfilePageData(profile: Profile) {

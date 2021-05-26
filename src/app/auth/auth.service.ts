@@ -23,7 +23,7 @@ class responseAuth {
 export class AuthService implements OnInit{
     defaultPassword: string = "password";
     user = new BehaviorSubject<User>(null);
-    private tokenExpirationTimer: any;
+    //private tokenExpirationTimer: any;
 
 
     constructor(private profilesService: ProfilesService, private router: Router){}
@@ -50,12 +50,11 @@ export class AuthService implements OnInit{
             let date: Date = add(new Date(), {seconds: decoded.exp});
             console.log(date);
             let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date);
-
-            //let userLogged: User = new User(decoded.);
+            this.profilesService.setProfileLogged(userLogged);
             this.user.next(userLogged);
             localStorage.setItem("userData", JSON.stringify(userLogged));
-            this.router.navigate(['/homepage']);
             flag.next(true);
+            this.router.navigate(['/homepage']);
         });
         return flag.asObservable();
     }
@@ -75,10 +74,12 @@ export class AuthService implements OnInit{
             console.log("user found");
             this.user.next(loadedUser);
 
-            this.profilesService.fetchAccount(loadedUser.id).subscribe(response => {
+            this.profilesService.setProfileLogged(loadedUser);
+
+            /*this.profilesService.fetchAccount(loadedUser.id).subscribe(response => {
                 let responseProfile: Profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
                 this.profilesService.setProfileLogged(responseProfile);
-            })
+            })*/
             
 
             const expirationDuration =        
@@ -90,16 +91,17 @@ export class AuthService implements OnInit{
     }
 
     logout(){
-        //this.user.next(null);
-        //localStorage.removeItem("userData");
-        //this.router.navigate(['/auth/login']);
+        this.user.next(null);
+        localStorage.removeItem("userData");
+        this.router.navigate(['/auth/login']);
+        console.log("logging out.");
     }
 
     autoLogout(expirationDuration: number){
-        this.tokenExpirationTimer = setTimeout(() => {
-            this.logout();
-            console.log("i'm calling the logout method.");
-        }, expirationDuration);
+        /*this.tokenExpirationTimer = setTimeout(() => {
+            this.logout;
+        }, 1);*/
+        /*setTimeout(() => {this.logout(); console.log(expirationDuration)}, expirationDuration);*/
     }
 
     resetPassword(){
