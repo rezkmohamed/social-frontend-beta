@@ -12,7 +12,9 @@ import { ProfilesService } from "../profiles.service";
 })
 export class ProfilePageComponent implements OnInit {
     //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-    idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+
     idProfilo: string = "";
     profilo: Profile;
     posts: Post[] = [];
@@ -55,7 +57,7 @@ export class ProfilePageComponent implements OnInit {
                 this.profilesService.adjustProfilePageData(this.profilo);
                 this.followers = response.followersCounter;
                 this.follows = response.followingCounter;
-                if(idProfilo === this.idSession){
+                if(idProfilo === this.idLoggedUser){
                     this.myProfile = true;
                     console.log(this.myProfile);
                 }
@@ -77,12 +79,12 @@ export class ProfilePageComponent implements OnInit {
 
     private followCheck(){
         console.log("follow check:");
-        this.profilesService.getFollow(this.idSession, this.idProfilo).subscribe(response => {
+        this.profilesService.getFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
             console.log(response);
             if(response == null || response == undefined){
                 console.log(false);
                 this.following = false;
-            } else if(response.idFollower === this.idSession && response.idFollowed === this.idProfilo){
+            } else if(response.idFollower === this.idLoggedUser && response.idFollowed === this.idProfilo){
                 console.log(true);
                 this.following = true;
             }
@@ -91,14 +93,14 @@ export class ProfilePageComponent implements OnInit {
 
     onToggleFollow(){
         if(this.following){
-            this.profilesService.removeFollow(this.idSession, this.idProfilo).subscribe(response => {
+            this.profilesService.removeFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
                 console.log(response);
             });
             this.followers--;
             this.following = false;
         } else {
-            let followToAdd: Follow = new Follow(null, new Date(Date.now()).toDateString(), this.idSession, this.idProfilo);
-            this.profilesService.addFollow(this.idSession, this.idProfilo, followToAdd).subscribe(response => {
+            let followToAdd: Follow = new Follow(null, new Date(Date.now()).toDateString(), this.idLoggedUser, this.idProfilo);
+            this.profilesService.addFollow(this.idLoggedUser, this.idProfilo, followToAdd).subscribe(response => {
                 console.log(response);
             });
             this.followers++;

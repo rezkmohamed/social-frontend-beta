@@ -12,6 +12,7 @@ import { ProfilesService } from "../profiles.service";
 })
 export class AddPostComponent implements OnInit {
     @ViewChild('f') addPostForm: NgForm;
+    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
     constructor(private profilesService: ProfilesService, private router: Router){}
 
@@ -22,11 +23,11 @@ export class AddPostComponent implements OnInit {
         let urlImg = this.addPostForm.value.urlImg;
         let descrizione = this.addPostForm.value.descrizione;
         //let idSessione: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-        let idSessione: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+        //let idSessione: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
 
-        this.profilesService.createPost(new Post(null,urlImg, descrizione, new Date(Date.now()).toDateString(), idSessione)).subscribe(response => {
+        this.profilesService.createPost(new Post(null,urlImg, descrizione, new Date(Date.now()).toDateString(), this.idLoggedUser)).subscribe(response => {
             console.log(response);
-            this.router.navigate([`/profiles/${idSessione}`]);
+            this.router.navigate([`/profiles/${this.idLoggedUser}`]);
         })
     }
 }

@@ -9,28 +9,37 @@
                         type="text"
                         class="form-control"
                         name="nickname"
-                        [(ngModel)]="profile.nickname">
+                        [(ngModel)]="profile.nickname"
+                        required
+                        minlength="4">
                 <h3>Nome:</h3>
                 <input 
                         type="text"
                         class="form-control"
                         name="nome"
-                        [(ngModel)]="profile.nome">
+                        [(ngModel)]="profile.nome"
+                        required
+                        minlength="4">
                 <h3>Biografia:</h3>
                 <input 
                         type="text" 
                         class="form-control"
                         name="biografia"
-                        [(ngModel)]="profile.biografia">
+                        [(ngModel)]="profile.biografia"
+                        required
+                        minlength="4">
                 <h3>Propic:</h3>
                 <input 
                         type="text" 
                         class="form-control"
                         name="proPic"
-                        [(ngModel)]="profile.proPic">
+                        [(ngModel)]="profile.proPic"
+                        required
+                        minlength="4">
                 <button 
                         type="submit"
-                        class="btn btn-primary">
+                        class="btn btn-primary"
+                        [disabled]="!f.valid">
                     modifica
                 </button>
             </form>

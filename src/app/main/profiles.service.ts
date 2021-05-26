@@ -29,10 +29,10 @@ export class ProfilesService {
     }
 
     adjustProfilePageData(profile: Profile) {
-        if(profile.bio == null || profile.bio == undefined){
+        if(profile.bio == null || profile.bio == undefined || profile.bio === ""){
             profile.bio = this.noBioProfilePage;
         }
-        if(profile.name == null || profile.name == undefined){
+        if(profile.name == null || profile.name == undefined || profile.name === ""){
             profile.name = profile.nickname;
         }
         if(profile.proPic == null || profile.proPic == undefined || profile.proPic == ""){
@@ -62,8 +62,10 @@ export class ProfilesService {
         );
     }
 
-    updateProfile(profile: Profile){
-        return this.http.put(this.urlBase + "profiles", profile);
+    updateProfile(profile: Profile) {
+        return this.http.put<any>(this.urlBase + "profiles", 
+            profile
+        );
     }
 
     /**

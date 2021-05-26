@@ -14,6 +14,7 @@ export class HomepageComponent implements OnInit {
     posts: Post[] = [];
     profiles: Profile[] = [];
     commenti: Map<number, CommentPost[]> = new Map<number, CommentPost[]>();
+    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
     constructor(private profilesService: ProfilesService){}
 
@@ -22,7 +23,7 @@ export class HomepageComponent implements OnInit {
     }
     
     fetchPostsInit(){
-        this.profilesService.fetchHomePage("3a751805-3141-41e4-ac94-9cee1bd262a0").subscribe(response => {
+        this.profilesService.fetchHomePage(this.idLoggedUser).subscribe(response => {
             console.log(response);
             for(let i = 0; i < response.length; i++){
                 console.log(response[i]);

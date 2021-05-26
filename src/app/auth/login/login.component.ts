@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit{
         this.loginSubscription = this.authService.login(email, password).subscribe(response => {
             console.log(response);
             if(response){
-                let user: {email: string, password: string, id: number} = JSON.parse(localStorage.getItem("sessione"));
+                let user: {email: string, password: string, id: number} = JSON.parse(localStorage.getItem("userData"));
                 let idUser: number = user.id;
                 //this.router.navigate([`/profiles/${idUser}`]);
             } else {

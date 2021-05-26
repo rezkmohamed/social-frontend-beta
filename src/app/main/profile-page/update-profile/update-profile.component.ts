@@ -14,7 +14,10 @@ export class UpdateProfileComponent implements OnInit {
     profile: Profile;
     loadingProfile: boolean = true;
     //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-    idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+
+    generalDataChanged: boolean = false;
     /**
      * cambio mail
      */
@@ -48,10 +51,11 @@ export class UpdateProfileComponent implements OnInit {
     }
     
     onChangeGeneralData(){
-        let profileUpdated: Profile = new Profile(this.idSession,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
+        let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
 
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             console.log(response);
+            console.log(response.status);
         })
     }
 
@@ -86,7 +90,7 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     private getProfile(){
-        this.profilesService.fetchAccount(this.idSession).subscribe(response => {
+        this.profilesService.fetchAccount(this.idLoggedUser).subscribe(response => {
             this.profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
             this.loadingProfile = false;
             this.startingEmailForm();

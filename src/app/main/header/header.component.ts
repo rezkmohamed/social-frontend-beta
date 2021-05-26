@@ -11,7 +11,8 @@ import { AuthService } from "src/app/auth/auth.service";
 export class HeaderComponent implements OnInit {
     @ViewChild('f') searchForm: NgForm;
     //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-    idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
+    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
     constructor(private authService: AuthService ,private router: Router) { }
 
