@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
+import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card.component";
 import { DetailFullCompont } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
 import { UpdateProfileComponent } from "./profile-page/update-profile/update-profile.component";
@@ -30,7 +31,8 @@ const routes: Routes = [
             { path: 'add', component: AddPostComponent }
         ]},
         { path: 'post', children: [
-            { path: ':id', component: DetailFullCompont }
+            { path: ':id', component: DetailFullCompont },
+            { path: 'edit/:id', component: EditPostCardComponent }, 
         ]}
     ]}
 ];

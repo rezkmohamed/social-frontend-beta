@@ -8,6 +8,7 @@ import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
+import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 import { DetailFullCompont } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
@@ -29,7 +30,8 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         AddPostComponent,
         SearchProfilesComponent,
         UpdateProfileComponent,
-        DetailFullCompont
+        DetailFullCompont,
+        EditPostCardComponent
     ],
     imports: [
         RouterModule,

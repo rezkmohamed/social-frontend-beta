@@ -150,6 +150,12 @@ export class ProfilesService {
             { observe: 'response' });
     }
 
+    updatePost(post: Post){
+        return this.http.put(this.urlBase + "posts/" + post.idPost,
+            post,
+            { observe: 'response' });
+    }
+
     getLike(idProfile: string, idPost: string){
         return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
     }

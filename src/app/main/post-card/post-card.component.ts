@@ -101,6 +101,12 @@ export class PostCardComponent implements OnInit {
         });
     }
 
+    onUpdatePost(){
+        localStorage.setItem('postToChange', JSON.stringify(this.post));
+        localStorage.setItem('profile', JSON.stringify(this.profilo));
+        this.router.navigate(['/post/edit', this.post.idPost]);
+    }
+
     onFocusCommentForm(){
         console.log('focus comment form');
         let textArea = document.getElementById(this.post.idPost);
