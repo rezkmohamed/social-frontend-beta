@@ -82,6 +82,16 @@ export class ProfilesService {
         );
     }
 
+    updatePassword(idProfile: string ,newPassword: string){
+        return this.http.put<any>(this.urlBase + "profiles/newpassword/" + idProfile,
+                {
+                    idProfile: idProfile,
+                    newPassword: newPassword
+                },
+                { observe: 'response' }
+        );
+    }
+
     /**
      * FIXME
      * @param profile 

@@ -5,6 +5,8 @@ import { Profile } from "../../models/profile.model";
 import { User } from "../../models/user.model";
 import { ProfilesService } from "../../profiles.service";
 
+const STATUS_OK = 200;
+
 @Component({
     selector: 'app-update-profile',
     templateUrl: './update-profile.component.html',
@@ -44,11 +46,6 @@ export class UpdateProfileComponent implements OnInit {
     constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit() {
-        /**
-         * DA MODIFICARE:
-         * DOPO AVER IMPLEMENTATO IL LOGIN, AVRO' I DATI GIA' NEL 
-         * LOCALSTORAGE (NO CHIAMATE SUPPLEMENTARI).
-         */
         this.getProfile();
     }
     
@@ -59,7 +56,7 @@ export class UpdateProfileComponent implements OnInit {
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             console.log(response);
             console.log(response.status);
-            if(response.status === 200){
+            if(response.status === STATUS_OK){
                 this.generalDataChanged = true;
             }
         }, error => {
@@ -77,7 +74,6 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     onChangeMail(){
-
         if((this.emailForm.get('password').valid && 
         this.emailForm.get('confirm').valid ) && 
         this.emailForm.touched) {
@@ -92,7 +88,7 @@ export class UpdateProfileComponent implements OnInit {
             this.emailChangeSubmitted = true;
 
             this.profilesService.checkPassword(userRequest).subscribe(response =>{
-                if(response.status === 200){
+                if(response.status === STATUS_OK){
                     this.profilesService.updateProfile(profileUpdated).subscribe(response => {
                         console.log(response);
                         this.emailChangeSuccess = true;
@@ -108,8 +104,43 @@ export class UpdateProfileComponent implements OnInit {
         }
     }
 
+    private startingPasswordForm(){
+        this.passwordForm = new FormGroup({
+            'old': new FormControl(null, [Validators.required]),
+            'new': new FormControl(null, [Validators.required]),
+            'confirm': new FormControl(null, [Validators.required])
+        });
+    }
+
     onChangePassword(){
-        //TO-DO
+        let newPassword: string = this.passwordForm.get('new').value;
+        let confirmNewPassword: string = this.passwordForm.get('confirm').value;
+        this.passwordChangeSuccess = false;
+        if(newPassword != confirmNewPassword){
+            this.passwordChangeSubmitted = true;
+            return;
+        }
+        let userRequest: {
+            idUser: string,
+            nickname: string,
+            email: string,
+            pass: string
+        } = {idUser: this.idLoggedUser,nickname: this.profile.nickname, email: this.profile.email, pass: this.passwordForm.get('old').value};
+        this.profilesService.checkPassword(userRequest).subscribe(response => {
+            console.log(response);
+            this.profilesService.updatePassword(this.idLoggedUser, newPassword).subscribe(response => {
+                console.log(response);
+                if(response.status === STATUS_OK){
+                    this.passwordChangeSubmitted = true;
+                    this.passwordChangeSuccess = true;
+                }
+            })
+        }, error => {
+            console.log(error);
+            this.passwordChangeSubmitted = true;
+            this.passwordChangeSuccess = false;
+        })
+
     }
 
     private getProfile(){
@@ -117,6 +148,7 @@ export class UpdateProfileComponent implements OnInit {
             this.profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
             this.loadingProfile = false;
             this.startingEmailForm();
+            this.startingPasswordForm();
         })
     }
 }
