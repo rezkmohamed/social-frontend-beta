@@ -49,7 +49,7 @@ export class AuthService implements OnInit{
 
             let date: Date = add(new Date(), {seconds: decoded.exp});
             console.log(date);
-            let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date);
+            let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date, decoded.exp);
             this.profilesService.setProfileLogged(userLogged);
             this.user.next(userLogged);
             localStorage.setItem("userData", JSON.stringify(userLogged));
@@ -80,11 +80,11 @@ export class AuthService implements OnInit{
                 this.profilesService.setProfileLogged(responseProfile);
             })*/
             
-            const expirationDuration =        
-            new Date(loadedUser.tokenExpirationDate).getTime() -
-            new Date().getTime();
-            console.log("expiration duration: " + expirationDuration);
-            this.autoLogout(expirationDuration);
+            //const expirationDuration =        
+            //new Date(loadedUser.tokenExpirationDate).getTime() -
+            //new Date().getTime();
+            //console.log("expiration duration: "+ +JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
+            this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
         }
     }
 
@@ -96,13 +96,10 @@ export class AuthService implements OnInit{
     }
 
     autoLogout(expirationDuration: number){
-        /*this.tokenExpirationTimer = setTimeout(() => {
-            this.logout;
-        }, 1);*/
-        
         setTimeout(() => {
-            //this.logout();
-            console.log(expirationDuration)}, expirationDuration);
+            this.logout();
+            //debugger
+        }, expirationDuration);
     }
 
     resetPassword(){

@@ -24,9 +24,9 @@ export class HomepageComponent implements OnInit {
     
     fetchPostsInit(){
         this.profilesService.fetchHomePage(this.idLoggedUser).subscribe(response => {
-            console.log(response);
+            // //console.log(response);
             for(let i = 0; i < response.length; i++){
-                console.log(response[i]);
+                // console.log(response[i]);
                 if(response[i]){
                         this.posts[i] = new Post(response[i].idPost, 
                             response[i].urlImg, response[i].description,
@@ -46,7 +46,7 @@ export class HomepageComponent implements OnInit {
                             response[i].profile.email);
                         this.profilesService.adjustProfilePageData(profile);
                         this.profiles[i] = profile;
-                        console.log(this.profiles[i]);
+                        // //console.log(this.profiles[i]);
                 }
             }
         });

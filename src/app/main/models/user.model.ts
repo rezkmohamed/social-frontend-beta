@@ -4,7 +4,8 @@ export class User {
         public nickname: string,
         public id: string,
         private _token: string,
-        private _tokenExpirationDate: Date
+        private _tokenExpirationDate: Date,
+        public _tokenExpirationSeconds?: number
     ){}
 
     get token(){
