@@ -75,13 +75,11 @@ export class AuthService implements OnInit{
             this.user.next(loadedUser);
 
             this.profilesService.setProfileLogged(loadedUser);
-
             /*this.profilesService.fetchAccount(loadedUser.id).subscribe(response => {
                 let responseProfile: Profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
                 this.profilesService.setProfileLogged(responseProfile);
             })*/
             
-
             const expirationDuration =        
             new Date(loadedUser.tokenExpirationDate).getTime() -
             new Date().getTime();
@@ -101,7 +99,10 @@ export class AuthService implements OnInit{
         /*this.tokenExpirationTimer = setTimeout(() => {
             this.logout;
         }, 1);*/
-        /*setTimeout(() => {this.logout(); console.log(expirationDuration)}, expirationDuration);*/
+        
+        setTimeout(() => {
+            //this.logout();
+            console.log(expirationDuration)}, expirationDuration);
     }
 
     resetPassword(){

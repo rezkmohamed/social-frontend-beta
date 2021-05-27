@@ -145,6 +145,11 @@ export class ProfilesService {
         return this.http.get<any>(this.urlBase + "posts/" + idPost);
     }
 
+    removePost(idPost: string){
+        return this.http.delete(this.urlBase + "posts/" + idPost, 
+            { observe: 'response' });
+    }
+
     getLike(idProfile: string, idPost: string){
         return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
     }

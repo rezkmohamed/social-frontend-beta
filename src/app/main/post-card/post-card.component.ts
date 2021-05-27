@@ -93,7 +93,12 @@ export class PostCardComponent implements OnInit {
     }
 
     onRemovePost(){
-        
+        console.log("id post: " + this.post.idPost);
+        this.profilesService.removePost(this.post.idPost).subscribe(response => {
+            console.log("removing post...");
+            console.log(response);
+            this.router.navigate(['/profiles', this.idLoggedUser]);
+        });
     }
 
     onFocusCommentForm(){
