@@ -6,7 +6,7 @@ import { AuthService } from "../auth.service";
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css']
+    styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
     @ViewChild('f') registraForm: NgForm;
@@ -35,8 +35,11 @@ export class RegisterComponent implements OnInit {
             if(error.status === this.BAD_REQUEST){
                 this.emailExists = true;
             }
-        });;
-        //this.router.navigate(['/auth/login']);
+        });
+    }
+
+    onNavigate(){
+        this.router.navigate(['/auth/login']);
     }
     
 }

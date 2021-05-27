@@ -54,6 +54,7 @@ export class AuthService implements OnInit{
             this.user.next(userLogged);
             localStorage.setItem("userData", JSON.stringify(userLogged));
             flag.next(true);
+            this.autoLogout(decoded.exp);
             this.router.navigate(['/homepage']);
         });
         return flag.asObservable();
