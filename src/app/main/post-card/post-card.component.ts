@@ -41,7 +41,7 @@ export class PostCardComponent implements OnInit {
     private checkLike(){
         this.profilesService.getLike(this.idLoggedUser, this.post.idPost).subscribe(response => {
             console.log(response);
-            if(response != null || response != undefined){
+            if(response){
                 if(response.idPost === this.post.idPost && response.idProfile === this.idLoggedUser){
                     this.isLiked = true;
                 } else {

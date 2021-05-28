@@ -28,10 +28,9 @@ export class RegisterComponent implements OnInit {
         const password = this.registraForm.value.password;
         const nickname = this.registraForm.value.username;
         this.authService.signup(email, password, nickname).subscribe(response => {
-            console.log(response);
+            
             this.router.navigate(['/auth/login']);
         }, error => {
-            console.log(error);
             if(error.status === this.BAD_REQUEST){
                 this.emailExists = true;
             }

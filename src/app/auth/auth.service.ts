@@ -7,6 +7,7 @@ import { format, compareAsc, addMinutes } from 'date-fns'
 import { add } from "date-fns/esm";
 import { Profile } from "../main/models/profile.model";
 import jwt_decode  from "jwt-decode";
+import { HttpClient } from "@angular/common/http";
 
 class responseAuth {
     constructor(
@@ -21,12 +22,13 @@ class responseAuth {
     providedIn: 'root'
 })
 export class AuthService implements OnInit{
+    private urlBase: string = "http://localhost:8080/";
     defaultPassword: string = "password";
     user = new BehaviorSubject<User>(null);
     //private tokenExpirationTimer: any;
 
 
-    constructor(private profilesService: ProfilesService, private router: Router){}
+    constructor(private profilesService: ProfilesService, private router: Router, private http: HttpClient){}
 
     ngOnInit(): void {
     }
@@ -36,28 +38,16 @@ export class AuthService implements OnInit{
         return this.profilesService.createAccount(username, nickname, email, password)
     }
 
-    //FIXME
-    login(email: string, password: string){
-        let startingToken: number = 7;
-        let flag = new Subject<boolean>();
-        //FIXME
-        this.profilesService.login(email, password).subscribe(response => {
-            console.log(response.headers.get("Authentication"));
-            let token: string = response.headers.get("Authentication").substring(startingToken, response.headers.get("Authentication").length);
-            let decoded: responseAuth = jwt_decode(token);
-            console.log(decoded);
+    
 
-            let date: Date = add(new Date(), {seconds: decoded.exp});
-            console.log(date);
-            let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date, decoded.exp);
-            this.profilesService.setProfileLogged(userLogged);
-            this.user.next(userLogged);
-            localStorage.setItem("userData", JSON.stringify(userLogged));
-            flag.next(true);
-            this.autoLogout(decoded.exp);
-            this.router.navigate(['/homepage']);
-        });
-        return flag.asObservable();
+    login(email: string, password: string){
+        return this.http.post<any>(this.urlBase + "login" ,
+            {
+                email: email,
+                pass: password
+            },
+            { observe: 'response' }
+        );
     }
 
     autoLogin(){
