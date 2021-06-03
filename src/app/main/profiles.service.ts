@@ -138,7 +138,7 @@ export class ProfilesService {
     }
 
     createPost(post: Post){
-        return this.http.post<Post>(this.urlBase + "posts", post);
+        return this.http.post<Post>(this.urlBase + "posts/newpost", post);
     }
 
     getPost(idPost: string){
@@ -163,12 +163,14 @@ export class ProfilesService {
     addLike(idProfile: string, idPost: string, like: Like){
         return this.http.post(
             this.urlBase + "likes/add/" + idPost + "/" + idProfile, 
-            like
+            like,
+            { observe: 'response' }
         );
     }
 
     removeLike(idProfile: string, idPost: string){
-        return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile);
+        return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile,
+        { observe: 'response' });
     }
 
     getFollow(idFollower: string, idFollowed: string){

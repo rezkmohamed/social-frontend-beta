@@ -6,6 +6,7 @@ export class Post {
         public datePost: string,
         public idProfile: string,
         public commentsCounter?: number,
-        public likesCounter?: number
+        public likesCounter?: number,
+        public isLiked?: boolean
     ){}
 }
