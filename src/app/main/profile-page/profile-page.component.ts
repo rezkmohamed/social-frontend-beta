@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import * as moment from "moment";
 import { Follow } from "../models/follow.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
@@ -72,6 +73,9 @@ export class ProfilePageComponent implements OnInit {
                     const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.date, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
                 }
+                this.posts.sort( (a,b) =>{
+                    return moment(b.date).diff(moment(a.date) );
+                } );    
                 this.loadingPosts = false;
             }
         )

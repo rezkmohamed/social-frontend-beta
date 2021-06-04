@@ -53,7 +53,6 @@ export class HomepageComponent implements OnInit {
 
             this.posts.sort( (a,b) =>{
                 return moment(b.date).diff(moment(a.date) );
-
             } );
         });
     }
