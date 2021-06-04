@@ -81,13 +81,16 @@ export class ProfilePageComponent implements OnInit {
         console.log("follow check:");
         this.profilesService.getFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
             console.log(response);
-            if(response == null || response == undefined){
+            if(!response){
                 console.log(false);
                 this.following = false;
             } else if(response.idFollower === this.idLoggedUser && response.idFollowed === this.idProfilo){
                 console.log(true);
                 this.following = true;
             }
+        }, error => {
+            console.log(error);
+            this.following = false;
         });
     }
 

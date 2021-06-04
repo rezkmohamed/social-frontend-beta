@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
+import * as moment from "moment";
 import { Post } from "../models/post.model";
 import { ProfilesService } from "../profiles.service";
 
@@ -22,10 +24,12 @@ export class AddPostComponent implements OnInit {
         console.log(this.addPostForm.value);
         let urlImg = this.addPostForm.value.urlImg;
         let descrizione = this.addPostForm.value.descrizione;
-        //let idSessione: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-        //let idSessione: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
 
-        this.profilesService.createPost(new Post(null,urlImg, descrizione, new Date(Date.now()).toDateString(), this.idLoggedUser)).subscribe(response => {
+
+        let date = moment().format();
+        console.log(date);
+
+        this.profilesService.createPost(new Post(null,urlImg, descrizione, date, this.idLoggedUser)).subscribe(response => {
             console.log(response);
             this.router.navigate([`/profiles/${this.idLoggedUser}`]);
         })

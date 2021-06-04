@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
@@ -48,7 +49,12 @@ export class HomepageComponent implements OnInit {
                         this.profiles[i] = profile;
                         // //console.log(this.profiles[i]);
                 }
-            }
+            }            
+
+            this.posts.sort( (a,b) =>{
+                return moment(b.date).diff(moment(a.date) );
+
+            } );
         });
     }
 }

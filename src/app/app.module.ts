@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
 
@@ -21,7 +23,9 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MainModule
+    MainModule,
+    NgbModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [
     {

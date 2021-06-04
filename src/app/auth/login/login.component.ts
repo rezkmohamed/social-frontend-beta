@@ -7,6 +7,7 @@ import { AuthService } from "../auth.service";
 import jwt_decode  from "jwt-decode";
 import { User } from "src/app/main/models/user.model";
 import { add } from "date-fns/esm";
+import { sub } from "date-fns";
 
 
 class responseAuth {
@@ -43,12 +44,22 @@ export class LoginComponent implements OnInit{
             let auth: string = response.headers.get("Authentication");
             let token: string = auth.substring(startingToken, auth.length);
             let decoded: responseAuth = jwt_decode(token);
-            console.log(decoded);
 
-            let date: Date = add(new Date(), {seconds: decoded.exp});
+            console.log(decoded);
+            console.log(decoded.exp);
+            console.log(new Date(decoded.exp));
+
+            let date: Date = add(new Date(Date.now()), {seconds: (decoded.exp * 0.001)});
+
+            console.log(date);
+
+
             let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date, decoded.exp);
+            console.log(userLogged);
+
             this.profilesService.setProfileLogged(userLogged);
             this.authService.user.next(userLogged);
+
             localStorage.setItem("userData", JSON.stringify(userLogged));
             this.authService.autoLogout(decoded.exp);
             this.router.navigate(['/homepage']);

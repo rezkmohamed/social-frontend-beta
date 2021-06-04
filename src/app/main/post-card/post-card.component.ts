@@ -33,8 +33,8 @@ export class PostCardComponent implements OnInit {
     constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit(): void {
-        console.log(this.post);
-        console.log(this.idLoggedUser);
+        //console.log(this.post);
+        //console.log(this.idLoggedUser);
         this.checkLike();
     }
 
