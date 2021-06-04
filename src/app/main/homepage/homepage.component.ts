@@ -39,6 +39,10 @@ export class HomepageComponent implements OnInit {
                             let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter);
                             comments.push(commentResponse);
                         }
+                        comments.sort( (a,b) => {
+                            return moment(a.date).diff(moment(b.date));
+                        })
+
                         this.commenti.set(i, comments);
 
                         let profile: Profile = new Profile(response[i].profile.id,

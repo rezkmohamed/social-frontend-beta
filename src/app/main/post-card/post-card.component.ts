@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { th } from "date-fns/locale";
+import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
 import { Post } from "../models/post.model";
@@ -84,7 +85,10 @@ export class PostCardComponent implements OnInit {
 
     onSubmitComment(){
         console.log(this.commento);
-        let newComment: CommentPost = new CommentPost(null, this.commento, null, this.post.idPost, this.idLoggedUser)
+
+        let date = moment().format();
+
+        let newComment: CommentPost = new CommentPost(null, this.commento, date, this.post.idPost, this.idLoggedUser)
         this.profilesService.addComment(newComment).subscribe(response => {
             console.log(response);
         });
