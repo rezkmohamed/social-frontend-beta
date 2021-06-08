@@ -25,23 +25,26 @@ export class HomepageComponent implements OnInit {
     
     fetchPostsInit(){
         this.profilesService.fetchHomePage(this.idLoggedUser).subscribe(response => {
-            // //console.log(response);
+            console.log(response);
             for(let i = 0; i < response.length; i++){
-                // console.log(response[i]);
                 if(response[i]){
                         this.posts[i] = new Post(response[i].idPost, 
                             response[i].urlImg, response[i].description,
                             response[i].date, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
+                            
 
-                        
                         let comments: CommentPost[] = [];
                         for(let comment of response[i].comments){
-                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter);
+                            console.log(comment);
+                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
                             comments.push(commentResponse);
+
                         }
+
                         comments.sort( (a,b) => {
                             return moment(a.date).diff(moment(b.date));
                         })
+                        //console.log(comments);
 
                         this.commenti.set(i, comments);
 
@@ -51,13 +54,11 @@ export class HomepageComponent implements OnInit {
                             response[i].profile.email);
                         this.profilesService.adjustProfilePageData(profile);
                         this.profiles[i] = profile;
-                        // //console.log(this.profiles[i]);
                 }
             }            
-
-            this.posts.sort( (a,b) =>{
-                return moment(b.date).diff(moment(a.date) );
-            } );
         });
+
+
+
     }
 }

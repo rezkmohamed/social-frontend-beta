@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import * as moment from "moment";
 import { CommentPost } from "../../models/comment.model";
 import { Post } from "../../models/post.model";
 import { Profile } from "../../models/profile.model";
@@ -35,14 +36,17 @@ export class DetailFullCompont implements OnInit {
         this.profilesService.getPost(this.idPost).subscribe(response => {
             console.log(response);
             let responsePost = new Post(response.idPost, response.urlImg, response.description, response.date, response.idProfile, response.commentsCounter, response.likesCounter, response.liked);
-            //responsePost.commentsCounter = response.commentsCounter;
-            //responsePost.likesCounter = response.likesCounter;
 
             let comments: CommentPost[] = [];
             for(let comment of response.comments){
-                let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter);
+                let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
                 comments.push(commentResponse);
             }
+
+            comments.sort( (a,b) => {
+                return moment(a.date).diff(moment(b.date));
+            })
+
 
             this.comments = comments;
             this.post = responsePost;

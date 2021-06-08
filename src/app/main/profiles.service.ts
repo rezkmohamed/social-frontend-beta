@@ -192,4 +192,12 @@ export class ProfilesService {
     getCommentsForPost(idPost: string){
         return this.http.get<any[]>(this.urlBase + "comments/" + idPost);
     }
+
+    addCommentLike(idComment: string){
+        return this.http.post(this.urlBase + "commentlike/add/" + idComment, null);
+    }
+
+    removeCommentLike(idComment: string){
+        return this.http.delete(this.urlBase + "commentlike/delete/" + idComment);
+    }
 }

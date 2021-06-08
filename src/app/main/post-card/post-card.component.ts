@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
-import { th } from "date-fns/locale";
 import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
@@ -19,8 +18,6 @@ export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
     @Input('comments') comments: CommentPost[];
-    //idSession: string = JSON.parse(localStorage.getItem('sessione')).id.toString();
-    //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id;
 
     profileLogged: Profile;
@@ -31,11 +28,11 @@ export class PostCardComponent implements OnInit {
     commento: string;
     isDropdown: boolean = false;
 
+    isCommentsLikesLoaded: boolean = true;
+
     constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit(): void {
-        //console.log(this.post);
-        //console.log(this.idLoggedUser);
         this.checkLike();
     }
 
@@ -45,20 +42,6 @@ export class PostCardComponent implements OnInit {
         } else {
             this.isLiked = false;
         }
-
-        /*this.profilesService.getLike(this.idLoggedUser, this.post.idPost).subscribe(response => {
-            console.log(response);
-            if(response){
-                if(response.idPost === this.post.idPost && response.idProfile === this.idLoggedUser){
-                    this.isLiked = true;
-                } else {
-                    this.isLiked = false;
-                }
-            }
-            else {
-                this.isLiked = false;
-            }
-        })*/
     }
 
     onToggleLike(){
@@ -98,8 +81,20 @@ export class PostCardComponent implements OnInit {
         this.commento = "";
     }
 
-    onToggleLikeComment(){
-
+    onToggleLikeComment(index: number){
+        if(this.comments[index].isLiked){
+            this.profilesService.removeCommentLike(this.comments[index].idComment).subscribe(response => {
+                console.log(response);
+                this.comments[index].commentLikesCounter--;
+                this.comments[index].isLiked = false;
+            })
+        } else if(!this.comments[index].isLiked) {
+            this.profilesService.addCommentLike(this.comments[index].idComment).subscribe(response => {
+                console.log(response);
+                this.comments[index].commentLikesCounter++;
+                this.comments[index].isLiked = true;
+            })
+        }
     }
 
     onRemovePost(){

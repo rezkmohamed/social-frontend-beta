@@ -12,8 +12,6 @@ import { ProfilesService } from "../profiles.service";
     styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-    //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-    //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
     idProfilo: string = "";
@@ -21,10 +19,10 @@ export class ProfilePageComponent implements OnInit {
     posts: Post[] = [];
     loadingProfile: boolean = true;
     loadingPosts: boolean = true;
-    //
+
     myProfile: boolean = false;
     following: boolean = false;
-    //FIXME
+
     followers: number; 
     follows: number; 
 
@@ -73,9 +71,10 @@ export class ProfilePageComponent implements OnInit {
                     const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.date, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
                 }
+                
                 this.posts.sort( (a,b) =>{
                     return moment(b.date).diff(moment(a.date) );
-                } );    
+                } );
                 this.loadingPosts = false;
             }
         )
