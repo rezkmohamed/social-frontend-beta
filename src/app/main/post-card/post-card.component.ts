@@ -74,9 +74,12 @@ export class PostCardComponent implements OnInit {
         let newComment: CommentPost = new CommentPost(null, this.commento, date, this.post.idPost, this.idLoggedUser)
         this.profilesService.addComment(newComment).subscribe(response => {
             console.log(response);
+            newComment.idComment = response.idComment;
         });
         console.log(this.profilesService.getProfileLogged());
         newComment.nicknameProfile = this.profilesService.getProfileLogged().nickname;
+        newComment.commentLikesCounter = 0;
+        newComment.isLiked = false;
         this.comments.push(newComment);
         this.commento = "";
     }

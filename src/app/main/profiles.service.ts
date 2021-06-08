@@ -186,7 +186,7 @@ export class ProfilesService {
     }
 
     addComment(comment: CommentPost){
-        return this.http.post(this.urlBase + "comments" , comment);
+        return this.http.post<any>(this.urlBase + "comments" , comment);
     }
 
     getCommentsForPost(idPost: string){
