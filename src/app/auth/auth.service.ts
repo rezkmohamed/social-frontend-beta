@@ -93,7 +93,10 @@ export class AuthService implements OnInit{
         }, expirationDuration);
     }
 
-    resetPassword(){
-        
+    resetPassword(email: string){
+        return this.http.put<any>(this.urlBase + "resetpassword", email,
+        { observe: 'response' }
+        );
+
     }
 }

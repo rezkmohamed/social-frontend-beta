@@ -92,12 +92,6 @@ export class ProfilesService {
         );
     }
 
-    /**
-     * FIXME
-     * @param profile 
-     * @param password 
-     * @returns 
-     */
     updateEmail(profile: Profile, password: string){
         return this.http.put(this.urlBase + "profiles", {
             id: profile.id,

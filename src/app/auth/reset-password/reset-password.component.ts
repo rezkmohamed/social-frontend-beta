@@ -19,7 +19,17 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     ngOnInit(){}
 
-    onSubmit(){}
+    onSubmit(){
+        this.authService.resetPassword(this.resetForm.value.email).subscribe(response => {
+            console.log(response);
+            this.formSubmitted = true;
+            this.errorReset = false;
+        }, err => {
+            console.log(err);
+            this.formSubmitted = true;
+            this.errorReset = true;
+        })
+    }
 
     ngOnDestroy(){}
 
