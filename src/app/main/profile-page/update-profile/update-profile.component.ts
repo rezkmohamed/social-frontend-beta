@@ -6,6 +6,7 @@ import { User } from "../../models/user.model";
 import { ProfilesService } from "../../profiles.service";
 
 const STATUS_OK = 200;
+const EMPTY_STRING = "";
 
 @Component({
     selector: 'app-update-profile',
@@ -16,8 +17,6 @@ export class UpdateProfileComponent implements OnInit {
     @ViewChild('f') updateProfileForm: NgForm;
     profile: Profile;
     loadingProfile: boolean = true;
-    //idSession: string = JSON.parse(localStorage.getItem("sessione")).id.toString();
-    //idSession: string = "3a751805-3141-41e4-ac94-9cee1bd262a0";
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
     generalDataChanged: boolean = false;
@@ -43,6 +42,12 @@ export class UpdateProfileComponent implements OnInit {
     passwordChangeSubmitted: boolean = false;
     passwordChangeSuccess: boolean = false;
 
+
+    /**
+     * FILE IMMAGINE DEL PROFILO.
+     */
+    selectedFile: File;
+
     constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit() {
@@ -50,8 +55,10 @@ export class UpdateProfileComponent implements OnInit {
     }
     
     onChangeGeneralData(){
-        let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, this.updateProfileForm.value.proPic, this.profile.email);
+        let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, null, this.profile.email);
         this.generalDataFormSubmitted = true;
+        console.log(this.updateProfileForm.value);
+
 
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             console.log(response);
@@ -151,4 +158,21 @@ export class UpdateProfileComponent implements OnInit {
             this.startingPasswordForm();
         })
     }
+
+
+
+    onFileChanged(event) {
+        this.selectedFile = event.target.files[0]
+    }
+    
+
+    onUpload() {
+        const uploadData = new FormData();
+        uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
+
+        this.profilesService.uploadProfilePic(uploadData).subscribe(response => {
+            console.log(response);
+        });
+    }
+    
 }

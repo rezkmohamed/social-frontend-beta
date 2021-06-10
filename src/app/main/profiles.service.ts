@@ -75,8 +75,32 @@ export class ProfilesService {
         { observe: 'response' });
     }
 
+    updateProfileWithProPic(profile: Profile, proPic: File) {
+        const formData = new FormData();
+        formData.append('proPic', proPic);
+        formData.append('name', profile.name);
+        formData.append('bio', profile.bio);
+        formData.append('nickname', profile.nickname);
+        formData.append('email', profile.email);
+
+        return this.http.post<any>(this.urlBase + "profiles/updategeneraldata", 
+            formData,
+            {headers: new HttpHeaders({
+                'Content-Type': 'multipart/form-data',
+            })},
+           // { observe: 'response' }
+        );
+    }
+
+    uploadProfilePic(uploadData: FormData){
+        return this.http.post(this.urlBase + "profiles/propic", uploadData, {
+            reportProgress: true,
+            observe: 'events'
+        });
+    }
+
     updateProfile(profile: Profile) {
-        return this.http.put<any>(this.urlBase + "profiles", 
+        return this.http.post<any>(this.urlBase + "profiles/updategeneraldata", 
             profile,
             { observe: 'response' }
         );

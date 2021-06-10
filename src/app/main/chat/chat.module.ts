@@ -3,21 +3,19 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ChatContentComponent } from "./chat-content/chat-content.component";
-import { ChatRoutingModule } from "./chat-routing.module";
 import { ChatComponent } from "./chat.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
 @NgModule({
     declarations: [
+        ChatComponent,
         ChatContentComponent,
-        SidebarComponent,
-        ChatComponent
+        SidebarComponent
     ],
     imports: [
         RouterModule,
         CommonModule,
         HttpClientModule,
-        ChatRoutingModule,
     ],
     exports: [
         ChatComponent
