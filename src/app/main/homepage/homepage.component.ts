@@ -38,7 +38,6 @@ export class HomepageComponent implements OnInit {
                             console.log(comment);
                             let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
                             comments.push(commentResponse);
-
                         }
 
                         comments.sort( (a,b) => {

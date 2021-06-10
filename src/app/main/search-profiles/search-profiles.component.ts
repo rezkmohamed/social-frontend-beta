@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Profile } from "../models/profile.model";
 import { ProfilesService } from "../profiles.service";
@@ -14,7 +15,8 @@ export class SearchProfilesComponent implements OnInit {
     profiles: Profile[] = [];
     profilesLoaded: boolean = false;
 
-    constructor(private profilesService: ProfilesService, private route: Router,private activatedRoute: ActivatedRoute){}
+    constructor(private profilesService: ProfilesService, private route: Router,private activatedRoute: ActivatedRoute,
+        private sanitizer: DomSanitizer){}
 
     ngOnInit() {
         this.searchProfiles();
@@ -24,6 +26,10 @@ export class SearchProfilesComponent implements OnInit {
                 this.searchProfiles();
             }
         )
+    }
+
+    transform(profile: Profile){
+        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + profile.proPic);
     }
 
     private searchProfiles(){

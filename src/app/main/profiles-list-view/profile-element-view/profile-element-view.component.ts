@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Profile } from "../../models/profile.model";
 
 
@@ -10,7 +11,13 @@ import { Profile } from "../../models/profile.model";
 export class ProfileElementViewComponent implements OnInit {
     @Input('profile') profile: Profile;
 
-    constructor(){}
+    constructor(private sanitizer: DomSanitizer){}
+
+
+    transform(){
+        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + this.profile.proPic);
+    }
+
 
     ngOnInit(): void {
     }

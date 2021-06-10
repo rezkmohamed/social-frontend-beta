@@ -2,7 +2,8 @@
 <p *ngIf="!profilesLoaded">loading...</p>
 <div class="container" *ngIf="profilesLoaded">
     <div class="media" *ngFor="let profile of profiles">
-        <img src={{profile.proPic}} class="mr-3" alt="..." width="64px" height="64px">
+        <img [src]="transform(profile)" 
+        class="mr-3" alt="..." width="64px" height="64px">
         <div class="media-body">
             <a 
                 class="username-link" 
