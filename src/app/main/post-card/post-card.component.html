@@ -39,7 +39,7 @@
         <article class="instapost">
             <header class="instapost__header">
                 <a *ngIf="profilo?.id" class="profile-img" [routerLink]="['/profiles', profilo.id]">
-                    <img [src]="[profilo.proPic]" />
+                    <img [src]="transform()" />
                 </a>
                 <div class="profile-name" >
                     <a *ngIf="profilo" class="user instalink" [routerLink]="['/profiles', profilo.id]" >

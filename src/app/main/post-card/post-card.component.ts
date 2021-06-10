@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
@@ -30,10 +31,14 @@ export class PostCardComponent implements OnInit {
 
     isCommentsLikesLoaded: boolean = true;
 
-    constructor(private profilesService: ProfilesService, private router: Router){}
+    constructor(private profilesService: ProfilesService, private router: Router, private sanitizer: DomSanitizer){}
 
     ngOnInit(): void {
         this.checkLike();
+    }
+
+    transform(){
+        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + this.profilo.proPic);
     }
 
     private checkLike(){
