@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import * as moment from "moment";
 import { Follow } from "../models/follow.model";
@@ -28,7 +29,8 @@ export class ProfilePageComponent implements OnInit {
 
     constructor(private profilesService: ProfilesService,
                 private router: Router,
-                private route: ActivatedRoute){}
+                private route: ActivatedRoute,
+                private sanitizer: DomSanitizer){}
 
 
     ngOnInit(): void {
@@ -48,11 +50,16 @@ export class ProfilePageComponent implements OnInit {
         this.getAccount(this.idProfilo);
     }
 
+    transform(){
+        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + this.profilo.proPic);
+    }
+
     private getAccount(idProfilo: string){
         this.profilesService.fetchAccount(idProfilo).subscribe(
             response => {
                 console.log(response);
                 this.profilo = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
+
                 this.profilesService.adjustProfilePageData(this.profilo);
                 this.followers = response.followersCounter;
                 this.follows = response.followingCounter;

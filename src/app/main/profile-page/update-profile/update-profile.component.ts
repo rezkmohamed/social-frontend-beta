@@ -47,6 +47,8 @@ export class UpdateProfileComponent implements OnInit {
      * FILE IMMAGINE DEL PROFILO.
      */
     selectedFile: File;
+    fileIsOkay: boolean = false;
+    fileIsSended: boolean = false;
 
     constructor(private profilesService: ProfilesService, private router: Router){}
 
@@ -159,12 +161,10 @@ export class UpdateProfileComponent implements OnInit {
         })
     }
 
-
-
     onFileChanged(event) {
         this.selectedFile = event.target.files[0]
     }
-    
+
 
     onUpload() {
         const uploadData = new FormData();
@@ -172,6 +172,12 @@ export class UpdateProfileComponent implements OnInit {
 
         this.profilesService.uploadProfilePic(uploadData).subscribe(response => {
             console.log(response);
+            this.fileIsOkay = true;
+            this.fileIsSended = true;
+        }, err => {
+            console.log(err);
+            this.fileIsOkay = false;
+            this.fileIsSended = true;
         });
     }
     
