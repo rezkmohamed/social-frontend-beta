@@ -35,11 +35,16 @@ export class AddPostComponent implements OnInit {
         const uploadData = new FormData();
         let date = moment().format();
 
-
-        uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
+        uploadData.append('myFile', this.selectedFile);
+        console.log(uploadData.get('myFile'));
         uploadData.append('description', this.descrizione);
+        console.log(uploadData.get('description'));
+
         uploadData.append('date', date);
+        console.log(uploadData.get('date'));
+
         uploadData.append('idProfile', this.idLoggedUser);
+        console.log(uploadData.get('idProfile'));
 
         this.profilesService.createPost(uploadData).subscribe(response => {
             console.log(response);

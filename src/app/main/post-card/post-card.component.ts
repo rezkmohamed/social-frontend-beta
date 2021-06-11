@@ -37,8 +37,8 @@ export class PostCardComponent implements OnInit {
         this.checkLike();
     }
 
-    transform(){
-        return this.sanitizer.bypassSecurityTrustResourceUrl(this.profilo.proPic);
+    transform(img : string){
+        return this.sanitizer.bypassSecurityTrustResourceUrl(img);
     }
 
     private checkLike(){

@@ -156,8 +156,20 @@ export class ProfilesService {
     }
 
     createPost(postFormData: FormData){
-        return this.http.post<Post>(this.urlBase + "posts/newpost", postFormData);
+        return this.http.post<Post>(this.urlBase + "posts/newpost/test", postFormData,
+        {
+            reportProgress: true,
+            observe: 'events'
+        });
     }
+
+
+
+
+
+
+
+
 
     getPost(idPost: string){
         return this.http.get<any>(this.urlBase + "posts/" + idPost);
