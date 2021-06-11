@@ -6,7 +6,10 @@ import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
-import { ProfilesService } from "../profiles.service";
+import { CommentsService } from "../services/comment.service";
+import { LikesService } from "../services/likes.service";
+import { PostsService } from "../services/posts.service";
+import { ProfilesService } from "../services/profiles.service";
 
 
 
@@ -31,7 +34,11 @@ export class PostCardComponent implements OnInit {
 
     isCommentsLikesLoaded: boolean = true;
 
-    constructor(private profilesService: ProfilesService, private router: Router, private sanitizer: DomSanitizer){}
+    constructor(
+        private commentService: CommentsService,
+        private likeService: LikesService,
+        private postService: PostsService,
+        private profilesService: ProfilesService, private router: Router, private sanitizer: DomSanitizer){}
 
     ngOnInit(): void {
         this.checkLike();
@@ -51,7 +58,7 @@ export class PostCardComponent implements OnInit {
 
     onToggleLike(){
         if(this.isLiked){
-            this.profilesService.removeLike(this.idLoggedUser, this.post.idPost).subscribe(response => {
+            this.likeService.removeLike(this.idLoggedUser, this.post.idPost).subscribe(response => {
                 console.log(response);
                 this.isLiked = false;
                 this.post.likesCounter--;
@@ -59,7 +66,7 @@ export class PostCardComponent implements OnInit {
         } else {
             let like: Like = new Like(null, (new Date(Date.now())).toDateString(), this.post.idPost, this.idLoggedUser);
 
-            this.profilesService.addLike(this.idLoggedUser, this.post.idPost, like).subscribe(response => {
+            this.likeService.addLike(this.idLoggedUser, this.post.idPost, like).subscribe(response => {
                 console.log(response);
                 this.isLiked = true;
                 this.post.likesCounter++;
@@ -77,7 +84,7 @@ export class PostCardComponent implements OnInit {
         let date = moment().format();
 
         let newComment: CommentPost = new CommentPost(null, this.commento, date, this.post.idPost, this.idLoggedUser)
-        this.profilesService.addComment(newComment).subscribe(response => {
+        this.commentService.addComment(newComment).subscribe(response => {
             console.log(response);
             newComment.idComment = response.idComment;
         });
@@ -91,13 +98,13 @@ export class PostCardComponent implements OnInit {
 
     onToggleLikeComment(index: number){
         if(this.comments[index].isLiked){
-            this.profilesService.removeCommentLike(this.comments[index].idComment).subscribe(response => {
+            this.commentService.removeCommentLike(this.comments[index].idComment).subscribe(response => {
                 console.log(response);
                 this.comments[index].commentLikesCounter--;
                 this.comments[index].isLiked = false;
             })
         } else if(!this.comments[index].isLiked) {
-            this.profilesService.addCommentLike(this.comments[index].idComment).subscribe(response => {
+            this.commentService.addCommentLike(this.comments[index].idComment).subscribe(response => {
                 console.log(response);
                 this.comments[index].commentLikesCounter++;
                 this.comments[index].isLiked = true;
@@ -107,7 +114,7 @@ export class PostCardComponent implements OnInit {
 
     onRemovePost(){
         console.log("id post: " + this.post.idPost);
-        this.profilesService.removePost(this.post.idPost).subscribe(response => {
+        this.postService.removePost(this.post.idPost).subscribe(response => {
             console.log("removing post...");
             console.log(response);
             this.router.navigate(['/profiles', this.idLoggedUser]);

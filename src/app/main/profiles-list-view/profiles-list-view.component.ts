@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Profile } from "../models/profile.model";
-import { ProfilesService } from "../profiles.service";
+import { FollowService } from "../services/follow.service";
+import { LikesService } from "../services/likes.service";
+import { ProfilesService } from "../services/profiles.service";
 
 enum ListMode {
     likesAlPost = 0,
@@ -21,7 +23,10 @@ export class ProfilesListViewComponent implements OnInit{
     loadingProfiles: boolean = true;
 
 
-    constructor(private profilesService: ProfilesService, private router: Router){}
+    constructor(
+        private followService: FollowService,
+        private likeService: LikesService,
+        private profilesService: ProfilesService, private router: Router){}
     
     ngOnInit(): void {
         this.checkTypeOfList();
@@ -81,7 +86,7 @@ export class ProfilesListViewComponent implements OnInit{
         let idPost: string = this.router.url.substring(startId, this.router.url.length);
         console.log(idPost);
 
-        this.profilesService.getLikesForPost(idPost).subscribe(response => {
+        this.likeService.getLikesForPost(idPost).subscribe(response => {
             console.log(response);
             for(let i = 0; i < response.length; i++){
                 let profileResponse = new Profile(response[i].id, response[i].name, response[i].nickname, response[i].bio, response[i].proPic, response[i].email);
@@ -97,7 +102,7 @@ export class ProfilesListViewComponent implements OnInit{
         let idProfile: string = this.router.url.substring(startId, this.router.url.length);
         console.log(idProfile);
 
-        this.profilesService.getFollowersProfile(idProfile).subscribe(response => {
+        this.followService.getFollowersProfile(idProfile).subscribe(response => {
             for(let i = 0; i < response.length; i++){
                 let profileResponse = new Profile(response[i].id, response[i].name, response[i].nickname, response[i].bio, response[i].proPic, response[i].email);
                 this.profilesService.adjustProfilePageData(profileResponse);
@@ -112,7 +117,7 @@ export class ProfilesListViewComponent implements OnInit{
         let idProfile: string = this.router.url.substring(startId, this.router.url.length);
         console.log(idProfile);
     
-        this.profilesService.getFollowingProfile(idProfile).subscribe(response => {
+        this.followService.getFollowingProfile(idProfile).subscribe(response => {
             for(let i = 0; i < response.length; i++){
                 let profileResponse = new Profile(response[i].id, response[i].name, response[i].nickname, response[i].bio, response[i].proPic, response[i].email);
                 this.profilesService.adjustProfilePageData(profileResponse);

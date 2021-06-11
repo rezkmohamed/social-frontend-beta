@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import * as moment from "moment";
 import { Post } from "../models/post.model";
-import { ProfilesService } from "../profiles.service";
+import { PostsService } from "../services/posts.service";
 
 
 @Component({
@@ -20,7 +20,7 @@ export class AddPostComponent implements OnInit {
     descrizione: string = "";
 
 
-    constructor(private profilesService: ProfilesService, private router: Router){}
+    constructor(private postService: PostsService, private router: Router){}
 
     ngOnInit(): void {}
 
@@ -46,7 +46,7 @@ export class AddPostComponent implements OnInit {
         uploadData.append('idProfile', this.idLoggedUser);
         console.log(uploadData.get('idProfile'));
 
-        this.profilesService.createPost(uploadData).subscribe(response => {
+        this.postService.createPost(uploadData).subscribe(response => {
             console.log(response);
             this.router.navigate([`/profiles/${this.idLoggedUser}`]);
         })

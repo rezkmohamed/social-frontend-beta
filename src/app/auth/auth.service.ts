@@ -2,12 +2,12 @@ import { Injectable, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
 import { User } from "../main/models/user.model";
-import { ProfilesService } from "../main/profiles.service";
 import { format, compareAsc, addMinutes } from 'date-fns'
 import { add } from "date-fns/esm";
 import { Profile } from "../main/models/profile.model";
 import jwt_decode  from "jwt-decode";
 import { HttpClient } from "@angular/common/http";
+import { ProfilesService } from "../main/services/profiles.service";
 
 class responseAuth {
     constructor(

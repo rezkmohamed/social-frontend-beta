@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Post } from "../../models/post.model";
 import { Profile } from "../../models/profile.model";
-import { ProfilesService } from "../../profiles.service";
+import { PostsService } from "../../services/posts.service";
 
 @Component({
     selector: 'app-edit-post-card',
@@ -15,15 +16,19 @@ export class EditPostCardComponent implements OnInit, OnDestroy {
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id;
     descrizione: string = this.post.description;
 
-    constructor(private profilesService: ProfilesService, private router: Router){}
+    constructor(private postService: PostsService , private sanitizer: DomSanitizer){}
     ngOnInit(){
         console.log(this.post);
         console.log(this.profile);
     }
 
+    transform(img : string){
+        return this.sanitizer.bypassSecurityTrustResourceUrl(img);
+    }
+
     onSubmit(){
         this.post.description = this.descrizione;
-        this.profilesService.updatePost(this.post).subscribe(response => {
+        this.postService.updatePost(this.post).subscribe(response => {
             if(response.status === 200){
                 console.log("post modificato");
                 confirm("post modificato");

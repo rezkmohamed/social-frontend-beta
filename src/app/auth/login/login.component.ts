@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ProfilesService } from "src/app/main/profiles.service";
 import { AuthService } from "../auth.service";
 import jwt_decode  from "jwt-decode";
 import { User } from "src/app/main/models/user.model";
 import { add } from "date-fns/esm";
 import { sub } from "date-fns";
+import { ProfilesService } from "src/app/main/services/profiles.service";
 
 
 class responseAuth {

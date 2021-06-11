@@ -20,7 +20,7 @@
         <article class="instapost">
             <header class="instapost__header">
                 <a *ngIf="profile?.id" class="profile-img" [routerLink]="['/profiles', profile.id]">
-                    <img [src]="[profile.proPic]" />
+                    <img [src]="transform(profile.proPic)" />
                 </a>
                 <div class="profile-name" >
                     <a *ngIf="profile" class="user instalink" [routerLink]="['/profiles', profile.id]" >
@@ -31,7 +31,7 @@
 
             </header>
             <section class="instapost__image" *ngIf="post?.urlImg">
-                <img class="img img-0 show" src={{post.urlImg}} alt="image" />
+                <img class="img img-0 show" [src]="transform(post.urlImg)" alt="image" />
                 <div class="like-heart">
                     <svg>
                         <use xlink:href="#dislike" />

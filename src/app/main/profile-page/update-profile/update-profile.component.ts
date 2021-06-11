@@ -3,7 +3,7 @@ import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Profile } from "../../models/profile.model";
 import { User } from "../../models/user.model";
-import { ProfilesService } from "../../profiles.service";
+import { ProfilesService } from "../../services/profiles.service";
 
 const STATUS_OK = 200;
 const EMPTY_STRING = "";

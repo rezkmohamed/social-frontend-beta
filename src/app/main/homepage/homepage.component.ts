@@ -3,7 +3,8 @@ import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
-import { ProfilesService } from "../profiles.service";
+import { PostsService } from "../services/posts.service";
+import { ProfilesService } from "../services/profiles.service";
 
 
 @Component({
@@ -17,14 +18,14 @@ export class HomepageComponent implements OnInit {
     commenti: Map<number, CommentPost[]> = new Map<number, CommentPost[]>();
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
-    constructor(private profilesService: ProfilesService){}
+    constructor(private profilesService: ProfilesService  ,private postService: PostsService){}
 
     ngOnInit(): void {
         this.fetchPostsInit();
     }
     
     fetchPostsInit(){
-        this.profilesService.fetchHomePage(this.idLoggedUser).subscribe(response => {
+        this.postService.fetchHomePage(this.idLoggedUser).subscribe(response => {
             console.log(response);
             for(let i = 0; i < response.length; i++){
                 if(response[i]){

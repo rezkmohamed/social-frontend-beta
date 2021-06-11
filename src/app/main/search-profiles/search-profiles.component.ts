@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Profile } from "../models/profile.model";
-import { ProfilesService } from "../profiles.service";
+import { ProfilesService } from "../services/profiles.service";
 
 @Component({
     selector: 'app-search-profiles',

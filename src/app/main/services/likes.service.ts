@@ -1,0 +1,42 @@
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Like } from "../models/like.model";
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class LikesService {
+    private urlBase: string = "http://localhost:8080/";
+
+    constructor(private http: HttpClient){}
+
+    getLikesForPost(idPost: String){
+        return this.http.get<any[]>(this.urlBase + "likes/" + idPost);
+    }
+
+    getLike(idProfile: string, idPost: string){
+        return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
+    }
+
+    addLike(idProfile: string, idPost: string, like: Like){
+        return this.http.post(
+            this.urlBase + "likes/add/" + idPost + "/" + idProfile, 
+            like,
+            { observe: 'response' }
+        );
+    }
+
+    removeLike(idProfile: string, idPost: string){
+        return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile,
+        { observe: 'response' });
+    }
+
+    addCommentLike(idComment: string){
+        return this.http.post(this.urlBase + "commentlike/add/" + idComment, null);
+    }
+
+    removeCommentLike(idComment: string){
+        return this.http.delete(this.urlBase + "commentlike/delete/" + idComment);
+    }
+}

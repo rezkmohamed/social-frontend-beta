@@ -5,7 +5,8 @@ import * as moment from "moment";
 import { Follow } from "../models/follow.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
-import { ProfilesService } from "../profiles.service";
+import { FollowService } from "../services/follow.service";
+import { ProfilesService } from "../services/profiles.service";
 
 @Component({
     selector: 'app-profile-page',
@@ -27,7 +28,9 @@ export class ProfilePageComponent implements OnInit {
     followers: number; 
     follows: number; 
 
-    constructor(private profilesService: ProfilesService,
+    constructor(
+                private followService: FollowService,
+                private profilesService: ProfilesService,
                 private router: Router,
                 private route: ActivatedRoute,
                 private sanitizer: DomSanitizer){}
@@ -93,7 +96,7 @@ export class ProfilePageComponent implements OnInit {
 
     private followCheck(){
         console.log("follow check:");
-        this.profilesService.getFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
+        this.followService.getFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
             console.log(response);
             if(!response){
                 console.log(false);
@@ -110,14 +113,14 @@ export class ProfilePageComponent implements OnInit {
 
     onToggleFollow(){
         if(this.following){
-            this.profilesService.removeFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
+            this.followService.removeFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
                 console.log(response);
             });
             this.followers--;
             this.following = false;
         } else {
             let followToAdd: Follow = new Follow(null, new Date(Date.now()).toDateString(), this.idLoggedUser, this.idProfilo);
-            this.profilesService.addFollow(this.idLoggedUser, this.idProfilo, followToAdd).subscribe(response => {
+            this.followService.addFollow(this.idLoggedUser, this.idProfilo, followToAdd).subscribe(response => {
                 console.log(response);
             });
             this.followers++;

@@ -4,7 +4,8 @@ import * as moment from "moment";
 import { CommentPost } from "../../models/comment.model";
 import { Post } from "../../models/post.model";
 import { Profile } from "../../models/profile.model";
-import { ProfilesService } from "../../profiles.service";
+import { PostsService } from "../../services/posts.service";
+import { ProfilesService } from "../../services/profiles.service";
 
 @Component({
     selector: 'app-detail-full',
@@ -19,7 +20,9 @@ export class DetailFullCompont implements OnInit {
     loadingProfile: boolean = true;
     loadingPost: boolean = true;
 
-    constructor(private profilesService: ProfilesService, private route: Router){}
+    constructor(
+        private postService: PostsService,
+        private profilesService: ProfilesService, private route: Router){}
 
     ngOnInit(){
         this.getData();
@@ -33,7 +36,7 @@ export class DetailFullCompont implements OnInit {
     }
 
     private getPost(){
-        this.profilesService.getPost(this.idPost).subscribe(response => {
+        this.postService.getPost(this.idPost).subscribe(response => {
             console.log(response);
             let responsePost = new Post(response.idPost, response.urlImg, response.description, response.date, response.idProfile, response.commentsCounter, response.likesCounter, response.liked);
 

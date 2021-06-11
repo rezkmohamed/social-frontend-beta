@@ -1,11 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { CommentPost } from "./models/comment.model";
-import { Follow } from "./models/follow.model";
-import { Like } from "./models/like.model";
-import { Post } from "./models/post.model";
-import { Profile } from "./models/profile.model";
-import { User } from "./models/user.model";
+import { Profile } from "../models/profile.model";
+import { User } from "../models/user.model";
 
 class UserRequest{
     constructor(
@@ -135,14 +131,21 @@ export class ProfilesService {
         return this.http.get<any>(this.urlBase + "profiles/" + idProfile);
     }
 
+    /*
+
     fetchHomePage(idProfile: string){
         return this.http.get<any[]>(this.urlBase + "posts/homepage/"+ idProfile);
     }
+
+    
 
     getLikesForPost(idPost: String){
         return this.http.get<any[]>(this.urlBase + "likes/" + idPost);
     }
 
+    */
+
+    /*
     getFollowersProfile(idProfile: string){
         return this.http.get<any[]>(this.urlBase + "followers/" + idProfile + "/followers");
     }
@@ -150,11 +153,12 @@ export class ProfilesService {
     getFollowingProfile(idProfile: string){
         return this.http.get<any[]>(this.urlBase + "followers/" + idProfile + "/following");
     }
-
+    */
     searchProfiles(profileName: string){
         return this.http.get<any[]>(this.urlBase + "profiles/search/" + profileName);
     }
 
+    /*
     createPost(postFormData: FormData){
         return this.http.post<Post>(this.urlBase + "posts/newpost/test", postFormData,
         {
@@ -162,14 +166,6 @@ export class ProfilesService {
             observe: 'events'
         });
     }
-
-
-
-
-
-
-
-
 
     getPost(idPost: string){
         return this.http.get<any>(this.urlBase + "posts/" + idPost);
@@ -186,6 +182,7 @@ export class ProfilesService {
             { observe: 'response' });
     }
 
+    
     getLike(idProfile: string, idPost: string){
         return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
     }
@@ -202,6 +199,9 @@ export class ProfilesService {
         return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile,
         { observe: 'response' });
     }
+    */
+
+    /*
 
     getFollow(idFollower: string, idFollowed: string){
         return this.http.get<any>(this.urlBase + "followers/get/" + idFollower + "/" + idFollowed);
@@ -214,6 +214,8 @@ export class ProfilesService {
     removeFollow(idFollower: string, idFollowed: string){
         return this.http.delete(this.urlBase + "followers/" + idFollower + "/unfollow/" + idFollowed);
     }
+
+    
 
     addComment(comment: CommentPost){
         return this.http.post<any>(this.urlBase + "comments" , comment);
@@ -230,4 +232,6 @@ export class ProfilesService {
     removeCommentLike(idComment: string){
         return this.http.delete(this.urlBase + "commentlike/delete/" + idComment);
     }
+
+    */
 }
