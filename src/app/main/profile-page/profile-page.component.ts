@@ -51,7 +51,8 @@ export class ProfilePageComponent implements OnInit {
     }
 
     transform(){
-        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + this.profilo.proPic);
+        //return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + this.profilo.proPic);
+        return this.sanitizer.bypassSecurityTrustResourceUrl(this.profilo.proPic);
     }
 
     private getAccount(idProfilo: string){

@@ -15,7 +15,7 @@ export class ProfileElementViewComponent implements OnInit {
 
 
     transform(){
-        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + this.profile.proPic);
+        return this.sanitizer.bypassSecurityTrustResourceUrl(this.profile.proPic);
     }
 
 

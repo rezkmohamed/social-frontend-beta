@@ -2,15 +2,34 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
-            <form (ngSubmit)="onSubmit()" #f="ngForm">
-                <h3 class="text-center">aggiungi url immagine</h3>
-                <input 
-                        type="text"
-                        class="form-control"
-                        name="urlImg"
-                        placeholder="url..."
-                        ngModel
-                        required>
+                <h3 class="text-center">aggiungi foto formato png:</h3>
+                    <div class="alert alert-danger" role="alert"
+                    *ngIf="!fileIsOkay && fileIsSended">
+                    Errore nel caricamento della foto!
+                    </div>
+        
+                    <div class="alert alert-success" role="alert" 
+                    *ngIf="fileIsOkay && fileIsSended">
+                        Foto caricata con successo!
+                    </div>
+                    <div class="custom-file mb-2">
+                        <input 
+                            type="file"
+                            class="custom-file-input"
+                            name="proPic"
+                            id="customFile"
+                            #fileInput
+                            (change)="onFileChanged($event)"
+                            required
+                            >
+                        <label 
+                            class="custom-file-label"
+                            for="customFile"
+                            (click)="fileInput.click()">
+                            Scegli file
+                        </label>    
+                    </div>
+    
                 <h3 class="text-center">aggiungi una descrizione</h3>
                 <input
                         type="text"
@@ -20,13 +39,11 @@
                         ngModel
                         required>
                 
-                <button
-                        type="submit"
+                <button 
                         class="btn btn-primary"
-                        [disabled]="!f.valid">
-                    aggiungi
+                        (click)="onUpload()">Carica la foto
                 </button>
-            </form>
+
         </div>
         <div class="col-3"></div>
     </div>

@@ -29,7 +29,7 @@ export class SearchProfilesComponent implements OnInit {
     }
 
     transform(profile: Profile){
-        return this.sanitizer.bypassSecurityTrustResourceUrl( "data:image/png;base64, " + profile.proPic);
+        return this.sanitizer.bypassSecurityTrustResourceUrl(profile.proPic);
     }
 
     private searchProfiles(){

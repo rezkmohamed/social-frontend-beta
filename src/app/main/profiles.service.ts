@@ -155,8 +155,8 @@ export class ProfilesService {
         return this.http.get<any[]>(this.urlBase + "profiles/search/" + profileName);
     }
 
-    createPost(post: Post){
-        return this.http.post<Post>(this.urlBase + "posts/newpost", post);
+    createPost(postFormData: FormData){
+        return this.http.post<Post>(this.urlBase + "posts/newpost", postFormData);
     }
 
     getPost(idPost: string){

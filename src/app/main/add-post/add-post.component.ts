@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
-import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
 import { Post } from "../models/post.model";
 import { ProfilesService } from "../profiles.service";
@@ -15,23 +14,37 @@ import { ProfilesService } from "../profiles.service";
 export class AddPostComponent implements OnInit {
     @ViewChild('f') addPostForm: NgForm;
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+    selectedFile: File;
+    fileIsOkay: boolean = false;
+    fileIsSended: boolean = false;
+    descrizione: string = "";
+
 
     constructor(private profilesService: ProfilesService, private router: Router){}
 
     ngOnInit(): void {}
 
-    onSubmit(){
-        console.log(this.addPostForm.value);
-        let urlImg = this.addPostForm.value.urlImg;
-        let descrizione = this.addPostForm.value.descrizione;
 
 
+    onFileChanged(event) {
+        this.selectedFile = event.target.files[0]
+    }
+
+
+    onUpload() {
+        const uploadData = new FormData();
         let date = moment().format();
-        console.log(date);
 
-        this.profilesService.createPost(new Post(null,urlImg, descrizione, date, this.idLoggedUser)).subscribe(response => {
+
+        uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
+        uploadData.append('description', this.descrizione);
+        uploadData.append('date', date);
+        uploadData.append('idProfile', this.idLoggedUser);
+
+        this.profilesService.createPost(uploadData).subscribe(response => {
             console.log(response);
             this.router.navigate([`/profiles/${this.idLoggedUser}`]);
         })
+
     }
 }
