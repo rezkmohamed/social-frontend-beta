@@ -58,7 +58,7 @@ export class PostCardComponent implements OnInit {
 
     onToggleLike(){
         if(this.isLiked){
-            this.likeService.removeLike(this.idLoggedUser, this.post.idPost).subscribe(response => {
+            this.likeService.removeLike(this.post.idPost).subscribe(response => {
                 console.log(response);
                 this.isLiked = false;
                 this.post.likesCounter--;

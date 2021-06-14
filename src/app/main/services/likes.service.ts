@@ -27,7 +27,7 @@ export class LikesService {
         );
     }
 
-    removeLike(idProfile: string, idPost: string){
+    removeLike(idPost: string){
         return this.http.delete(this.urlBase + "likes/delete/" + idPost,
         { observe: 'response' });
     }

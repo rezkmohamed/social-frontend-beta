@@ -2,11 +2,9 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Profile } from "../../models/profile.model";
-import { User } from "../../models/user.model";
 import { ProfilesService } from "../../services/profiles.service";
 
 const STATUS_OK = 200;
-const EMPTY_STRING = "";
 
 @Component({
     selector: 'app-update-profile',
@@ -49,6 +47,9 @@ export class UpdateProfileComponent implements OnInit {
     selectedFile: File;
     fileIsOkay: boolean = false;
     fileIsSended: boolean = false;
+    fileIsSelected: boolean = false;
+    fileName: string = "";
+
 
     constructor(private profilesService: ProfilesService, private router: Router){}
 
@@ -164,7 +165,9 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     onFileChanged(event) {
-        this.selectedFile = event.target.files[0]
+        this.selectedFile = event.target.files[0];
+        this.fileIsSelected = true;
+        this.fileName = this.selectedFile.name;
     }
 
 

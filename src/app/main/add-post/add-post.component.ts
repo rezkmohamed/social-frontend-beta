@@ -15,6 +15,8 @@ export class AddPostComponent implements OnInit {
     @ViewChild('f') addPostForm: NgForm;
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
     selectedFile: File;
+    fileIsSelected: boolean = false;
+    fileName: string = "";
     fileIsOkay: boolean = false;
     fileIsSended: boolean = false;
     descrizione: string = "";
@@ -27,7 +29,9 @@ export class AddPostComponent implements OnInit {
 
 
     onFileChanged(event) {
-        this.selectedFile = event.target.files[0]
+        this.selectedFile = event.target.files[0];
+        this.fileName = this.selectedFile.name;
+        this.fileIsSelected = true;
     }
 
 
@@ -46,7 +50,13 @@ export class AddPostComponent implements OnInit {
 
         this.postService.createPost(uploadData).subscribe(response => {
             console.log(response);
+            this.fileIsOkay = true;
+            this.fileIsSended = true;
             //this.router.navigate([`/profiles/${this.idLoggedUser}`]);
+        }, err => {
+            console.log(err);
+            this.fileIsOkay = false;
+            this.fileIsSended = true;
         })
 
     }

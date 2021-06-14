@@ -100,8 +100,9 @@
                         class="custom-file-label"
                         for="customFile"
                         (click)="fileInput.click()">
-                        Scegli file
-                    </label>
+                        <span *ngIf="!fileIsSelected">Scegli file</span>
+                        <span *ngIf="fileIsSelected">{{fileName}}</span>
+                </label>
                     <button 
                     class="btn btn-primary"
                     (click)="onUpload()">Carica la foto</button>
