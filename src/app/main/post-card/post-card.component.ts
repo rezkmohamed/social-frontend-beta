@@ -66,7 +66,7 @@ export class PostCardComponent implements OnInit {
         } else {
             let like: Like = new Like(null, (new Date(Date.now())).toDateString(), this.post.idPost, this.idLoggedUser);
 
-            this.likeService.addLike(this.idLoggedUser, this.post.idPost, like).subscribe(response => {
+            this.likeService.addLike(this.post.idPost, like).subscribe(response => {
                 console.log(response);
                 this.isLiked = true;
                 this.post.likesCounter++;

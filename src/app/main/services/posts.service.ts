@@ -12,12 +12,12 @@ export class PostsService {
 
     constructor(private http: HttpClient){}
 
-    fetchHomePage(idProfile: string){
-        return this.http.get<any[]>(this.urlBase + "posts/homepage/"+ idProfile);
+    fetchHomePage(){
+        return this.http.get<any[]>(this.urlBase + "posts/homepage");
     }
 
     createPost(postFormData: FormData){
-        return this.http.post<Post>(this.urlBase + "posts/newpost/test", postFormData,
+        return this.http.post<Post>(this.urlBase + "posts/newpost", postFormData,
         {
             reportProgress: true,
             observe: 'events'

@@ -19,16 +19,16 @@ export class LikesService {
         return this.http.get<any>(this.urlBase + "likes/" + idProfile + "/" +idPost);
     }
 
-    addLike(idProfile: string, idPost: string, like: Like){
+    addLike(idPost: string, like: Like){
         return this.http.post(
-            this.urlBase + "likes/add/" + idPost + "/" + idProfile, 
+            this.urlBase + "likes/add/" + idPost, 
             like,
             { observe: 'response' }
         );
     }
 
     removeLike(idProfile: string, idPost: string){
-        return this.http.delete(this.urlBase + "likes/delete/" + idPost + "/" + idProfile,
+        return this.http.delete(this.urlBase + "likes/delete/" + idPost,
         { observe: 'response' });
     }
 

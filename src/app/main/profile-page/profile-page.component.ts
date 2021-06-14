@@ -37,7 +37,7 @@ export class ProfilePageComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.fillProfile();
+        //this.fillProfile();
 
         this.route.params.subscribe(
             (params: Params) => {
@@ -113,14 +113,14 @@ export class ProfilePageComponent implements OnInit {
 
     onToggleFollow(){
         if(this.following){
-            this.followService.removeFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
+            this.followService.removeFollow(this.idProfilo).subscribe(response => {
                 console.log(response);
             });
             this.followers--;
             this.following = false;
         } else {
             let followToAdd: Follow = new Follow(null, new Date(Date.now()).toDateString(), this.idLoggedUser, this.idProfilo);
-            this.followService.addFollow(this.idLoggedUser, this.idProfilo, followToAdd).subscribe(response => {
+            this.followService.addFollow(this.idProfilo, followToAdd).subscribe(response => {
                 console.log(response);
             });
             this.followers++;

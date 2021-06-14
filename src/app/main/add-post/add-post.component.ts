@@ -43,12 +43,10 @@ export class AddPostComponent implements OnInit {
         uploadData.append('date', date);
         console.log(uploadData.get('date'));
 
-        uploadData.append('idProfile', this.idLoggedUser);
-        console.log(uploadData.get('idProfile'));
 
         this.postService.createPost(uploadData).subscribe(response => {
             console.log(response);
-            this.router.navigate([`/profiles/${this.idLoggedUser}`]);
+            //this.router.navigate([`/profiles/${this.idLoggedUser}`]);
         })
 
     }

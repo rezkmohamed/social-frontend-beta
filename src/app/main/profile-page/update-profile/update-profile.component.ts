@@ -55,7 +55,9 @@ export class UpdateProfileComponent implements OnInit {
     ngOnInit() {
         this.getProfile();
     }
-    
+    /**
+     * FIXME
+     */
     onChangeGeneralData(){
         let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, null, this.profile.email);
         this.generalDataFormSubmitted = true;

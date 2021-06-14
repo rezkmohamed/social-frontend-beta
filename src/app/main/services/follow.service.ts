@@ -22,12 +22,12 @@ export class FollowService {
         return this.http.get<any>(this.urlBase + "followers/get/" + idFollower + "/" + idFollowed);
     }
 
-    addFollow(idFollower: string, idFollowed: string, follow: Follow){
-        return this.http.post(this.urlBase + "followers/" + idFollower + "/follow/" + idFollowed, follow);
+    addFollow(idFollowed: string, follow: Follow){
+        return this.http.post(this.urlBase + "followers/follow/" + idFollowed, follow);
     }
 
-    removeFollow(idFollower: string, idFollowed: string){
-        return this.http.delete(this.urlBase + "followers/" + idFollower + "/unfollow/" + idFollowed);
+    removeFollow(idFollowed: string){
+        return this.http.delete(this.urlBase + "followers/unfollow/" + idFollowed);
     }
 
 }

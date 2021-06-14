@@ -25,7 +25,7 @@ export class HomepageComponent implements OnInit {
     }
     
     fetchPostsInit(){
-        this.postService.fetchHomePage(this.idLoggedUser).subscribe(response => {
+        this.postService.fetchHomePage().subscribe(response => {
             console.log(response);
             for(let i = 0; i < response.length; i++){
                 if(response[i]){

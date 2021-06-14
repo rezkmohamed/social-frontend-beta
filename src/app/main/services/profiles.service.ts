@@ -103,7 +103,7 @@ export class ProfilesService {
     }
 
     updatePassword(idProfile: string ,newPassword: string){
-        return this.http.put<any>(this.urlBase + "profiles/newpassword/" + idProfile,
+        return this.http.put<any>(this.urlBase + "profiles/newpassword" ,
                 {
                     idProfile: idProfile,
                     newPassword: newPassword
