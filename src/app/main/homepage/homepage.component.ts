@@ -31,7 +31,7 @@ export class HomepageComponent implements OnInit {
                 if(response[i]){
                         this.posts[i] = new Post(response[i].idPost, 
                             response[i].urlImg, response[i].description,
-                            response[i].date, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
+                            response[i].localDate, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
                             
 
                         let comments: CommentPost[] = [];

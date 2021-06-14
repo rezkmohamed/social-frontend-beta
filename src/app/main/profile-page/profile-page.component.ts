@@ -54,6 +54,9 @@ export class ProfilePageComponent implements OnInit {
     }
 
     transform(){
+        if(this.profilo.proPic === this.profilesService.defaultProPic){
+            return this.profilo.proPic;
+        }
         return this.sanitizer.bypassSecurityTrustResourceUrl(this.profilo.proPic);
     }
 
@@ -82,7 +85,7 @@ export class ProfilePageComponent implements OnInit {
                 this.loadingProfile = false;
                 this.posts = [];
                 for(let post of response.posts){
-                    const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.date, post.idProfile, post.commentsCounter, post.likesCounter);
+                    const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.localDate, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
                 }
                 

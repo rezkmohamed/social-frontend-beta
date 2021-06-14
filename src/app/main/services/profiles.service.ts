@@ -15,9 +15,9 @@ class UserRequest{
     providedIn: 'root'
 })
 export class ProfilesService {
-    private urlBase: string = "http://localhost:8080/";
-    private noBioProfilePage: string = "nessuna biografia aggiunta";
-    private noProPicImg: string = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+    urlBase: string = "http://localhost:8080/";
+    noBioProfilePage: string = "nessuna biografia aggiunta";
+    defaultProPic = "/assets/images/no-propic.png";
 
     private userLogged: User;
 
@@ -32,14 +32,15 @@ export class ProfilesService {
     }
 
     adjustProfilePageData(profile: Profile) {
-        if(profile.bio == null || profile.bio == undefined || profile.bio === ""){
+        if(!profile.bio){
             profile.bio = this.noBioProfilePage;
         }
-        if(profile.name == null || profile.name == undefined || profile.name === ""){
+        if(!profile.name){
             profile.name = profile.nickname;
         }
-        if(profile.proPic == null || profile.proPic == undefined || profile.proPic == ""){
-            profile.proPic = this.noProPicImg;
+
+        if(!profile.proPic){
+            profile.proPic = this.defaultProPic;
         }
     }
 
