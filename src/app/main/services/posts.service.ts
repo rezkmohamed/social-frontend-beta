@@ -12,9 +12,9 @@ export class PostsService {
 
     constructor(private http: HttpClient){}
 
-    fetchHomePage(){
-        return this.http.get<any[]>(this.urlBase + "posts/homepage");
-    }
+    fetchHomePage(startingIndex: number){
+        return this.http.get<any[]>(this.urlBase + "posts/homepage/" + startingIndex);
+    } 
 
     createPost(postFormData: FormData){
         return this.http.post<Post>(this.urlBase + "posts/newpost", postFormData,

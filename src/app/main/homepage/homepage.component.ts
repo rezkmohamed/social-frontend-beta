@@ -18,14 +18,21 @@ export class HomepageComponent implements OnInit {
     commenti: Map<number, CommentPost[]> = new Map<number, CommentPost[]>();
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
+
+    notEmptyPost: boolean = true;
+    notScrolly: boolean = true;
+
     constructor(private profilesService: ProfilesService  ,private postService: PostsService){}
 
     ngOnInit(): void {
-        this.fetchPostsInit();
+        //this.fetchPostsInit();
+        this.loadNextPosts(0);
     }
     
+    /*
     fetchPostsInit(){
-        this.postService.fetchHomePage().subscribe(response => {
+        let startingIndex = 0;
+        this.postService.fetchHomePage(startingIndex).subscribe(response => {
             console.log(response);
             for(let i = 0; i < response.length; i++){
                 if(response[i]){
@@ -57,8 +64,55 @@ export class HomepageComponent implements OnInit {
                 }
             }            
         });
-
-
-
+    }*/
+    onScroll(){
+        if(this.notScrolly && this.notEmptyPost){
+            this.notScrolly = false;
+            const lastPost: number = this.posts.length;
+            this.loadNextPosts(lastPost);
+        }
     }
+
+    loadNextPosts(lastPost: number){
+        //const lastPost = this.posts.length;
+        this.postService.fetchHomePage(lastPost).subscribe(response => {
+
+            if(!response.length){
+                this.notEmptyPost = false;
+            }
+
+            for(let i = 0; i < response.length; i++){
+                if(response[i]){
+                    let newPost: Post = new Post(response[i].idPost, 
+                        response[i].urlImg, response[i].description,
+                        response[i].localDate, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
+
+                        this.posts.push(newPost)
+
+                        let comments: CommentPost[] = [];
+                        for(let comment of response[i].comments){
+                            console.log(comment);
+                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
+                            comments.push(commentResponse);
+                        }
+                        comments.sort( (a,b) => {
+                            return moment(a.date).diff(moment(b.date));
+                        })
+                    
+                    this.commenti.set(lastPost+i, comments);
+                    let profile: Profile = new Profile(response[i].profile.id,
+                        response[i].profile.name, response[i].profile.nickname,
+                        response[i].profile.bio, response[i].profile.proPic,
+                        response[i].profile.email);
+                    this.profilesService.adjustProfilePageData(profile);
+                    
+                    this.profiles.push(profile);
+                }
+            }
+
+            this.notScrolly = true;
+
+        })
+    }
+
 }

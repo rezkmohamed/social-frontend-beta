@@ -3,6 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { ChatComponent } from "./chat/chat.component";
 import { ChatModule } from "./chat/chat.module";
@@ -42,7 +43,8 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         FormsModule,
         ReactiveFormsModule,
         MainRoutingModule,
-        ChatModule
+        ChatModule,
+        InfiniteScrollModule
     ],
     exports: [
         MainComponent,
