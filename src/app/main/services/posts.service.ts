@@ -28,8 +28,8 @@ export class PostsService {
         return this.http.get<any>(this.urlBase + "posts/" + idPost);
     }
 
-    getNextPostsForProfile(startingPost: number){
-        return this.http.get<any>(this.urlBase + "posts/next/" + startingPost);
+    getNextPostsForProfile(idProfile: string ,startingPost: number){
+        return this.http.get<any>(this.urlBase + "posts/next/" + "/" + idProfile + "/" + startingPost );
     }
 
     removePost(idPost: string){

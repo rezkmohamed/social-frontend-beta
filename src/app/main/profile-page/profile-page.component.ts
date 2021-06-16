@@ -17,7 +17,11 @@ import { ProfilesService } from "../services/profiles.service";
 export class ProfilePageComponent implements OnInit {
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
-    idProfilo: string = "";
+
+    inizioIdDaCercare = 10;
+    idProfilo = this.router.url.substring(this.inizioIdDaCercare, this.router.url.length);
+
+    //idProfilo: string = "";
     profilo: Profile;
     posts: Post[] = [];
     numberOfPosts: number;
@@ -153,12 +157,12 @@ export class ProfilePageComponent implements OnInit {
         if(this.notScrolly && this.notEmptyPost){
             this.notScrolly = false;
             const lastPost: number = this.posts.length;
-            this.loadNextPosts(lastPost);
+            this.loadNextPosts(this.idProfilo ,lastPost);
         }
     }
 
-    loadNextPosts(lastPost: number){
-        this.postService.getNextPostsForProfile(lastPost).subscribe(response => {
+    loadNextPosts(idProfilo: string ,lastPost: number){
+        this.postService.getNextPostsForProfile(idProfilo, lastPost).subscribe(response => {
             if(!response.length){
                 this.notEmptyPost = false;
             }
