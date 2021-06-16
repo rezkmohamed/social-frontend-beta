@@ -57,14 +57,14 @@
 <main *ngIf="!loadingPosts">
 
 	<div class="container">
+		<div
+		infiniteScroll
+		[infiniteScrollDistance]="2"
+		[infiniteScrollThrottle]="50"
+		(scrolled)="onScroll()"
+		>
+			<div class="gallery" >
 
-		<div class="gallery" >
-			<div
-			infiniteScroll
-			[infiniteScrollDistance]="2"
-			[infiniteScrollThrottle]="50"
-			(scrolled)="onScroll()"
-			>
 				<div class="wrapper" *ngFor="let post of posts">
 					<div class="gallery-item" tabindex="0" (click)="openPost(post.idPost)">
 						<img [src]="transformPic(post)" class="gallery-image" alt="">

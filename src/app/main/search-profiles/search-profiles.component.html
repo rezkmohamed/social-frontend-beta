@@ -1,17 +1,28 @@
 
 <p *ngIf="!profilesLoaded">loading...</p>
+
 <div class="container" *ngIf="profilesLoaded">
-    <div class="media" *ngFor="let profile of profiles">
-        <img [src]="transform(profile)" 
-        class="mr-3" alt="..." width="64px" height="64px">
-        <div class="media-body">
-            <a 
-                class="username-link" 
-                [routerLink]="['/profiles', profile.id]">
-                
-            <h5 class="mt-0">{{profile.nickname}}</h5>
-            </a>
-            {{profile.bio}}
+    <div
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+    >
+        <div class="media" *ngFor="let profile of profiles">
+            <img [src]="transform(profile)" 
+            class="mr-3" alt="..." width="64px" height="64px">
+            <div class="media-body">
+                <a 
+                    class="username-link" 
+                    [routerLink]="['/profiles', profile.id]">
+                    
+                <h5 class="mt-0">{{profile.nickname}}</h5>
+                </a>
+                {{profile.bio}}
+            </div>
         </div>
+    </div>
+    <div class="row" *ngIf="notScrolly && notEmptyPost">
+        Loading...
     </div>
 </div>

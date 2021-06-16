@@ -155,8 +155,8 @@ export class ProfilesService {
         return this.http.get<any[]>(this.urlBase + "followers/" + idProfile + "/following");
     }
     */
-    searchProfiles(profileName: string){
-        return this.http.get<any[]>(this.urlBase + "profiles/search/" + profileName);
+    searchProfiles(profileName: string, lastProfile: number){
+        return this.http.get<any[]>(this.urlBase + "profiles/search/" + profileName + "/" + lastProfile);
     }
 
     /*

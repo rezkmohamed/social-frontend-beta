@@ -158,7 +158,6 @@ export class ProfilePageComponent implements OnInit {
     }
 
     loadNextPosts(lastPost: number){
-        
         this.postService.getNextPostsForProfile(lastPost).subscribe(response => {
             if(!response.length){
                 this.notEmptyPost = false;
