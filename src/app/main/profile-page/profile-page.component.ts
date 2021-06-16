@@ -6,6 +6,7 @@ import { Follow } from "../models/follow.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { FollowService } from "../services/follow.service";
+import { PostsService } from "../services/posts.service";
 import { ProfilesService } from "../services/profiles.service";
 
 @Component({
@@ -19,6 +20,7 @@ export class ProfilePageComponent implements OnInit {
     idProfilo: string = "";
     profilo: Profile;
     posts: Post[] = [];
+    numberOfPosts: number;
     loadingProfile: boolean = true;
     loadingPosts: boolean = true;
 
@@ -28,7 +30,11 @@ export class ProfilePageComponent implements OnInit {
     followers: number; 
     follows: number; 
 
+    notEmptyPost: boolean = true;
+    notScrolly: boolean = true;
+
     constructor(
+                private postService: PostsService,
                 private followService: FollowService,
                 private profilesService: ProfilesService,
                 private router: Router,
@@ -69,7 +75,7 @@ export class ProfilePageComponent implements OnInit {
             response => {
                 console.log(response);
                 this.profilo = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
-
+                this.numberOfPosts = response.postsCounter;
                 this.profilesService.adjustProfilePageData(this.profilo);
                 this.followers = response.followersCounter;
                 this.follows = response.followingCounter;
@@ -88,10 +94,10 @@ export class ProfilePageComponent implements OnInit {
                     const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.localDate, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
                 }
-                
+                /*
                 this.posts.sort( (a,b) =>{
                     return moment(b.date).diff(moment(a.date) );
-                } );
+                } );*/
                 this.loadingPosts = false;
             }
         )
@@ -141,6 +147,32 @@ export class ProfilePageComponent implements OnInit {
 
     viewFollowingList(){
         this.router.navigate(['/profiles/list/follows', this.idProfilo]);
+    }
+
+    onScroll(){
+        if(this.notScrolly && this.notEmptyPost){
+            this.notScrolly = false;
+            const lastPost: number = this.posts.length;
+            this.loadNextPosts(lastPost);
+        }
+    }
+
+    loadNextPosts(lastPost: number){
+        
+        this.postService.getNextPostsForProfile(lastPost).subscribe(response => {
+            if(!response.length){
+                this.notEmptyPost = false;
+            }
+
+            for(let i = 0; i < response.length; i++){
+                if(response[i]){
+                    let newPost: Post = new Post(response[i].idPost, response[i].urlImg, response[i].description, response[i].localDate, response[i].idProfile);
+                    this.posts.push(newPost);
+                }
+            }
+
+            this.notScrolly = true;
+        });
     }
 
 }

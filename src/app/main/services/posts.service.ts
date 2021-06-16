@@ -28,6 +28,10 @@ export class PostsService {
         return this.http.get<any>(this.urlBase + "posts/" + idPost);
     }
 
+    getNextPostsForProfile(startingPost: number){
+        return this.http.get<any>(this.urlBase + "posts/next/" + startingPost);
+    }
+
     removePost(idPost: string){
         return this.http.delete(this.urlBase + "posts/" + idPost, 
             { observe: 'response' });

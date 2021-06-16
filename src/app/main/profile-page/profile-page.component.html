@@ -28,7 +28,7 @@
 			<div class="profile-stats">
 
 				<ul>
-					<li><span class="profile-stat-count">{{posts.length}}</span> post</li>
+					<li><span class="profile-stat-count">{{numberOfPosts}}</span> post</li>
 					<li (click)="viewFollowersList()"><span class="profile-stat-count">{{followers}}</span> followers</li>
 					<li (click)="viewFollowingList()"><span class="profile-stat-count">{{follows}}</span> following</li>
 				</ul>
@@ -59,22 +59,31 @@
 	<div class="container">
 
 		<div class="gallery" >
-
-			<div class="wrapper" *ngFor="let post of posts">
-				<div class="gallery-item" tabindex="0" (click)="openPost(post.idPost)">
-					<img [src]="transformPic(post)" class="gallery-image" alt="">
-	
-					<div class="gallery-item-info">
-	
-
-	
+			<div
+			infiniteScroll
+			[infiniteScrollDistance]="2"
+			[infiniteScrollThrottle]="50"
+			(scrolled)="onScroll()"
+			>
+				<div class="wrapper" *ngFor="let post of posts">
+					<div class="gallery-item" tabindex="0" (click)="openPost(post.idPost)">
+						<img [src]="transformPic(post)" class="gallery-image" alt="">
+		
+						<div class="gallery-item-info">
+		
+		
+						</div>
+		
 					</div>
-	
 				</div>
+
 			</div>
+
 		</div>
 		<!-- End of gallery -->
-
+		<div class="row" *ngIf="notScrolly && notEmptyPost">
+			Loading...
+		</div>
 
 	</div>
 	<!-- End of container -->
