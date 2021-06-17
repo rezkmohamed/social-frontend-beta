@@ -1,6 +1,12 @@
 <div class="chat-container">
-    <app-sidebar></app-sidebar>
+    <app-sidebar (conversationClicked)="onConversationSelected($event)"></app-sidebar>
     <div class="chat">
         
+        <div class="chat-placeholder" *ngIf="!conversation">
+            <h2>Nessuna conversazione selezionata</h2>
+            <p>Politogram ti permette di messaggiare con altre persone. Ricordati di <br> mantenere un comportamento corretto e rispettoso.</p>
+        </div>
+
+        <app-chat-content *ngIf="conversation"></app-chat-content>
     </div>
 </div>

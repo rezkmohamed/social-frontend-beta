@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { AddPostComponent } from "./add-post/add-post.component";
+import { ChatContent } from "./chat/chat-content/chat-content.component";
 import { ChatComponent } from "./chat/chat.component";
 import { SidebarComponent } from "./chat/sidebar/sidebar.component";
 import { HeaderComponent } from "./header/header.component";
@@ -36,7 +37,8 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         DetailFullCompont,
         EditPostCardComponent,
         ChatComponent,
-        SidebarComponent
+        SidebarComponent,
+        ChatContent
     ],
     imports: [
         RouterModule,

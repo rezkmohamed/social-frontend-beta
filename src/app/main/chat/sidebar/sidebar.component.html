@@ -19,7 +19,11 @@
         </div>-->
 
 
-        <div class="conversation" *ngFor="let conversation of conversations">
+        <div 
+            class="conversation" 
+            *ngFor="let conversation of conversations"
+            (click)="conversationClicked.emit(conversation)"
+        >
 
             <div class="picture">
                 <img src="../../../../assets/images/no-propic.png" />
