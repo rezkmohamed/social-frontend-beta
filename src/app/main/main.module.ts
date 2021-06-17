@@ -6,6 +6,7 @@ import { RouterModule } from "@angular/router";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { AddPostComponent } from "./add-post/add-post.component";
 import { ChatComponent } from "./chat/chat.component";
+import { SidebarComponent } from "./chat/sidebar/sidebar.component";
 import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
@@ -34,6 +35,8 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         UpdateProfileComponent,
         DetailFullCompont,
         EditPostCardComponent,
+        ChatComponent,
+        SidebarComponent
     ],
     imports: [
         RouterModule,

@@ -1,0 +1,143 @@
+.sidebar{
+    width: 100%;
+    height: 100%;
+    flex-basis: 30%;
+    border-right: 1px solid #e1e4e5;
+    display: flex;
+    flex-direction: column; // -> sidebar-header, nel flex-basis, tocco l'altezza.
+
+    .row1{
+        display: flex;
+        flex-direction: column;
+
+        .sidebar-header{
+            flex-basis: 67px; // -> in altezza perchè il parent ha flex-direction: column
+            background-color: #eeeeee;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+    
+    
+    
+            .avatar-container{
+                flex-basis: 43px; //LARGHEZZA: CON FLEX-BASIS GRAZIE AL PARENT
+                height: 43px;
+    
+                img{
+                    height: 100%;
+                }
+            }
+    
+            .actions-container{
+                flex-grow: 1;
+                height: 100%;
+            }
+        }
+    
+        .search-box{
+            flex-basis: 50px; // -> in altezza perchè il parent ha flex-direction: column
+            background-color: #fbfbfb; 
+            border-bottom: 1px solid #e1e4e5; //bordo inferiore per distacco con chat
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            img{
+                position: absolute;
+                left: 23px;
+            }
+    
+            input{
+                border: 1px solid #f7f7f7;
+                border-radius: 7px;
+                height: 70%;
+                outline: none;
+                color: #9a9a9a;
+                width: calc(90% - 60px);
+                padding-left: 60px;
+    
+                &::placeholder{
+                    color:#9a9a9a;
+                    font-weight: 100;
+                }
+    
+            }
+    
+    
+        }
+    }
+
+    .no-conversations{
+        padding-top: 30px;
+        text-align: center;
+        color: #b9b9b9;
+        font-size: 18px;
+        font-family: sans-serif;
+        font-weight: 100;
+    }
+    
+    .sidebar-content{
+        flex-grow: 1;
+        overflow: auto;
+
+        .conversation{
+            width: 100%;
+            height: 67px;
+            display: flex;
+            padding-right: 5px;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+
+            &:hover{
+                background-color: rgb(227, 235, 248);
+                cursor: pointer;
+            }
+
+            .picture{
+                flex-basis: 73px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img{
+                    max-width: 100%;
+                    width: 48px;
+                }
+            }
+
+            .content{
+                border-bottom: 1px solid #f2f2f2;
+                flex-grow: 1;
+                padding: 10px 2px;
+                padding-right: 10px;
+                .conversation-header{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .name{
+                        color: #040404;
+                    }
+                    .time{
+                        color: #979797;
+                        font-size: 13px;
+                    }
+                }
+
+                .message{
+                    color: #717171;
+                    font-size: 14px;
+                    padding-top: 5px;
+                    
+                }
+            }
+
+        }
+    }
+
+
+
+}
