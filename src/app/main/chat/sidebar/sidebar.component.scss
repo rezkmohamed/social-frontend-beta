@@ -19,8 +19,6 @@
             padding-left: 20px;
             padding-right: 20px;
     
-    
-    
             .avatar-container{
                 flex-basis: 43px; //LARGHEZZA: CON FLEX-BASIS GRAZIE AL PARENT
                 height: 43px;
@@ -28,6 +26,12 @@
                 img{
                     height: 100%;
                 }
+            }
+
+            .avatar-info{
+                flex-grow: 1;
+                color: #333;
+                padding-left: 10px;
             }
     
             .actions-container{
