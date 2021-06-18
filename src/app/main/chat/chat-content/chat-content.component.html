@@ -1,10 +1,38 @@
 <div class="container-chat-area">
-    <div class="header-chat"></div>
-    <div class="body-chat"></div>
+    <div class="header-chat">
+        <div class="avatar-section">
+            <div class="avatar-picture">
+                <img src="../../../../assets/images/no-propic.png">
+            </div>
+            <div class="avatar-name">
+                Avatar Name
+            </div>
+        </div>
+    </div>
+    <div class="body-chat">
+
+
+        <div 
+            class="message"
+            [ngClass]="{me: message.me}"
+            *ngFor="let message of conversation.messages">
+
+            <div class="message-content">
+                {{message.body}}
+                <div class="time">
+                    {{message.time}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
     <div id="footer-chat-area">
         <div id="input-area">
-            <textarea></textarea>
+            <textarea (keyup.enter)="onSubmitMessage($event)">
+
+            </textarea>
         </div>
         <div class="send-icon">
             <img src="../../../../assets/images/chatIcon.svg">

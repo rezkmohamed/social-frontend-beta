@@ -6,13 +6,72 @@
     background-color: #e7dfdc;
 
     .header-chat{
-        flex-basis: 67px;
+        min-height: 67px;
         background-color: #eeeeee;
         box-shadow: 0.5px 0.5px 0.5px #CCC;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .avatar-section{
+            display: flex;
+            align-items: center;
+
+            .avatar-picture{
+                min-width: 40px;
+                max-width: 40px;
+                margin: 0 10px;
+
+                img{
+                    max-width: 100%;
+                }
+            }
+
+            .avatar-name{
+                flex-grow: 1;
+                color: #333;
+            }
+        }
     }
 
     .body-chat{
         flex-grow: 1;
+        display: flex;
+        flex-direction: column-reverse;//mi serve per mettere i messaggi in basso
+        padding: 20px 50px;
+        overflow: auto; // per permettere lo scroll
+
+        .message{
+            margin-top: 10px;
+            color: #767676;
+            display: flex;
+            flex-direction: column; //mi permette di far andare a dx e sx i messaggi
+            align-items: flex-start;//i messaggi dell'altro utente a sx
+
+            .message-content{
+                background-color: #FFF;
+                border-radius: 5px;
+                padding: 10px; //padding interno al messaggio.
+                word-break: break-all;//per fare andare a capo il testo 
+                max-width: 250px;
+
+                .time{
+                    text-align: right; //orario allineato a dx
+                    color: #CCC;
+                    font-size: 13px;
+                    margin-top: 5px;
+                }
+            }
+
+            &.me{
+                align-items: flex-end;
+                .message-content{
+                    background-color: #dcf7c5;
+                }
+            }
+
+        }
+
     }
 
     #footer-chat-area{
@@ -25,6 +84,7 @@
             padding-left: 50px;
             display: flex;
             align-items: center;            
+            font-family: sans-serif;         
 
             textarea{
                 width: 100%;

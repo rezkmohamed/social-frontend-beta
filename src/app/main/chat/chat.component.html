@@ -7,6 +7,8 @@
             <p>Politogram ti permette di messaggiare con altre persone. Ricordati di <br> mantenere un comportamento corretto e rispettoso.</p>
         </div>
 
-        <app-chat-content *ngIf="conversation"></app-chat-content>
+        <app-chat-content 
+        [conversation]="conversation"
+        *ngIf="conversation"></app-chat-content>
     </div>
 </div>
