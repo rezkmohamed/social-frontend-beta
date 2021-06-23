@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import * as moment from "moment";
+import { MessageModel } from "../../models/message.model";
+import { MessagesService } from "../../services/messages.service";
 
 
 @Component({
@@ -6,12 +9,13 @@ import { Component, Input, OnInit } from "@angular/core";
     templateUrl: './chat-content.component.html',
     styleUrls: ['./chat-content.component.scss']
 })
-export class ChatContent implements OnInit{
+export class ChatContent implements OnInit, OnDestroy{
     @Input() conversation; 
 
-    constructor(){}
+    constructor(public messagesService: MessagesService){}
 
     ngOnInit(): void {
+        this.messagesService.openWebSocket();
     }
 
     onSubmitMessage(event){
@@ -21,6 +25,9 @@ export class ChatContent implements OnInit{
             return;
         }
         //aggiungo il msg
+        let date = moment().format();
+        let msg = new MessageModel(null, null, 'gfg', date, true);
+        this.messagesService.sendMessage(msg);
         this.conversation.latestMassege = value;
         this.conversation.messages.unshift({
             id: 1,
@@ -31,4 +38,8 @@ export class ChatContent implements OnInit{
 
     }
     
+
+    ngOnDestroy(): void {
+        this.messagesService.closeWebSocket();
+    }
 }

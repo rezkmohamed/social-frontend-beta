@@ -4,6 +4,8 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Profile } from "../models/profile.model";
 import { ProfilesService } from "../services/profiles.service";
 
+const MAX_PROFILES_FOR_CALL = 10;
+
 @Component({
     selector: 'app-search-profiles',
     templateUrl: './search-profiles.component.html',
@@ -14,7 +16,7 @@ export class SearchProfilesComponent implements OnInit {
     inizioNomeDaCercare = 17;
     profiles: Profile[] = [];
     profilesLoaded: boolean = false;
-
+    
 
     notEmptyPost: boolean = true;
     notScrolly: boolean = true;
@@ -28,6 +30,9 @@ export class SearchProfilesComponent implements OnInit {
 
         this.activatedRoute.params.subscribe(
             (params: Params) => {
+                this.profiles = [];
+                this.notScrolly = true;
+                this.notEmptyPost = true;
                 this.loadNextProfiles(0);
             }
         )
@@ -46,13 +51,12 @@ export class SearchProfilesComponent implements OnInit {
     }
     
     loadNextProfiles(lastProfile: number){
-        this.daCercare = this.route.url.substring(this.inizioNomeDaCercare,
-            this.route.url.length);
-            console.log(this.daCercare);
-            
-//            this.profilesLoaded = false;
+        this.daCercare = this.route.url.substring(this.inizioNomeDaCercare, this.route.url.length);
     
             this.profilesService.searchProfiles(this.daCercare, lastProfile).subscribe(response => {
+                if(response.length <= 0){
+                    this.notScrolly = false;
+                } 
                 console.log(response);
                 for(let i = 0; i < response.length; i++){
                     let profile: Profile = new Profile(response[i].id,
@@ -63,6 +67,9 @@ export class SearchProfilesComponent implements OnInit {
                     this.profiles.push(profile);
                 }
                 this.profilesLoaded = true;
+                if(response.length < MAX_PROFILES_FOR_CALL){
+                    this.notScrolly = false;
+                }
             })
     }
     /*
