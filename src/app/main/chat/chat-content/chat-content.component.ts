@@ -15,7 +15,8 @@ export class ChatContent implements OnInit, OnDestroy{
     constructor(public messagesService: MessagesService){}
 
     ngOnInit(): void {
-        this.messagesService.openWebSocket();
+        //this.messagesService.openWebSocket();
+        this.messagesService.openConnetion();
     }
 
     onSubmitMessage(event){
@@ -27,7 +28,7 @@ export class ChatContent implements OnInit, OnDestroy{
         //aggiungo il msg
         let date = moment().format();
         let msg = new MessageModel(null, null, 'gfg', date, true);
-        this.messagesService.sendMessage(msg);
+        //this.messagesService.sendMessage(msg);
         this.conversation.latestMassege = value;
         this.conversation.messages.unshift({
             id: 1,
@@ -40,6 +41,6 @@ export class ChatContent implements OnInit, OnDestroy{
     
 
     ngOnDestroy(): void {
-        this.messagesService.closeWebSocket();
+        //this.messagesService.closeWebSocket();
     }
 }

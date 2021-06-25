@@ -172,8 +172,11 @@ export class ProfilePageComponent implements OnInit {
                     this.posts.push(newPost);
                 }
             }
-
-            this.notScrolly = true;
+            if(this.posts.length === this.numberOfPosts){
+                this.notScrolly = false;
+            } else {
+                this.notScrolly = true;
+            }
         });
     }
 
