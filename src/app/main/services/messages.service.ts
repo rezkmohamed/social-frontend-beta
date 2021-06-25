@@ -1,23 +1,22 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MessageModel } from "../models/message.model";
-import * as Stomp from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MessagesService {
     private urlBase: string = "http://localhost:8080/";
+    private token: string;
     webSocket: WebSocket;
-    private stompClient = null;
     constructor(){}
 
-/*    public openWebSocket(){
-        this.webSocket = new WebSocket('ws://localhost:8080/chat');
+    public openWebSocket(){
+        this.webSocket = new WebSocket('ws://localhost:8080/strange');
 
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);
+            this.webSocket.send(JSON.stringify(this.token));
         };
 
         this.webSocket.onmessage = (event) => {
@@ -30,19 +29,15 @@ export class MessagesService {
         }
     }
 
+    public sendToken(token: string){
+        this.webSocket.send(JSON.stringify(token));
+    }
+
     public sendMessage(chatMessageDTO: MessageModel){
         this.webSocket.send(JSON.stringify(chatMessageDTO));
     }
 
     public closeWebSocket(){
         this.webSocket.close();
-    }*/
-
-    public openConnetion(){
-        const socket = new SockJS(this.urlBase + 'chat');
-        //this.stompClient = Stomp.over(socket);
     }
-
-
-
 }

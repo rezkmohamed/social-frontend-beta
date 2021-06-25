@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { MessagesService } from "../services/messages.service";
 
 @Component({
     selector: 'app-chat',
@@ -8,7 +9,10 @@ import { Component, OnInit } from "@angular/core";
 export class ChatComponent implements OnInit{
     conversation;
 
+    constructor(){}
+
     ngOnInit(): void {
+        //this.messagesService.openWebSocket();
     }
 
     onConversationSelected(conversation){
