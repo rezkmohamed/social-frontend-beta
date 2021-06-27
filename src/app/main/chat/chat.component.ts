@@ -12,7 +12,6 @@ export class ChatComponent implements OnInit{
     constructor(){}
 
     ngOnInit(): void {
-        //this.messagesService.openWebSocket();
     }
 
     onConversationSelected(conversation){

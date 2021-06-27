@@ -1,10 +1,18 @@
-<div class="container alert-container" *ngIf="emailExists">
+<div class="container alert-container" *ngIf="emailExists && signupRequest">
     <div class="row">
         <div class="alert alert-danger" role="alert">
             Email associata ad un profilo già esistente. Provare con un'altra
         </div>
     </div>
 </div>
+<div class="container alert-container" *ngIf="!emailExists && signupRequest">
+    <div class="row">
+        <div class="alert alert-success" role="alert">
+            Profilo registrato con successo. Procedere con login.
+        </div>
+    </div>
+</div>
+
 <div class="container registrazione">
     <div class="row">
         <div class="col-3">
