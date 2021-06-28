@@ -187,6 +187,7 @@ export class ProfilePageComponent implements OnInit {
         console.log(this.idProfilo);
         this.messageService.createConversation(this.idProfilo).subscribe(response => {
             console.log(response);
+            this.router.navigate(["/chat"]);
         });
     }
 }
