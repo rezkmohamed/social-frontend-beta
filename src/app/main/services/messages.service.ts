@@ -52,4 +52,6 @@ export class MessagesService {
     public createConversation(idSecondProfile: string){
         return this.http.post<any>(this.urlBase + "conversations/new/" + idSecondProfile, null);
     }
+
+
 }

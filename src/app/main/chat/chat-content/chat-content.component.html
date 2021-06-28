@@ -2,10 +2,10 @@
     <div class="header-chat">
         <div class="avatar-section">
             <div class="avatar-picture">
-                <img src="../../../../assets/images/no-propic.png">
+                <img [src]="transform(conversation.secondProfile.proPic)">
             </div>
             <div class="avatar-name">
-                Avatar Name
+                {{conversation.secondProfile.nickname}}
             </div>
         </div>
     </div>
@@ -14,13 +14,13 @@
 
         <div 
             class="message"
-            [ngClass]="{me: message.me}"
-            *ngFor="let message of conversation.messages">
+            *ngFor="let message of conversation.messages"
+            [ngClass]="{me: message.idProfileSender === user.id}">
 
             <div class="message-content">
-                {{message.body}}
+                {{message.message}}
                 <div class="time">
-                    {{message.time}}
+                    {{message.date | date: 'short'}}
                 </div>
             </div>
 
@@ -31,7 +31,6 @@
     <div id="footer-chat-area">
         <div id="input-area">
             <textarea (keyup.enter)="onSubmitMessage($event)">
-
             </textarea>
         </div>
         <div class="send-icon">

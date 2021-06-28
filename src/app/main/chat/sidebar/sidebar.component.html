@@ -37,12 +37,11 @@
                     <div class="name">
                         {{conversation.firstProfile.nickname === user.nickname ? conversation.secondProfile.nickname : conversation.firstProfile.nickname}}
                     </div>
-
                     <!--<div class="time">{{conversation.time}}</div>-->
                 </div>
 
                 <div class="message">
-                    {{conversation.latestMassege | slice: 0:20}}
+                    {{conversation.latestMessege | slice: 0:11}}
                 </div>
             </div>
 
