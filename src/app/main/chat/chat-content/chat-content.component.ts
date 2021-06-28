@@ -28,7 +28,7 @@ export class ChatContent implements OnInit, OnDestroy{
     }
     
     ngOnInit(): void {
-        this.messagesService.openWebSocket();
+        this.messagesService.openWebSocket(this.conversation);
         console.log(this.conversation);
         this.user = this.profilesService.getProfileLogged();
         if(this.user.id === this.conversation.firstProfile.id){

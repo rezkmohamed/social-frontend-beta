@@ -8,12 +8,15 @@ import { MessageModel } from "../models/message.model";
 export class MessagesService {
     private urlBase: string = "http://localhost:8080/";
     token: string = JSON.parse(localStorage.getItem('userData'))._token.toString();
+    conversation;
 
     webSocket: WebSocket;
     constructor(private http: HttpClient){}
 
-    public openWebSocket(){
+    public openWebSocket(conversation){
         this.webSocket = new WebSocket('ws://localhost:8080/strange');
+        this.conversation = conversation;
+        console.log(this.conversation)
 
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);
@@ -21,14 +24,14 @@ export class MessagesService {
         };
 
         this.webSocket.onmessage = (event) => {
-            const chatMessageDTO = JSON.parse(event.data);
-            console.log(chatMessageDTO);
+            let chatMessageDTO = JSON.parse(event.data);
+            console.log("ON MESSAGE::: ");
+            this.conversation.messages.unshift(chatMessageDTO);
             return false;
         }
 
         this.webSocket.onclose = (event) => {
             console.log('Close: ' + event);
-            //setTimeout(this.openWebSocket, 1000);
         }
     }
 
