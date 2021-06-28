@@ -21,7 +21,7 @@
 					<span *ngIf="following">Followed</span>
 					<span *ngIf="!following">Follow</span>
 				</button>
-				<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+				<button class="btn profile-edit-btn" *ngIf="!myProfile" (click)="onStartChat()" >Messaggio</button>
 
 			</div>
 

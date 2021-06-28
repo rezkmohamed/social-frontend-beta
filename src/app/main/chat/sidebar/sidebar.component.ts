@@ -1,4 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
+import { Profile } from "../../models/profile.model";
+import { MessagesService } from "../../services/messages.service";
+import { ProfilesService } from "../../services/profiles.service";
 
 @Component({
     selector: 'app-sidebar',
@@ -8,6 +12,8 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 export class SidebarComponent implements OnInit {
     @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
 
+    user;
+    conversationsLoaded: boolean = false;
     conversations = [
         {name: "David", time: "8:21 AM", latestMassege: 'ciao capo padrone', id: 0 ,messages: [
             {id: 1, body: 'Hello world', time: '8:21', me: true},
@@ -107,9 +113,24 @@ export class SidebarComponent implements OnInit {
         ] }
     ];
 
-    constructor() { }
+    constructor(private messageService: MessagesService,
+                private profileService: ProfilesService,
+                private sanitizer: DomSanitizer) { }
 
     ngOnInit(): void {
+        this.user = this.profileService.getProfileLogged();
+
+        this.messageService.getConversations().subscribe(response => {
+            console.log(response);
+            this.conversations = response;
+            this.conversationsLoaded = true;
+        });
     }
 
+    transform(img: string){
+        if(img == null){
+            return this.profileService.defaultProPic;
+        }
+        return this.sanitizer.bypassSecurityTrustResourceUrl(img);
+    }
 }

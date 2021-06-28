@@ -9,9 +9,10 @@ import { MessagesService } from "../services/messages.service";
 export class ChatComponent implements OnInit{
     conversation;
 
-    constructor(){}
+    constructor(private messageService: MessagesService){}
 
     ngOnInit(): void {
+        
     }
 
     onConversationSelected(conversation){

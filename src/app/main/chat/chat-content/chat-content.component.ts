@@ -16,7 +16,6 @@ export class ChatContent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.messagesService.openWebSocket();
-        //this.messagesService.sendToken('tokenFake');
     }
 
     onSubmitMessage(event){
@@ -27,7 +26,7 @@ export class ChatContent implements OnInit, OnDestroy{
         }
         //aggiungo il msg
         let date = moment().format();
-        let msg = new MessageModel(null, null, 'gfg', date, true);
+        let msg = new MessageModel(null, null, '2daf148a-edbe-4905-b41a-0bf53b02e648', value,date, true);
         this.messagesService.sendMessage(msg);
         this.conversation.latestMassege = value;
         this.conversation.messages.unshift({

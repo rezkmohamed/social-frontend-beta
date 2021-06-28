@@ -6,6 +6,7 @@ import { Follow } from "../models/follow.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { FollowService } from "../services/follow.service";
+import { MessagesService } from "../services/messages.service";
 import { PostsService } from "../services/posts.service";
 import { ProfilesService } from "../services/profiles.service";
 
@@ -41,6 +42,7 @@ export class ProfilePageComponent implements OnInit {
                 private postService: PostsService,
                 private followService: FollowService,
                 private profilesService: ProfilesService,
+                private messageService: MessagesService,
                 private router: Router,
                 private route: ActivatedRoute,
                 private sanitizer: DomSanitizer){}
@@ -180,4 +182,11 @@ export class ProfilePageComponent implements OnInit {
         });
     }
 
+
+    onStartChat(){
+        console.log(this.idProfilo);
+        this.messageService.createConversation(this.idProfilo).subscribe(response => {
+            console.log(response);
+        });
+    }
 }
