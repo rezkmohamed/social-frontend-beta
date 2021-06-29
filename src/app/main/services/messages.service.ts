@@ -61,4 +61,8 @@ export class MessagesService {
     public getMessagesForConversation(idConversation: string){
         return this.http.get<any[]>(this.urlBase + "conversations/messages/" + idConversation);
     }
+
+    public setMessagesAsSeen(idConversation: string){
+        return this.http.put(this.urlBase + "conversations/setseen/" + idConversation, null);
+    }
 }

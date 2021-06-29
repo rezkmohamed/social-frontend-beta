@@ -30,19 +30,6 @@ export class ChatContent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.messagesService.openWebSocket();
         this.user = this.profilesService.getProfileLogged();
-        /*this.messagesService.getMessagesForConversation(this.conversation.idConversation).subscribe(response =>{
-            console.log(response);
-            this.conversation.messages = response;
-        })*/
-
-
-        /*if(this.user.id === this.conversation.firstProfile.id){
-            this.user = this.conversation.firstProfile;
-        } else if(this.user.id === this.conversation.secondProfile.id){
-            this.user = this.conversation.secondProfile;
-            this.conversation.secondProfile = this.conversation.firstProfile;
-            this.conversation.firstProfile = this.user;
-        }*/
     }
 
     onSubmitMessage(event){
@@ -53,12 +40,24 @@ export class ChatContent implements OnInit, OnDestroy{
         }
         //aggiungo il msg
         let date = moment().format();
-        let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
-        let msgToSend = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
+        let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, false);
+        let msgToSend = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, false);
+
+        this.setNewMessagesAsSeen();
         this.conversation.messages.unshift(msg);
         this.conversation.latestMessage = value;
         console.log(this.conversation);
         this.messagesService.sendMessage(msgToSend);
+    }
+
+    setNewMessagesAsSeen(){
+        for(let message of this.conversation.messages){
+            message.isSeen = true;
+        }
+        this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
+            console.log(response);
+        })
+        console.log("messages seen");
     }
 
     ngOnDestroy(): void {

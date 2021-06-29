@@ -23,7 +23,8 @@ export class ChatComponent implements OnInit{
         this.messageService.getMessagesForConversation(conversation.idConversation).subscribe(response =>{
             console.log(response);
             this.conversation.messages = response;
-        })
+        });
+
         if(this.user.id === this.conversation.firstProfile.id){
             this.user = this.conversation.firstProfile;
         } else if(this.user.id === this.conversation.secondProfile.id){
