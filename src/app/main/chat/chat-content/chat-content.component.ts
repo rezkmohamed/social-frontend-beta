@@ -56,7 +56,7 @@ export class ChatContent implements OnInit, OnDestroy{
         let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
         let msgToSend = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
         this.conversation.messages.unshift(msg);
-        this.conversation.latestMessege = value;
+        this.conversation.latestMessage = value;
         console.log(this.conversation);
         this.messagesService.sendMessage(msgToSend);
     }
