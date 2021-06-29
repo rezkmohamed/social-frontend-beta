@@ -96,12 +96,15 @@ export class ProfilePageComponent implements OnInit {
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
                 this.loadingProfile = false;
                 this.posts = [];
-                if(response.posts.length <= 0){
+                /*if(response.posts.length <= 0){
                     this.notScrolly = false;
-                }
+                }*/
                 for(let post of response.posts){
                     const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.localDate, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
+                }
+                if(this.numberOfPosts === this.posts.length){
+                    this.notScrolly = false;
                 }
                 this.loadingPosts = false;
             }

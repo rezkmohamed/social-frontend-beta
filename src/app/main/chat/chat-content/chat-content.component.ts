@@ -40,8 +40,8 @@ export class ChatContent implements OnInit, OnDestroy{
         }
         //aggiungo il msg
         let date = moment().format();
-        let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, false);
-        let msgToSend = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, false);
+        let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
+        let msgToSend = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
 
         this.setNewMessagesAsSeen();
         this.conversation.messages.unshift(msg);
@@ -51,13 +51,19 @@ export class ChatContent implements OnInit, OnDestroy{
     }
 
     setNewMessagesAsSeen(){
+        let newMessages: boolean = false;
         for(let message of this.conversation.messages){
-            message.isSeen = true;
+            if(message.isSeen === false){
+                message.isSeen = true;
+                newMessages = true;
+            }
         }
-        this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
-            console.log(response);
-        })
-        console.log("messages seen");
+        if(newMessages){
+            this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
+                console.log(response);
+            })
+            console.log("messages seen");
+        }
     }
 
     ngOnDestroy(): void {

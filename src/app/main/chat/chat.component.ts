@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import * as moment from "moment";
 import { MessagesService } from "../services/messages.service";
 import { ProfilesService } from "../services/profiles.service";
 
@@ -22,6 +23,9 @@ export class ChatComponent implements OnInit{
         this.conversation = conversation;
         this.messageService.getMessagesForConversation(conversation.idConversation).subscribe(response =>{
             console.log(response);
+            response.sort( (a,b) => {
+                return moment(b.date).diff(moment(a.date));
+            });
             this.conversation.messages = response;
         });
 
