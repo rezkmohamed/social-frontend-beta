@@ -12,7 +12,7 @@ import { ProfilesService } from "../../services/profiles.service";
     styleUrls: ['./chat-content.component.scss']
 })
 export class ChatContent implements OnInit, OnDestroy{
-    @Input() conversation; 
+    @Input() conversation;
     user;
 
     constructor(public messagesService: MessagesService,
@@ -28,17 +28,21 @@ export class ChatContent implements OnInit, OnDestroy{
     }
     
     ngOnInit(): void {
-        this.messagesService.openWebSocket(this.conversation);
-        console.log(this.conversation);
+        this.messagesService.openWebSocket();
         this.user = this.profilesService.getProfileLogged();
-        if(this.user.id === this.conversation.firstProfile.id){
+        /*this.messagesService.getMessagesForConversation(this.conversation.idConversation).subscribe(response =>{
+            console.log(response);
+            this.conversation.messages = response;
+        })*/
+
+
+        /*if(this.user.id === this.conversation.firstProfile.id){
             this.user = this.conversation.firstProfile;
         } else if(this.user.id === this.conversation.secondProfile.id){
             this.user = this.conversation.secondProfile;
             this.conversation.secondProfile = this.conversation.firstProfile;
             this.conversation.firstProfile = this.user;
-        }
-        console.log(this.conversation);
+        }*/
     }
 
     onSubmitMessage(event){

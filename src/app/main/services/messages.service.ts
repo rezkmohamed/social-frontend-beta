@@ -13,10 +13,9 @@ export class MessagesService {
     webSocket: WebSocket;
     constructor(private http: HttpClient){}
 
-    public openWebSocket(conversation){
+    public openWebSocket(){
         this.webSocket = new WebSocket('ws://localhost:8080/strange');
-        this.conversation = conversation;
-        console.log(this.conversation)
+        //this.conversation = conversation;
 
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);
@@ -26,7 +25,10 @@ export class MessagesService {
         this.webSocket.onmessage = (event) => {
             let chatMessageDTO = JSON.parse(event.data);
             console.log("ON MESSAGE::: ");
-            this.conversation.messages.unshift(chatMessageDTO);
+            console.log(chatMessageDTO);
+            if(this.conversation.idConversation === chatMessageDTO.idConversation){
+                this.conversation.messages.unshift(chatMessageDTO);
+            }
             return false;
         }
 
@@ -56,5 +58,7 @@ export class MessagesService {
         return this.http.post<any>(this.urlBase + "conversations/new/" + idSecondProfile, null);
     }
 
-
+    public getMessagesForConversation(idConversation: string){
+        return this.http.get<any[]>(this.urlBase + "conversations/messages/" + idConversation);
+    }
 }
