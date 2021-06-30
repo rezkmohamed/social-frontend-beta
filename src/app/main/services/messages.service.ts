@@ -13,7 +13,7 @@ export class MessagesService {
     webSocket: WebSocket;
     constructor(private http: HttpClient){}
 
-    public openWebSocket(){
+    openWebSocket(){
         this.webSocket = new WebSocket('ws://localhost:8080/strange');
         //this.conversation = conversation;
 
@@ -23,7 +23,7 @@ export class MessagesService {
         };
 
         this.webSocket.onmessage = (event) => {
-            let chatMessageDTO = JSON.parse(event.data);
+            let chatMessageDTO: MessageModel = JSON.parse(event.data);
             console.log("ON MESSAGE::: ");
             console.log(chatMessageDTO);
             if(this.conversation.idConversation === chatMessageDTO.idConversation){
@@ -37,32 +37,31 @@ export class MessagesService {
         }
     }
 
-    public sendToken(token: string){
+    sendToken(token: string){
         this.webSocket.send(JSON.stringify(token));
     }
 
-    public sendMessage(chatMessageDTO: MessageModel){
-        chatMessageDTO.idProfileSender = this.token;
+    sendMessage(chatMessageDTO: MessageModel){
         this.webSocket.send(JSON.stringify(chatMessageDTO));
     }
 
-    public closeWebSocket(){
+    closeWebSocket(){
         this.webSocket.close();
     }
 
-    public getConversations(){
+    getConversations(){
         return this.http.get<any[]>(this.urlBase + "conversations");
     }
 
-    public createConversation(idSecondProfile: string){
+    createConversation(idSecondProfile: string){
         return this.http.post<any>(this.urlBase + "conversations/new/" + idSecondProfile, null);
     }
 
-    public getMessagesForConversation(idConversation: string){
+    getMessagesForConversation(idConversation: string){
         return this.http.get<any[]>(this.urlBase + "conversations/messages/" + idConversation);
     }
 
-    public setMessagesAsSeen(idConversation: string){
+    setMessagesAsSeen(idConversation: string){
         return this.http.put(this.urlBase + "conversations/setseen/" + idConversation, null);
     }
 }

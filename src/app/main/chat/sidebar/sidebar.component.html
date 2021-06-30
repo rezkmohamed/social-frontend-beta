@@ -29,13 +29,13 @@
         >
 
             <div class="picture">
-                <img [src]="transform(conversation.firstProfile.id === user.id ? conversation.secondProfile.proPic : conversation.firstProfile.proPic)" />
+                <img [src]="transform(conversation.profile1.id === user.id ? conversation.profile2.proPic : conversation.profile1.proPic)" />
             </div>
 
             <div class="content">
                 <div class="conversation-header">
                     <div class="name">
-                        {{conversation.firstProfile.nickname === user.nickname ? conversation.secondProfile.nickname : conversation.firstProfile.nickname}}
+                        {{conversation.profile1.nickname === user.nickname ? conversation.profile2.nickname : conversation.profile1.nickname}}
                     </div>
                     <!--<div class="time">{{conversation.time}}</div>-->
                 </div>

@@ -19,17 +19,10 @@ export class ChatContent implements OnInit, OnDestroy{
                 public profilesService: ProfilesService,
                 private sanitizer: DomSanitizer){}
 
-
-    transform(img: string){
-        if(img == null){
-            return this.profilesService.defaultProPic;
-        }
-        return this.sanitizer.bypassSecurityTrustResourceUrl(img);
-    }
-
     ngOnInit(): void {
         this.messagesService.openWebSocket();
         this.user = this.profilesService.getProfileLogged();
+        console.log(this.user);
     }
 
     onSubmitMessage(event){
@@ -40,10 +33,11 @@ export class ChatContent implements OnInit, OnDestroy{
         }
         //aggiungo il msg
         let date = moment().valueOf();
-        let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
+        let msg = new MessageModel(null, this.user.id, this.conversation.profile2.id, this.conversation.idConversation, value, date, true);
+        console.log(msg);
 
         this.setNewMessagesAsSeen();
-        this.conversation.messages.unshift({...msg});
+        this.conversation.messages.unshift(msg);
         this.conversation.latestMessage = value;
         console.log(this.conversation);
         this.messagesService.sendMessage(msg);
@@ -65,11 +59,14 @@ export class ChatContent implements OnInit, OnDestroy{
         }
     }
 
-    public getMillies(dateInput: number) {
-        return moment(dateInput).format();
-    }
-
     ngOnDestroy(): void {
         this.messagesService.closeWebSocket();
+    }
+
+    transform(img: string){
+        if(!img){
+            return this.profilesService.defaultProPic;
+        }
+        return this.sanitizer.bypassSecurityTrustResourceUrl(img);
     }
 }

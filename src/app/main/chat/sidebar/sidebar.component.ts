@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Profile } from "../../models/profile.model";
+import { Conversation } from "../../models/conversation.model";
+import { MessageModel } from "../../models/message.model";
 import { MessagesService } from "../../services/messages.service";
 import { ProfilesService } from "../../services/profiles.service";
 
@@ -15,7 +16,7 @@ export class SidebarComponent implements OnInit {
     user;
     userProfilePic;
     conversationsLoaded: boolean = false;
-    conversations = [];
+    conversations;
 
 
     constructor(private messageService: MessagesService,
@@ -23,20 +24,39 @@ export class SidebarComponent implements OnInit {
                 private sanitizer: DomSanitizer) { }
 
     ngOnInit(): void {
+        this.conversations = [];
+        this.conversationsLoaded = false;
+        this.fillProfileData();
+        this.getConversationsSidebar();
+    }
+
+    fillProfileData(){
         this.user = this.profileService.getProfileLogged();
         this.profileService.fetchAccount(this.user.id).subscribe(response => {
             this.userProfilePic = response.proPic;
         })
+    }
 
+    getConversationsSidebar(){
         this.messageService.getConversations().subscribe(response => {
             console.log(response);
-            this.conversations = response;
+            for(let conv of response){
+                const messagesOfConversationResponse: MessageModel[] = [];
+                const conversationResponse: Conversation = new Conversation(conv.idConversation, conv.firstProfile, conv.secondProfile, conv.latestMessage, messagesOfConversationResponse);
+                for(let msg of conv.messages){
+                    const msgToAdd: MessageModel = new MessageModel(msg.idMessage, msg.idProfileSender, msg.idProfileReciver, msg.idConversation, msg.message, msg.dateMillis, msg.seen);
+                    console.log(msgToAdd);
+                    conversationResponse.messages.push(msgToAdd);
+                }
+                console.log(conversationResponse);
+                this.conversations.push(conversationResponse);
+            }
             this.conversationsLoaded = true;
         });
     }
 
-    transform(img: string){
-        if(img == null){
+    transform(img){
+        if(!img){
             return this.profileService.defaultProPic;
         }
         return this.sanitizer.bypassSecurityTrustResourceUrl(img);
