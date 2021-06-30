@@ -19,14 +19,14 @@ export class ChatContent implements OnInit, OnDestroy{
                 public profilesService: ProfilesService,
                 private sanitizer: DomSanitizer){}
 
-    
+
     transform(img: string){
         if(img == null){
             return this.profilesService.defaultProPic;
         }
         return this.sanitizer.bypassSecurityTrustResourceUrl(img);
     }
-    
+
     ngOnInit(): void {
         this.messagesService.openWebSocket();
         this.user = this.profilesService.getProfileLogged();
@@ -39,15 +39,14 @@ export class ChatContent implements OnInit, OnDestroy{
             return;
         }
         //aggiungo il msg
-        let date = moment().format();
+        let date = moment().valueOf();
         let msg = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
-        let msgToSend = new MessageModel(null, this.user.id,this.conversation.secondProfile.id, this.conversation.idConversation, value, date, true);
 
         this.setNewMessagesAsSeen();
-        this.conversation.messages.unshift(msg);
+        this.conversation.messages.unshift({...msg});
         this.conversation.latestMessage = value;
         console.log(this.conversation);
-        this.messagesService.sendMessage(msgToSend);
+        this.messagesService.sendMessage(msg);
     }
 
     setNewMessagesAsSeen(){
@@ -64,6 +63,10 @@ export class ChatContent implements OnInit, OnDestroy{
             })
             console.log("messages seen");
         }
+    }
+
+    public getMillies(dateInput: number) {
+        return moment(dateInput).format();
     }
 
     ngOnDestroy(): void {

@@ -16,7 +16,6 @@ export class ChatComponent implements OnInit{
 
     ngOnInit(): void {
         this.user = this.profilesService.getProfileLogged();
-
     }
 
     onConversationSelected(conversation){

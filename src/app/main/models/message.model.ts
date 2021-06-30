@@ -5,7 +5,7 @@ export class MessageModel {
         public idProfileReciver: string,
         public idConversation: string,
         public message: string,
-        public date: string,
+        public date: number,
         public isSeen: boolean
     ){}
 }
