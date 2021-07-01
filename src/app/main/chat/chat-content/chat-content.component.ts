@@ -14,15 +14,32 @@ import { ProfilesService } from "../../services/profiles.service";
 export class ChatContent implements OnInit, OnDestroy{
     @Input() conversation;
     user;
+    newMessages: number = 0;
+    scrolled: boolean = false;
+    firstNewMessageId: string;
 
     constructor(public messagesService: MessagesService,
                 public profilesService: ProfilesService,
                 private sanitizer: DomSanitizer){}
 
     ngOnInit(): void {
+        this.firstNewMessageId = "";
         this.messagesService.openWebSocket();
         this.user = this.profilesService.getProfileLogged();
         console.log(this.user);
+    }
+
+    ngAfterViewChecked(){
+        this.firstNewMessageId = this.checkNewMessages();
+        if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
+            return;
+        }
+        /**
+         * AGGIUNGERE L'ID DINAMICAMENTE AD OGNI MESSAGGIO
+         */
+        let variabile = document.getElementById(this.firstNewMessageId);
+        variabile.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        this.scrolled = true;
     }
 
     onSubmitMessage(event){
@@ -59,8 +76,15 @@ export class ChatContent implements OnInit, OnDestroy{
         }
     }
 
-    ngOnDestroy(): void {
-        this.messagesService.closeWebSocket();
+    checkNewMessages(){
+        let firstNewMessageId: string = "";
+        for(let message of this.conversation.messages){
+            if(message.isSeen === false){
+                this.newMessages++;
+                firstNewMessageId = message.idMessage;
+            }
+        }
+        return firstNewMessageId;
     }
 
     transform(img: string){
@@ -68,5 +92,9 @@ export class ChatContent implements OnInit, OnDestroy{
             return this.profilesService.defaultProPic;
         }
         return this.sanitizer.bypassSecurityTrustResourceUrl(img);
+    }
+
+    ngOnDestroy(): void {
+        this.messagesService.closeWebSocket();
     }
 }

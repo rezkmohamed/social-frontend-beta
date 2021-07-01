@@ -18,7 +18,6 @@ export class SidebarComponent implements OnInit {
     conversationsLoaded: boolean = false;
     conversations;
 
-
     constructor(private messageService: MessagesService,
                 private profileService: ProfilesService,
                 private sanitizer: DomSanitizer) { }

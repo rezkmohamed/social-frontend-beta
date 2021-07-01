@@ -15,6 +15,7 @@
         <div 
             class="message"
             *ngFor="let message of conversation.messages"
+            [id]="message.idMessage"
             [ngClass]="{me: message.idProfileSender === user.id,
             notSeen: message.isSeen === false && !(message.idProfileSender === user.id)}">
 
