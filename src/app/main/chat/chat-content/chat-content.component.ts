@@ -1,3 +1,4 @@
+import { variable } from "@angular/compiler/src/output/output_ast";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
@@ -38,7 +39,7 @@ export class ChatContent implements OnInit, OnDestroy{
          * AGGIUNGERE L'ID DINAMICAMENTE AD OGNI MESSAGGIO
          */
         let variabile = document.getElementById(this.firstNewMessageId);
-        variabile.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
         this.scrolled = true;
     }
 
@@ -53,11 +54,16 @@ export class ChatContent implements OnInit, OnDestroy{
         let msg = new MessageModel(null, this.user.id, this.conversation.profile2.id, this.conversation.idConversation, value, date, true);
         console.log(msg);
 
-        this.setNewMessagesAsSeen();
+        //this.setNewMessagesAsSeen();
         this.conversation.messages.unshift(msg);
         this.conversation.latestMessage = value;
         console.log(this.conversation);
         this.messagesService.sendMessage(msg);
+    }
+
+    onScroll(event){
+        //console.log(event);
+        //this.setNewMessagesAsSeen();
     }
 
     setNewMessagesAsSeen(){
@@ -79,7 +85,7 @@ export class ChatContent implements OnInit, OnDestroy{
     checkNewMessages(){
         let firstNewMessageId: string = "";
         for(let message of this.conversation.messages){
-            if(message.isSeen === false){
+            if(message.isSeen === false && message.idProfileReciver === this.user.id){
                 this.newMessages++;
                 firstNewMessageId = message.idMessage;
             }
