@@ -25,46 +25,9 @@ export class HomepageComponent implements OnInit {
     constructor(private profilesService: ProfilesService  ,private postService: PostsService){}
 
     ngOnInit(): void {
-        //this.fetchPostsInit();
         this.loadNextPosts(0);
     }
     
-    /*
-    fetchPostsInit(){
-        let startingIndex = 0;
-        this.postService.fetchHomePage(startingIndex).subscribe(response => {
-            console.log(response);
-            for(let i = 0; i < response.length; i++){
-                if(response[i]){
-                        this.posts[i] = new Post(response[i].idPost, 
-                            response[i].urlImg, response[i].description,
-                            response[i].localDate, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
-                            
-
-                        let comments: CommentPost[] = [];
-                        for(let comment of response[i].comments){
-                            console.log(comment);
-                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
-                            comments.push(commentResponse);
-                        }
-
-                        comments.sort( (a,b) => {
-                            return moment(a.date).diff(moment(b.date));
-                        })
-                        //console.log(comments);
-
-                        this.commenti.set(i, comments);
-
-                        let profile: Profile = new Profile(response[i].profile.id,
-                            response[i].profile.name, response[i].profile.nickname,
-                            response[i].profile.bio, response[i].profile.proPic,
-                            response[i].profile.email);
-                        this.profilesService.adjustProfilePageData(profile);
-                        this.profiles[i] = profile;
-                }
-            }            
-        });
-    }*/
     onScroll(){
         if(this.notScrolly && this.notEmptyPost){
             this.notScrolly = false;

@@ -1,7 +1,8 @@
 import { variable } from "@angular/compiler/src/output/output_ast";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
+import { first, ignoreElements } from "rxjs/operators";
 import { MessageModel } from "../../models/message.model";
 import { MessagesService } from "../../services/messages.service";
 import { ProfilesService } from "../../services/profiles.service";
@@ -12,7 +13,7 @@ import { ProfilesService } from "../../services/profiles.service";
     templateUrl: './chat-content.component.html',
     styleUrls: ['./chat-content.component.scss']
 })
-export class ChatContent implements OnInit, OnDestroy{
+export class ChatContent implements OnInit, OnDestroy, OnChanges{
     @Input() conversation;
     user;
     newMessages: number = 0;
@@ -23,6 +24,17 @@ export class ChatContent implements OnInit, OnDestroy{
                 public profilesService: ProfilesService,
                 private sanitizer: DomSanitizer){}
 
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log("ngOnChanges called");
+        this.firstNewMessageId = this.checkNewMessages();
+        if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
+            return;
+        }
+
+        this.ngAfterViewChecked();
+    }
+
     ngOnInit(): void {
         this.firstNewMessageId = "";
         this.messagesService.openWebSocket();
@@ -32,14 +44,16 @@ export class ChatContent implements OnInit, OnDestroy{
 
     ngAfterViewChecked(){
         this.firstNewMessageId = this.checkNewMessages();
-        if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
+        /*if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
             return;
         }
         /**
          * AGGIUNGERE L'ID DINAMICAMENTE AD OGNI MESSAGGIO
          */
         let variabile = document.getElementById(this.firstNewMessageId);
-        variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        if(variabile){
+            variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        }
         this.scrolled = true;
     }
 
@@ -61,8 +75,8 @@ export class ChatContent implements OnInit, OnDestroy{
         this.messagesService.sendMessage(msg);
     }
 
-    onScroll(event){
-        //console.log(event);
+    onScroll(){
+        console.log("scrolled!!!");
         //this.setNewMessagesAsSeen();
     }
 
@@ -90,6 +104,7 @@ export class ChatContent implements OnInit, OnDestroy{
                 firstNewMessageId = message.idMessage;
             }
         }
+        console.log("first new message id : " + firstNewMessageId);
         return firstNewMessageId;
     }
 
