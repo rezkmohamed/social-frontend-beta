@@ -1,5 +1,5 @@
 import { variable } from "@angular/compiler/src/output/output_ast";
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
 import { first, ignoreElements } from "rxjs/operators";
@@ -44,12 +44,6 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
 
     ngAfterViewChecked(){
         this.firstNewMessageId = this.checkNewMessages();
-        /*if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
-            return;
-        }
-        /**
-         * AGGIUNGERE L'ID DINAMICAMENTE AD OGNI MESSAGGIO
-         */
         let variabile = document.getElementById(this.firstNewMessageId);
         if(variabile){
             variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
@@ -68,16 +62,15 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         let msg = new MessageModel(null, this.user.id, this.conversation.profile2.id, this.conversation.idConversation, value, date, true);
         console.log(msg);
 
-        //this.setNewMessagesAsSeen();
+        this.setNewMessagesAsSeen();
         this.conversation.messages.unshift(msg);
         this.conversation.latestMessage = value;
-        console.log(this.conversation);
+        //console.log(this.conversation);
         this.messagesService.sendMessage(msg);
     }
 
     onScroll(){
         console.log("scrolled!!!");
-        //this.setNewMessagesAsSeen();
     }
 
     setNewMessagesAsSeen(){
@@ -92,19 +85,21 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
             this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
                 console.log(response);
             })
-            console.log("messages seen");
+            //console.log("messages seen");
         }
     }
 
     checkNewMessages(){
         let firstNewMessageId: string = "";
-        for(let message of this.conversation.messages){
-            if(message.isSeen === false && message.idProfileReciver === this.user.id){
-                this.newMessages++;
-                firstNewMessageId = message.idMessage;
+        if(this.user){
+            for(let message of this.conversation.messages){
+                if(message.isSeen === false && message.idProfileReciver === this.user.id){
+                    this.newMessages++;
+                    firstNewMessageId = message.idMessage;
+                }
             }
         }
-        console.log("first new message id : " + firstNewMessageId);
+        //console.log("first new message id : " + firstNewMessageId);
         return firstNewMessageId;
     }
 
