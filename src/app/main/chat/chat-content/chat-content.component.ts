@@ -1,5 +1,5 @@
 import { variable } from "@angular/compiler/src/output/output_ast";
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewChild, ViewChildren } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
 import { first, ignoreElements } from "rxjs/operators";
@@ -15,9 +15,10 @@ import { ProfilesService } from "../../services/profiles.service";
 })
 export class ChatContent implements OnInit, OnDestroy, OnChanges{
     @Input() conversation;
+    @ViewChildren('cmp') messages: QueryList<any>;
     user;
     newMessages: number = 0;
-    scrolled: boolean = false;
+    //scrolled: boolean = false;
     firstNewMessageId: string;
 
     constructor(public messagesService: MessagesService,
@@ -28,7 +29,10 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
     ngOnChanges(changes: SimpleChanges): void {
         console.log("ngOnChanges called");
         this.firstNewMessageId = this.checkNewMessages();
-        if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
+        /*if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
+            return;
+        }*/
+        if(this.newMessages <= 0 || !this.firstNewMessageId){
             return;
         }
 
@@ -37,7 +41,6 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
 
     ngOnInit(): void {
         this.firstNewMessageId = "";
-        this.messagesService.openWebSocket();
         this.user = this.profilesService.getProfileLogged();
         console.log(this.user);
     }
@@ -48,7 +51,8 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         if(variabile){
             variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
         }
-        this.scrolled = true;
+        console.log(this.messages);
+        //this.scrolled = true;
     }
 
     onSubmitMessage(event){
@@ -59,7 +63,7 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         }
         //aggiungo il msg
         let date = moment().valueOf();
-        let msg = new MessageModel(null, this.user.id, this.conversation.profile2.id, this.conversation.idConversation, value, date, true);
+        let msg = new MessageModel(null, this.user.id, this.conversation.profile2.id, this.conversation.idConversation, value, date, false);
         console.log(msg);
 
         this.setNewMessagesAsSeen();
@@ -69,14 +73,15 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         this.messagesService.sendMessage(msg);
     }
 
-    onScroll(){
-        console.log("scrolled!!!");
+    onScroll(message) {
+        console.log(message);
     }
+    
 
     setNewMessagesAsSeen(){
         let newMessages: boolean = false;
         for(let message of this.conversation.messages){
-            if(message.isSeen === false){
+            if(message.isSeen === false && message.idProfileReciver === this.user.id){
                 message.isSeen = true;
                 newMessages = true;
             }
@@ -111,6 +116,5 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
     }
 
     ngOnDestroy(): void {
-        this.messagesService.closeWebSocket();
     }
 }

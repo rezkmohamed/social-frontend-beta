@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import * as moment from "moment";
 import { Conversation } from "../models/conversation.model";
 import { MessageModel } from "../models/message.model";
@@ -10,7 +10,7 @@ import { ProfilesService } from "../services/profiles.service";
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit{
+export class ChatComponent implements OnInit, OnDestroy{
     conversation: Conversation;
     user;
 
@@ -18,10 +18,16 @@ export class ChatComponent implements OnInit{
 
     ngOnInit(): void {
         this.user = this.profilesService.getProfileLogged();
+        this.messageService.openWebSocket();
     }
 
     onConversationSelected(conversation){
+        //console.log("CONVERSAZIONE PRECEDENTE:::::::");
+        //console.log(this.conversation);
         this.conversation = conversation;
+        //console.log("NUOVA CONVERSAZIONE:::::::");
+        //console.log(this.conversation);
+
         this.messageService.getMessagesForConversation(conversation.idConversation).subscribe(response =>{
             const messagesOfConversationResponse: MessageModel[] = [];
             for(let msg of response){
@@ -29,7 +35,7 @@ export class ChatComponent implements OnInit{
                 messagesOfConversationResponse.push(msgToAdd);
             }
             this.conversation.messages = messagesOfConversationResponse;
-            console.log(this.conversation.messages);
+            //console.log(this.conversation.messages);
         });
 
         if(this.user.id === this.conversation.profile1.id){
@@ -39,9 +45,10 @@ export class ChatComponent implements OnInit{
             this.conversation.profile2 = this.conversation.profile1;
             this.conversation.profile1 = this.user;
         }
-
         this.messageService.conversation = this.conversation;
-        console.log(this.conversation);
-        console.log(this.messageService.conversation);
+    }
+
+    ngOnDestroy(): void {
+        this.messageService.closeWebSocket();
     }
 }

@@ -44,11 +44,12 @@ export class SidebarComponent implements OnInit {
                 const conversationResponse: Conversation = new Conversation(conv.idConversation, conv.firstProfile, conv.secondProfile, conv.latestMessage, messagesOfConversationResponse);
                 for(let msg of conv.messages){
                     const msgToAdd: MessageModel = new MessageModel(msg.idMessage, msg.idProfileSender, msg.idProfileReciver, msg.idConversation, msg.message, msg.dateMillis, msg.seen);
-                    console.log(msgToAdd);
+                    //console.log(msgToAdd);
                     conversationResponse.messages.push(msgToAdd);
                 }
-                console.log(conversationResponse);
+                //console.log(conversationResponse);
                 this.conversations.push(conversationResponse);
+                this.messageService.conversations.push(conversationResponse);
             }
             this.conversationsLoaded = true;
         });

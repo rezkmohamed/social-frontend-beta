@@ -7,6 +7,7 @@ export class Conversation  {
         public profile1: Profile,
         public profile2: Profile,
         public latestMessage: string,
-        public messages: MessageModel[]
+        public messages: MessageModel[],
+        public latestMessageDate?: number,
     ){}
 }
