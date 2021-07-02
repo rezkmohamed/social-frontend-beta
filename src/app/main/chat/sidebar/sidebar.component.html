@@ -25,8 +25,8 @@
         <div 
             class="conversation" 
             *ngFor="let conversation of conversations"
-            (click)="conversationClicked.emit(conversation)"
-        >
+            [ngClass]="{newmsg: newMessagesForConversation.get(conversation) > 0}"
+            (click)="conversationClicked.emit(conversation)">
 
             <div class="picture">
                 <img [src]="transform(conversation.profile1.id === user.id ? conversation.profile2.proPic : conversation.profile1.proPic)" />

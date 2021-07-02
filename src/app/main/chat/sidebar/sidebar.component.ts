@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
     userProfilePic;
     conversationsLoaded: boolean = false;
     conversations;
+    newMessagesForConversation: Map<Conversation, number> = new Map();
 
     constructor(private messageService: MessagesService,
                 private profileService: ProfilesService,
@@ -42,15 +43,21 @@ export class SidebarComponent implements OnInit {
             for(let conv of response){
                 const messagesOfConversationResponse: MessageModel[] = [];
                 const conversationResponse: Conversation = new Conversation(conv.idConversation, conv.firstProfile, conv.secondProfile, conv.latestMessage, messagesOfConversationResponse);
+                
+                this.newMessagesForConversation.set(conversationResponse, 0);
+                
                 for(let msg of conv.messages){
                     const msgToAdd: MessageModel = new MessageModel(msg.idMessage, msg.idProfileSender, msg.idProfileReciver, msg.idConversation, msg.message, msg.dateMillis, msg.seen);
-                    //console.log(msgToAdd);
+                    
+                    if(!msgToAdd.isSeen && msgToAdd.idProfileReciver === this.user.id){
+                        this.newMessagesForConversation.set(conversationResponse, this.newMessagesForConversation.get(conversationResponse) + 1);
+                    }
                     conversationResponse.messages.push(msgToAdd);
                 }
-                //console.log(conversationResponse);
                 this.conversations.push(conversationResponse);
                 this.messageService.conversations.push(conversationResponse);
             }
+            this.messageService.newMessagesForConversation = this.newMessagesForConversation;
             this.conversationsLoaded = true;
         });
     }

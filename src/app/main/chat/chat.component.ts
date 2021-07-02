@@ -22,11 +22,7 @@ export class ChatComponent implements OnInit, OnDestroy{
     }
 
     onConversationSelected(conversation){
-        //console.log("CONVERSAZIONE PRECEDENTE:::::::");
-        //console.log(this.conversation);
         this.conversation = conversation;
-        //console.log("NUOVA CONVERSAZIONE:::::::");
-        //console.log(this.conversation);
 
         this.messageService.getMessagesForConversation(conversation.idConversation).subscribe(response =>{
             const messagesOfConversationResponse: MessageModel[] = [];
@@ -35,7 +31,6 @@ export class ChatComponent implements OnInit, OnDestroy{
                 messagesOfConversationResponse.push(msgToAdd);
             }
             this.conversation.messages = messagesOfConversationResponse;
-            //console.log(this.conversation.messages);
         });
 
         if(this.user.id === this.conversation.profile1.id){

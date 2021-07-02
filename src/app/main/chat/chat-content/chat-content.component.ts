@@ -69,8 +69,8 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         this.setNewMessagesAsSeen();
         this.conversation.messages.unshift(msg);
         this.conversation.latestMessage = value;
-        //console.log(this.conversation);
         this.messagesService.sendMessage(msg);
+        this.messagesService.newMessagesForConversation.set(this.conversation, 0);
     }
 
     onScroll(message) {
@@ -90,7 +90,6 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
             this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
                 console.log(response);
             })
-            //console.log("messages seen");
         }
     }
 
@@ -104,7 +103,6 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
                 }
             }
         }
-        //console.log("first new message id : " + firstNewMessageId);
         return firstNewMessageId;
     }
 

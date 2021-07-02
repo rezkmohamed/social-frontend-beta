@@ -81,7 +81,7 @@
         font-family: sans-serif;
         font-weight: 100;
     }
-    
+
     .sidebar-content{
         flex-grow: 1;
         overflow: auto;
@@ -97,6 +97,11 @@
             &:hover{
                 background-color: rgb(227, 235, 248);
                 cursor: pointer;
+            }
+
+            &.newmsg{
+                background-color: rgb(221, 224, 230);
+                
             }
 
             .picture{

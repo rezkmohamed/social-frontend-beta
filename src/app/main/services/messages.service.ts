@@ -11,13 +11,14 @@ export class MessagesService {
     token: string = JSON.parse(localStorage.getItem('userData'))._token.toString();
     conversation;
     conversations: Conversation[];
+    newMessagesForConversation: Map<Conversation, number> = new Map();
+
 
     webSocket: WebSocket;
     constructor(private http: HttpClient){}
 
     openWebSocket(){
         this.webSocket = new WebSocket('ws://localhost:8080/strange');
-        //this.conversation = conversation;
 
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);
@@ -29,16 +30,20 @@ export class MessagesService {
             let chatMessageDTO: MessageModel = JSON.parse(event.data);
             console.log("ON MESSAGE::: ");
             console.log(chatMessageDTO);
-            if(this.conversation.idConversation === chatMessageDTO.idConversation){
-                this.conversation.messages.unshift(chatMessageDTO);
-                this.conversation.latestMessage = chatMessageDTO.message;
+            if(this.conversation){
+                if(this.conversation.idConversation === chatMessageDTO.idConversation){
+                    this.conversation.messages.unshift(chatMessageDTO);
+                    this.conversation.latestMessage = chatMessageDTO.message;
+                    this.conversation.latestMessageDate = chatMessageDTO.date;
+                    this.newMessagesForConversation.set(this.conversation, this.newMessagesForConversation.get(this.conversation) +1);
+                }
             }
             else {
                 for(let cnv of this.conversations){
                     if(cnv.idConversation === chatMessageDTO.idConversation){
-                        console.log("questa è un altra conversazione");
                         cnv.latestMessage = chatMessageDTO.message;
                         cnv.latestMessageDate = chatMessageDTO.date;
+                        this.newMessagesForConversation.set(cnv, this.newMessagesForConversation.get(cnv) +1);
                     }
                 }
             }
