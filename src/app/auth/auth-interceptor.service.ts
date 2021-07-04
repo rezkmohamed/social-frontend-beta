@@ -12,7 +12,7 @@ export class AuthInterceptorService implements HttpInterceptor {
             take(1),
             exhaustMap(user => {
                 /**
-                 * caso non loggato
+                 * contesto non loggato
                  */
                 if(!user){
                     return next.handle(req);

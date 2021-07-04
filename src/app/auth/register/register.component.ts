@@ -21,7 +21,6 @@ export class RegisterComponent implements OnInit {
 
     onSubmit(){
         if(this.registraForm.value.password !== this.registraForm.value.confermapassword){
-            console.log("password non valida");
             return;
         }
 
@@ -31,7 +30,6 @@ export class RegisterComponent implements OnInit {
         this.authService.signup(email, password, nickname).subscribe(response => {
             this.signupRequest = true;
             this.emailExists = false;
-            //this.router.navigate(['/auth/login']);
         }, error => {
             if(error.status === this.BAD_REQUEST){
                 this.signupRequest = true;

@@ -45,14 +45,7 @@ export class LoginComponent implements OnInit{
             let token: string = auth.substring(startingToken, auth.length);
             let decoded: responseAuth = jwt_decode(token);
 
-            console.log(decoded);
-            console.log(decoded.exp);
-            console.log(new Date(decoded.exp));
-
             let date: Date = add(new Date(Date.now()), {seconds: (decoded.exp * 0.001)});
-
-            console.log(date);
-
 
             let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date, decoded.exp);
             console.log(userLogged);

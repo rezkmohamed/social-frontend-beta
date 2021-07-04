@@ -43,6 +43,7 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         this.firstNewMessageId = "";
         this.user = this.profilesService.getProfileLogged();
         console.log(this.user);
+
     }
 
     ngAfterViewChecked(){
@@ -50,8 +51,12 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         let variabile = document.getElementById(this.firstNewMessageId);
         if(variabile){
             variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
+                this.messagesService.newMessagesForConversation.set(this.conversation, 0);
+                console.log(response);
+            })
         }
-        console.log(this.messages);
+        //console.log(this.messages);
         //this.scrolled = true;
     }
 

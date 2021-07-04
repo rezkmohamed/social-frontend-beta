@@ -26,8 +26,6 @@ export class SearchProfilesComponent implements OnInit {
         private sanitizer: DomSanitizer){}
 
     ngOnInit() {
-        //this.searchProfiles();
-
         this.activatedRoute.params.subscribe(
             (params: Params) => {
                 this.profiles = [];
@@ -72,27 +70,4 @@ export class SearchProfilesComponent implements OnInit {
                 }
             })
     }
-    /*
-    private searchProfiles(){
-        this.daCercare = this.route.url.substring(this.inizioNomeDaCercare,
-        this.route.url.length);
-        console.log(this.daCercare);
-        
-        this.profiles = [];
-        this.profilesLoaded = false;
-
-        this.profilesService.searchProfiles(this.daCercare, 0).subscribe(response => {
-            console.log(response);
-            for(let i = 0; i < response.length; i++){
-                let profile: Profile = new Profile(response[i].id,
-                    response[i].name, response[i].nickname,
-                    response[i].bio, response[i].proPic,
-                    response[i].email);
-                this.profilesService.adjustProfilePageData(profile);
-                this.profiles[i] = profile;
-            }
-            this.profilesLoaded = true;
-        })
-    }
-*/
 }
