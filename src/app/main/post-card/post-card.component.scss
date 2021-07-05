@@ -123,6 +123,7 @@ body {
 	width: 2.5rem;
 	height: 2.5rem;
 	padding: 0.5rem;
+
 	&:focus {
 		outline: 1px dotted darken($default, 20%);
 	}

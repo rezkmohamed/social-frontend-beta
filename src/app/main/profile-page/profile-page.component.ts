@@ -133,7 +133,7 @@ export class ProfilePageComponent implements OnInit {
             this.followers--;
             this.following = false;
         } else {
-            let followToAdd: Follow = new Follow(null, new Date(Date.now()).toDateString(), this.idLoggedUser, this.idProfilo);
+            let followToAdd: Follow = new Follow(null, this.idLoggedUser, this.idProfilo);
             this.followService.addFollow(this.idProfilo, followToAdd).subscribe(response => {
                 console.log(response);
             });
