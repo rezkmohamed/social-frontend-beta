@@ -2,7 +2,7 @@ export class CommentPost {
     constructor(
         public idComment: string,
         public comment: string,
-        public date: string,
+        public date: number,
         public idPost: string,
         public idProfile: string,
         public nicknameProfile?: string,

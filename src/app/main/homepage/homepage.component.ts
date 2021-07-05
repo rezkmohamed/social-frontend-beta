@@ -18,7 +18,6 @@ export class HomepageComponent implements OnInit {
     commenti: Map<number, CommentPost[]> = new Map<number, CommentPost[]>();
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
-
     notEmptyPost: boolean = true;
     notScrolly: boolean = true;
 
@@ -37,7 +36,6 @@ export class HomepageComponent implements OnInit {
     }
 
     loadNextPosts(lastPost: number){
-        //const lastPost = this.posts.length;
         this.postService.fetchHomePage(lastPost).subscribe(response => {
 
             if(!response.length){
@@ -48,14 +46,14 @@ export class HomepageComponent implements OnInit {
                 if(response[i]){
                     let newPost: Post = new Post(response[i].idPost, 
                         response[i].urlImg, response[i].description,
-                        response[i].localDate, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
+                        response[i].dateMillis, response[i].idProfile, response[i].commentsCounter, response[i].likesCounter, response[i].liked);
 
                         this.posts.push(newPost)
 
                         let comments: CommentPost[] = [];
                         for(let comment of response[i].comments){
                             console.log(comment);
-                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
+                            let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.dateMillis, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
                             comments.push(commentResponse);
                         }
                         comments.sort( (a,b) => {

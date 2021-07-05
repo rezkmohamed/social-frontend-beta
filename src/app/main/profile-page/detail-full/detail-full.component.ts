@@ -42,7 +42,7 @@ export class DetailFullCompont implements OnInit {
 
             let comments: CommentPost[] = [];
             for(let comment of response.comments){
-                let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.date, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
+                let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.dateMillis, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
                 comments.push(commentResponse);
             }
 

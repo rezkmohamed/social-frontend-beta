@@ -81,9 +81,7 @@ export class PostCardComponent implements OnInit {
     onSubmitComment(){
         console.log(this.commento);
 
-        let date = moment().format();
-
-        let newComment: CommentPost = new CommentPost(null, this.commento, date, this.post.idPost, this.idLoggedUser)
+        let newComment: CommentPost = new CommentPost(null, this.commento, -1, this.post.idPost, this.idLoggedUser)
         this.commentService.addComment(newComment).subscribe(response => {
             console.log(response);
             newComment.idComment = response.idComment;
