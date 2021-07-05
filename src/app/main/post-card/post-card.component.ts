@@ -41,7 +41,7 @@ export class PostCardComponent implements OnInit {
         private profilesService: ProfilesService, private router: Router, private sanitizer: DomSanitizer){}
 
     ngOnInit(): void {
-        this.checkLike();
+        this.checkLike();        
     }
 
     transform(img : string){
@@ -64,7 +64,7 @@ export class PostCardComponent implements OnInit {
                 this.post.likesCounter--;
             })
         } else {
-            let like: Like = new Like(null, (new Date(Date.now())).toDateString(), this.post.idPost, this.idLoggedUser);
+            let like: Like = new Like(null, this.post.idPost, this.idLoggedUser);
 
             this.likeService.addLike(this.post.idPost, like).subscribe(response => {
                 console.log(response);

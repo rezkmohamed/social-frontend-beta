@@ -1,8 +1,6 @@
-import { variable } from "@angular/compiler/src/output/output_ast";
-import { Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewChild, ViewChildren } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
-import { first, ignoreElements } from "rxjs/operators";
 import { MessageModel } from "../../models/message.model";
 import { MessagesService } from "../../services/messages.service";
 import { ProfilesService } from "../../services/profiles.service";
@@ -15,7 +13,6 @@ import { ProfilesService } from "../../services/profiles.service";
 })
 export class ChatContent implements OnInit, OnDestroy, OnChanges{
     @Input() conversation;
-    @ViewChildren('cmp') messages: QueryList<any>;
     user;
     newMessages: number = 0;
     //scrolled: boolean = false;
@@ -57,7 +54,6 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
             })
         }
         //console.log(this.messages);
-        //this.scrolled = true;
     }
 
     onSubmitMessage(event){

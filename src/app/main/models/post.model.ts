@@ -3,7 +3,7 @@ export class Post {
         public idPost: string,
         public urlImg: string,
         public description: string,
-        public date: string,
+        public date: number,
         public idProfile: string,
         public commentsCounter?: number,
         public likesCounter?: number,

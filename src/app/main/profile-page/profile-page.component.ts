@@ -49,8 +49,6 @@ export class ProfilePageComponent implements OnInit {
 
 
     ngOnInit(): void {
-        //this.fillProfile();
-
         this.route.params.subscribe(
             (params: Params) => {
                 this.fillProfile();
@@ -61,7 +59,6 @@ export class ProfilePageComponent implements OnInit {
     private fillProfile(){
         let inizioIdDaCercare = 10;
         this.idProfilo = this.router.url.substring(inizioIdDaCercare, this.router.url.length);
-        console.log(this.idProfilo);
         this.getAccount(this.idProfilo);
     }
 
@@ -100,7 +97,7 @@ export class ProfilePageComponent implements OnInit {
                     this.notScrolly = false;
                 }*/
                 for(let post of response.posts){
-                    const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.localDate, post.idProfile, post.commentsCounter, post.likesCounter);
+                    const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.dateMillis, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
                 }
                 if(this.numberOfPosts === this.posts.length){
@@ -173,7 +170,7 @@ export class ProfilePageComponent implements OnInit {
 
             for(let i = 0; i < response.length; i++){
                 if(response[i]){
-                    let newPost: Post = new Post(response[i].idPost, response[i].urlImg, response[i].description, response[i].localDate, response[i].idProfile);
+                    let newPost: Post = new Post(response[i].idPost, response[i].urlImg, response[i].description, response[i].dateMillis, response[i].idProfile);
                     this.posts.push(newPost);
                 }
             }
@@ -185,11 +182,8 @@ export class ProfilePageComponent implements OnInit {
         });
     }
 
-
     onStartChat(){
-        console.log(this.idProfilo);
         this.messageService.createConversation(this.idProfilo).subscribe(response => {
-            console.log(response);
             this.router.navigate(["/chat"]);
         });
     }
