@@ -1,14 +1,14 @@
 <div class="container">
-    <div class="notifications">
+    <div class="notifications" *ngFor="let notification of notifications">
         <div class="media" (click)="onNavigateToNotification()">
-                <img src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
+                <img [src]="transform(notification.imgProfileNotificator)" src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
                 <div class="media-body">
-                    <h5 class="mt-0 notification-type">profilo_test ha messo like a un tuo post</h5>
+                    <h5 class="mt-0 notification-type">{{notification.nicknameProfileNotificator}} ha messo like a un tuo post</h5>
                     Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                 </div>
         </div>
 
-        <div class="media">
+        <!--<div class="media">
             <img src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
             <div class="media-body">
                 <h5 class="mt-0">profilo_test ha commentato un tuo post</h5>
@@ -31,5 +31,5 @@
             <h5 class="mt-0">profilo_test ha iniziato a seguirti</h5>
             Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
         </div>
-    </div>
+    </div>-->
 </div>

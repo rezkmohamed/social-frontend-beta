@@ -45,12 +45,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     getNewNotifications(){
         setInterval(() => {
             console.log("notifications:");
-            this.newNotifications = this.notificationsService.getNewNotifications().subscribe();
-            if(this.newNotifications){
-                this.newNotificationsBoolean = true;
-            } else {
-                this.newNotificationsBoolean = false;
-            }
+            this.newNotifications = this.notificationsService.checkNewNotifications().subscribe(response => {
+                if(response){
+                    this.newNotificationsBoolean = true;
+                } else {
+                    this.newNotificationsBoolean = false;
+                }
+            });
         }, 5000);
     }
 
