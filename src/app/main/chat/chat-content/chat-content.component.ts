@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
 import { MessageModel } from "../../models/message.model";
@@ -11,11 +11,10 @@ import { ProfilesService } from "../../services/profiles.service";
     templateUrl: './chat-content.component.html',
     styleUrls: ['./chat-content.component.scss']
 })
-export class ChatContent implements OnInit, OnDestroy, OnChanges{
+export class ChatContent implements OnInit, OnChanges{
     @Input() conversation;
     user;
     newMessages: number = 0;
-    //scrolled: boolean = false;
     firstNewMessageId: string;
 
     constructor(public messagesService: MessagesService,
@@ -24,11 +23,8 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
 
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log("ngOnChanges called");
+        //console.log("ngOnChanges called");
         this.firstNewMessageId = this.checkNewMessages();
-        /*if(this.newMessages <= 0 || this.scrolled || !this.firstNewMessageId){
-            return;
-        }*/
         if(this.newMessages <= 0 || !this.firstNewMessageId){
             return;
         }
@@ -74,11 +70,6 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
         this.messagesService.newMessagesForConversation.set(this.conversation, 0);
     }
 
-    onScroll(message) {
-        console.log(message);
-    }
-    
-
     setNewMessagesAsSeen(){
         let newMessages: boolean = false;
         for(let message of this.conversation.messages){
@@ -112,8 +103,5 @@ export class ChatContent implements OnInit, OnDestroy, OnChanges{
             return this.profilesService.defaultProPic;
         }
         return this.sanitizer.bypassSecurityTrustResourceUrl(img);
-    }
-
-    ngOnDestroy(): void {
     }
 }

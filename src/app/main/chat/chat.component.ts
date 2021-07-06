@@ -1,5 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
-import * as moment from "moment";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Conversation } from "../models/conversation.model";
 import { MessageModel } from "../models/message.model";
 import { MessagesService } from "../services/messages.service";

@@ -20,9 +20,7 @@
             [ngClass]="{me: message.idProfileSender === user.id,
             notSeen: message.isSeen === false && !(message.idProfileSender === user.id)}">
 
-            <div class="message-content"
-                #cmp
-                (scroll)="onScroll(cmp)">
+            <div class="message-content">
                 {{message.message}}
                 <div class="time">
                     {{message.date | date: 'dd.MM.yyyy HH:mm:ss'}} 

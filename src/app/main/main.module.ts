@@ -12,6 +12,7 @@ import { HeaderComponent } from "./header/header.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainRoutingModule } from "./main-routing.module";
 import { MainComponent } from "./main.component";
+import { NotificationsComponent } from "./notifications/notifications.component";
 import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card.component";
 import { PostCardComponent } from "./post-card/post-card.component";
 import { DetailFullCompont } from "./profile-page/detail-full/detail-full.component";
@@ -38,7 +39,8 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
         EditPostCardComponent,
         ChatComponent,
         SidebarComponent,
-        ChatContent
+        ChatContent,
+        NotificationsComponent
     ],
     imports: [
         RouterModule,

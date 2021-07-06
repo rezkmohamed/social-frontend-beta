@@ -4,6 +4,7 @@ import { AddPostComponent } from "./add-post/add-post.component";
 import { ChatComponent } from "./chat/chat.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { MainComponent } from "./main.component";
+import { NotificationsComponent } from "./notifications/notifications.component";
 import { EditPostCardComponent } from "./post-card/edit-post-card/edit-post-card.component";
 import { DetailFullCompont } from "./profile-page/detail-full/detail-full.component";
 import { ProfilePageComponent } from "./profile-page/profile-page.component";
@@ -14,6 +15,7 @@ import { SearchProfilesComponent } from "./search-profiles/search-profiles.compo
 
 const routes: Routes = [
     { path: '', component: MainComponent, children: [
+        { path: 'notifications', component: NotificationsComponent},
         { path: 'chat', component: ChatComponent},
         { path: 'homepage', component: HomepageComponent },
         { path: 'profiles', children: [

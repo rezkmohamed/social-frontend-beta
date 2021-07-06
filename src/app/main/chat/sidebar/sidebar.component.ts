@@ -39,7 +39,7 @@ export class SidebarComponent implements OnInit {
 
     getConversationsSidebar(){
         this.messageService.getConversations().subscribe(response => {
-            console.log(response);
+            //console.log(response);
             for(let conv of response){
                 const messagesOfConversationResponse: MessageModel[] = [];
                 const conversationResponse: Conversation = new Conversation(conv.idConversation, conv.firstProfile, conv.secondProfile, conv.latestMessage, messagesOfConversationResponse);
