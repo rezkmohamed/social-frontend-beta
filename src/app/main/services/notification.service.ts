@@ -16,21 +16,33 @@ enum NotificationType{
 export class NotificationsService {
     private urlBase: string = "http://localhost:8080/";
     private notifications; 
+    private notificationsResponse: NotificationModel[] = [];
 
     constructor(private http: HttpClient){}
 
-    getNotifications(){
+    getNotifications(notificationsLoaded, notifs){
         if(this.notifications){
-            let response: NotificationModel[] = [];
+            this.notificationsResponse = [];
             for(let notification of this.notifications){
                 switch(notification.notificationType){
                     case NotificationType.FOLLOW:
                         notification.notificationType = "ha iniziato a seguirti.";
                 }
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis);
-                response.push(tmp);
+                this.notificationsResponse.push(tmp);
             }
-            return response;
+            for(let notification of this.notificationsResponse){
+                notifs.push(notification);
+            }
+            notificationsLoaded.ok = true;
+            return this.notificationsResponse;
+        }
+        else {
+            this.checkNewNotifications().subscribe(response => {
+                if(response){
+                    return this.getNotifications(notificationsLoaded, notifs);
+                }
+            })
         }
     }
 

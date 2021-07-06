@@ -1,12 +1,18 @@
-<div class="container">
-    <div class="notifications" *ngFor="let notification of notifications">
-        <div class="media" (click)="onNavigateToNotification()">
-                <img [src]="transform(notification.imgProfileNotificator)" src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
-                <div class="media-body">
-                    <h5 class="mt-0 notification-type">{{notification.nicknameProfileNotificator}} {{notification.notificationType}}</h5>
-                    
-                </div>
-        </div>
+<div class="container" >
+    <div class="col-12" *ngIf="!notificationsLoaded.ok" >
+        nessuna nuova notifica
+    </div>
+    <div class="col-12" *ngIf="notificationsLoaded.ok">
+        <div class="notifications" *ngFor="let notification of notifications">
+            <div class="media" (click)="onNavigateToNotification(notification.idProfileNotificator)">
+                    <img [src]="transform(notification.imgProfileNotificator)" width="64px" height="64px" class="mr-3">
+                    <div class="media-body">
+                        <h5 class="mt-0 notification-type">{{notification.nicknameProfileNotificator}} {{notification.notificationType}}</h5>
+                        
+                    </div>
+            </div>
+    
+    </div>
 
         <!--<div class="media">
             <img src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">

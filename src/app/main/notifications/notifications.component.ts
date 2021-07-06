@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
+import { Router } from "@angular/router";
 import { NotificationModel } from "../models/notification.model";
 import { NotificationsService } from "../services/notification.service";
 import { ProfilesService } from "../services/profiles.service";
@@ -12,15 +13,19 @@ import { ProfilesService } from "../services/profiles.service";
 export class NotificationsComponent implements OnInit{
     constructor(private notificationService: NotificationsService,
                 private profilesService: ProfilesService,
-                private sanitizer: DomSanitizer){}
+                private sanitizer: DomSanitizer,
+                private router: Router){}
+
     notifications: NotificationModel[] = []; 
+    notificationsLoaded: {ok: boolean} = {ok: false};
 
     ngOnInit(): void {
-        this.notifications =  this.notificationService.getNotifications();
+        this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);
     }
 
-    onNavigateToNotification(){
+    onNavigateToNotification(idProfile: string){
         console.log('notification cliccked!');
+        this.router.navigate(['/profiles', idProfile]);
     }
 
     transform(img: string){
