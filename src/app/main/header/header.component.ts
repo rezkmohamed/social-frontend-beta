@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
+import { NotificationsService } from "../services/notification.service";
 
 @Component({
     selector: 'app-header-component',
@@ -12,9 +13,12 @@ export class HeaderComponent implements OnInit {
     @ViewChild('f') searchForm: NgForm;
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
-    constructor(private authService: AuthService ,private router: Router) { }
+    constructor(private authService: AuthService,
+                private notificationsService: NotificationsService,
+                private router: Router) { }
 
     ngOnInit(): void {
+        this.getNewNotifications();
     }
 
     onSubmit(){
@@ -26,5 +30,14 @@ export class HeaderComponent implements OnInit {
     onLogout(){
         this.authService.logout();
         this.router.navigate(['/auth/login']);
+    }
+
+    getNewNotifications(){
+        setInterval(() => {
+            console.log("notifications:");
+            this.notificationsService.getNewNotifications().subscribe(response =>{
+                console.log(response);
+            })
+        }, 1000);
     }
 }
