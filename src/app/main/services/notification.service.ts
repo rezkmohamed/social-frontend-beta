@@ -3,6 +3,13 @@ import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { NotificationModel } from "../models/notification.model";
 
+enum NotificationType{
+    FOLLOW = "FOLLOW",
+    COMMENT = "COMMENT",
+    COMMENT_LIKE = "COMMENT_LIKE",
+    LIKE = "LIKE"
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -16,6 +23,10 @@ export class NotificationsService {
         if(this.notifications){
             let response: NotificationModel[] = [];
             for(let notification of this.notifications){
+                switch(notification.notificationType){
+                    case NotificationType.FOLLOW:
+                        notification.notificationType = "ha iniziato a seguirti.";
+                }
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis);
                 response.push(tmp);
             }

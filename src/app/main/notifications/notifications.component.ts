@@ -16,7 +16,7 @@ export class NotificationsComponent implements OnInit{
     notifications: NotificationModel[] = []; 
 
     ngOnInit(): void {
-        this.notifications =  this.notificationService.getNotifications();        
+        this.notifications =  this.notificationService.getNotifications();
     }
 
     onNavigateToNotification(){

@@ -3,8 +3,8 @@
         <div class="media" (click)="onNavigateToNotification()">
                 <img [src]="transform(notification.imgProfileNotificator)" src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
                 <div class="media-body">
-                    <h5 class="mt-0 notification-type">{{notification.nicknameProfileNotificator}} ha messo like a un tuo post</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    <h5 class="mt-0 notification-type">{{notification.nicknameProfileNotificator}} {{notification.notificationType}}</h5>
+                    
                 </div>
         </div>
 
