@@ -30,8 +30,16 @@
           <img src="../../../assets/icons/plus-square.svg">
         </li>
 
-        <li class="main-nav__nav-link" style="cursor: pointer;" routerLink="/notifications">
+        <li class="main-nav__nav-link" style="cursor: pointer;" 
+        (click)="onNavigateToNotifications()"
+        *ngIf="!newNotificationsBoolean">
           <img src="../../../assets/icons/bell.svg">
+        </li>
+
+        <li class="main-nav__nav-link" style="cursor: pointer;" 
+        (click)="onNavigateToNotifications()"
+        *ngIf="newNotificationsBoolean">
+          <img src="../../../assets/icons/bell-fill.svg">
         </li>
 
         <li class="main-nav__nav-link" style="cursor: pointer;" [routerLink]="['/profiles', idLoggedUser]">

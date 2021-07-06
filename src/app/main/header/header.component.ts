@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component ,OnDestroy,OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
 import { NotificationsService } from "../services/notification.service";
 
@@ -9,15 +10,19 @@ import { NotificationsService } from "../services/notification.service";
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
     @ViewChild('f') searchForm: NgForm;
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+    newNotifications: Subscription;
+    newNotificationsBoolean: boolean
+    notifications;
 
     constructor(private authService: AuthService,
                 private notificationsService: NotificationsService,
-                private router: Router) { }
+                private router: Router) {}
 
     ngOnInit(): void {
+        this.newNotificationsBoolean = false;
         this.getNewNotifications();
     }
 
@@ -32,12 +37,24 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/auth/login']);
     }
 
+    onNavigateToNotifications(){
+        this.newNotificationsBoolean = false;
+        this.router.navigate(['/notifications']);
+    }
+
     getNewNotifications(){
         setInterval(() => {
             console.log("notifications:");
-            this.notificationsService.getNewNotifications().subscribe(response =>{
-                console.log(response);
-            })
-        }, 1000);
+            this.newNotifications = this.notificationsService.getNewNotifications().subscribe();
+            if(this.newNotifications){
+                this.newNotificationsBoolean = true;
+            } else {
+                this.newNotificationsBoolean = false;
+            }
+        }, 5000);
+    }
+
+    ngOnDestroy(): void {
+        this.newNotifications ? this.newNotifications.unsubscribe() : null;
     }
 }
