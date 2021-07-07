@@ -4,6 +4,7 @@ export class NotificationModel {
                 public imgProfileNotificator: string,
                 public notificationType: string,
                 public date: number,
-                public isSeen ?: boolean
+                public isSeen ?: boolean,
+                public idPost ?: string
                 ){}
 }

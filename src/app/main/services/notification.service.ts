@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { NotificationModel } from "../models/notification.model";
 
-enum NotificationType{
+export enum NotificationType{
     FOLLOW = "FOLLOW",
     COMMENT = "COMMENT",
     COMMENT_LIKE = "COMMENT_LIKE",
@@ -22,13 +22,21 @@ export class NotificationsService {
 
     getNotifications(notificationsLoaded, notifs){
         if(this.notifications){
+            console.log("ci sono le notifiche");
             this.notificationsResponse = [];
             for(let notification of this.notifications){
                 switch(notification.notificationType){
                     case NotificationType.FOLLOW:
                         notification.notificationType = "ha iniziato a seguirti.";
+                        break;
+                    case NotificationType.LIKE:
+                        notification.notificationType = "ha messo like a un tuo post.";
+                        break;
                 }
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis, notification.seen);
+                if(tmp.notificationType === "ha messo like a un tuo post."){
+                    tmp.idPost = notification.post.idPost;
+                }
                 this.notificationsResponse.push(tmp);
             }
             for(let notification of this.notificationsResponse){
@@ -38,15 +46,36 @@ export class NotificationsService {
             return this.notificationsResponse;
         }
         else {
-            this.checkNewNotifications().subscribe(response => {
+            this.checkNotifications().subscribe(response => {
+                console.log("sono nell'else");
                 if(response){
-                    return this.getNotifications(notificationsLoaded, notifs);
+                    console.log(response);
+                    console.log("discesa ricorsiva");
+                    this.getNotifications(notificationsLoaded, notifs);
                 }
             })
         }
     }
 
-    checkNewNotifications() {
+    checkNewNotifications(){
+        let newNotifications = new Subject<boolean>();
+
+        this.http.get<any[]>(this.urlBase + "notifications").subscribe(response => {
+            if(response.length){
+                for(let notif of this.notifications){
+                    if(!notif.seen){
+                        newNotifications.next(true);
+                        return newNotifications.asObservable();
+                    }
+                }
+                newNotifications.next(false);
+            }
+        });
+
+        return newNotifications.asObservable();
+    }
+
+    checkNotifications() {
         let newNotifications = new Subject<boolean>();
 
         this.http.get<any[]>(this.urlBase + "notifications").subscribe(response => {
@@ -59,7 +88,7 @@ export class NotificationsService {
                         return newNotifications.asObservable();
                     }
                 }
-                newNotifications.next(false);
+                newNotifications.next(true);
             }
             else {
                 newNotifications.next(false);
