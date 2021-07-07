@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { NotificationModel } from "../models/notification.model";
@@ -10,7 +10,7 @@ import { ProfilesService } from "../services/profiles.service";
     templateUrl: './notifications.component.html',
     styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent implements OnInit{
+export class NotificationsComponent implements OnInit, OnDestroy {
     constructor(private notificationService: NotificationsService,
                 private profilesService: ProfilesService,
                 private sanitizer: DomSanitizer,
@@ -21,10 +21,6 @@ export class NotificationsComponent implements OnInit{
 
     ngOnInit(): void {
         this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);
-
-        setTimeout(() => {
-            console.log(this.notifications);
-        }, 1000);
     }
 
     onNavigateToNotification(idProfile: string){
@@ -37,5 +33,20 @@ export class NotificationsComponent implements OnInit{
             return this.profilesService.defaultProPic;
         }
         return this.sanitizer.bypassSecurityTrustResourceUrl(img);
+    }
+
+    ngOnDestroy(): void {
+        console.log("ngOnDestroy");
+        this.notifications.forEach(notification => {
+            if(!notification.isSeen){
+                this.notificationService.setNotificationsAsSeen().subscribe(response => {
+                    console.log(response);
+                    for(let notification of this.notifications){
+                        notification.isSeen = true;
+                    }
+                })
+                return;
+            }
+        })
     }
 }

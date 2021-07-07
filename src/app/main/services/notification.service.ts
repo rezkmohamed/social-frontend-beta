@@ -51,9 +51,15 @@ export class NotificationsService {
 
         this.http.get<any[]>(this.urlBase + "notifications").subscribe(response => {
             if(response.length){
-                this.notifications = response;
                 console.log(response);
-                newNotifications.next(true);
+                this.notifications = response;
+                for(let notif of this.notifications){
+                    if(!notif.seen){
+                        newNotifications.next(true);
+                        return newNotifications.asObservable();
+                    }
+                }
+                newNotifications.next(false);
             }
             else {
                 newNotifications.next(false);
@@ -61,5 +67,9 @@ export class NotificationsService {
         });
 
         return newNotifications.asObservable();
+    }
+
+    setNotificationsAsSeen(){
+        return this.http.put(this.urlBase + "notifications/setseen", null);
     }
 }
