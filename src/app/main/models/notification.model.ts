@@ -3,6 +3,7 @@ export class NotificationModel {
                 public nicknameProfileNotificator: string,
                 public imgProfileNotificator: string,
                 public notificationType: string,
-                public date: number
+                public date: number,
+                public isSeen ?: boolean
                 ){}
 }

@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
     newNotifications: Subscription;
     newNotificationsBoolean: boolean
-    notifications;
 
     constructor(private authService: AuthService,
                 private notificationsService: NotificationsService,
@@ -43,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     getNewNotifications(){
-        setInterval(() => {
+        /*setInterval(() => {
             console.log("notifications:");
             this.newNotifications = this.notificationsService.checkNewNotifications().subscribe(response => {
                 if(response){
@@ -52,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     this.newNotificationsBoolean = false;
                 }
             });
-        }, 5000);
+        }, 100000);*/
     }
 
     ngOnDestroy(): void {

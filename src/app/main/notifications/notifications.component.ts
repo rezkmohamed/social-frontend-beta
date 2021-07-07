@@ -21,6 +21,10 @@ export class NotificationsComponent implements OnInit{
 
     ngOnInit(): void {
         this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);
+
+        setTimeout(() => {
+            console.log(this.notifications);
+        }, 1000);
     }
 
     onNavigateToNotification(idProfile: string){

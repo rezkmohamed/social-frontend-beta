@@ -23,7 +23,6 @@ export class ChatContent implements OnInit, OnChanges{
 
 
     ngOnChanges(changes: SimpleChanges): void {
-        //console.log("ngOnChanges called");
         this.firstNewMessageId = this.checkNewMessages();
         if(this.newMessages <= 0 || !this.firstNewMessageId){
             return;
@@ -35,8 +34,6 @@ export class ChatContent implements OnInit, OnChanges{
     ngOnInit(): void {
         this.firstNewMessageId = "";
         this.user = this.profilesService.getProfileLogged();
-        console.log(this.user);
-
     }
 
     ngAfterViewChecked(){
@@ -44,12 +41,7 @@ export class ChatContent implements OnInit, OnChanges{
         let variabile = document.getElementById(this.firstNewMessageId);
         if(variabile){
             variabile.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-            this.messagesService.setMessagesAsSeen(this.conversation.idConversation).subscribe(response => {
-                this.messagesService.newMessagesForConversation.set(this.conversation, 0);
-                console.log(response);
-            })
         }
-        //console.log(this.messages);
     }
 
     onSubmitMessage(event){
@@ -60,7 +52,8 @@ export class ChatContent implements OnInit, OnChanges{
         }
         //aggiungo il msg
         let date = moment().valueOf();
-        let msg = new MessageModel(null, this.user.id, this.conversation.profile2.id, this.conversation.idConversation, value, date, false);
+        let profile2 = this.conversation.profile1.id === this.user.id ? this.conversation.profile2.id : this.conversation.profile1.id;
+        let msg = new MessageModel(null, this.user.id, profile2, this.conversation.idConversation, value, date, false);
         console.log(msg);
 
         this.setNewMessagesAsSeen();
@@ -68,6 +61,7 @@ export class ChatContent implements OnInit, OnChanges{
         this.conversation.latestMessage = value;
         this.messagesService.sendMessage(msg);
         this.messagesService.newMessagesForConversation.set(this.conversation, 0);
+        console.log(this.conversation);
     }
 
     setNewMessagesAsSeen(){

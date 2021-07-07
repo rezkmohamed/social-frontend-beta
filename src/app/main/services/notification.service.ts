@@ -28,7 +28,7 @@ export class NotificationsService {
                     case NotificationType.FOLLOW:
                         notification.notificationType = "ha iniziato a seguirti.";
                 }
-                let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis);
+                let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis, notification.seen);
                 this.notificationsResponse.push(tmp);
             }
             for(let notification of this.notificationsResponse){

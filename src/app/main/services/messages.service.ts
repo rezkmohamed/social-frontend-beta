@@ -30,12 +30,24 @@ export class MessagesService {
             let chatMessageDTO: MessageModel = JSON.parse(event.data);
             console.log("ON MESSAGE::: ");
             console.log(chatMessageDTO);
-            if(this.conversation){
+            console.log(this.conversations);
+            for(let conv of this.conversations){
+                if(conv.idConversation === chatMessageDTO.idConversation){
+                    console.log("conversation found");
+                    console.log(conv);
+                    conv.messages.unshift(chatMessageDTO);
+                    conv.latestMessage = chatMessageDTO.message;
+                    conv.latestMessageDate = chatMessageDTO.date;
+                    this.newMessagesForConversation.set(conv, 1);
+                }
+            }
+            /*if(this.conversation){
                 if(this.conversation.idConversation === chatMessageDTO.idConversation){
                     this.conversation.messages.unshift(chatMessageDTO);
                     this.conversation.latestMessage = chatMessageDTO.message;
                     this.conversation.latestMessageDate = chatMessageDTO.date;
                     this.newMessagesForConversation.set(this.conversation, this.newMessagesForConversation.get(this.conversation) +1);
+                    console.log('if pushed');
                 }
             }
             else {
@@ -44,10 +56,11 @@ export class MessagesService {
                         cnv.latestMessage = chatMessageDTO.message;
                         cnv.latestMessageDate = chatMessageDTO.date;
                         this.newMessagesForConversation.set(cnv, this.newMessagesForConversation.get(cnv) +1);
+                        console.log('else pushed');
                     }
                 }
             }
-            return false;
+            return false;*/
         }
 
         this.webSocket.onclose = (event) => {
