@@ -30,6 +30,7 @@ export class ChatComponent implements OnInit, OnDestroy{
                 messagesOfConversationResponse.push(msgToAdd);
             }
             this.conversation.messages = messagesOfConversationResponse;
+            this.messageService.newMessagesForConversation.set(conversation, 0);
             this.messageService.setMessagesAsSeen(conversation.idConversation).subscribe(response => {
                 console.log(response);
                 //this.messageService.newMessagesForConversation.set(this.conversation, 0);
