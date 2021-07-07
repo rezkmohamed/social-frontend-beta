@@ -33,16 +33,9 @@ export class ChatComponent implements OnInit, OnDestroy{
             this.messageService.newMessagesForConversation.set(conversation, 0);
             this.messageService.setMessagesAsSeen(conversation.idConversation).subscribe(response => {
                 console.log(response);
-                //this.messageService.newMessagesForConversation.set(this.conversation, 0);
             })
         });
-        /*if(this.user.id === this.conversation.profile1.id){
-            this.user = this.conversation.profile1;
-        } else if(this.user.id === this.conversation.profile2.id){
-            this.user = this.conversation.profile2;
-            this.conversation.profile2 = this.conversation.profile1;
-            this.conversation.profile1 = this.user;
-        }*/
+
         this.messageService.conversation = this.conversation;
     }
 
