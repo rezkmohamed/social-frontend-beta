@@ -5,6 +5,7 @@ export class NotificationModel {
                 public notificationType: string,
                 public date: number,
                 public isSeen ?: boolean,
-                public idPost ?: string
+                public idPost ?: string,
+                public notificationView?: string
                 ){}
 }

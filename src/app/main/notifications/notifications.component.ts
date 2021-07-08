@@ -29,11 +29,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     onNavigateToNotification(notification: NotificationModel){
         console.log('notification cliccked!');
         switch(notification.notificationType){
-            case "ha iniziato a seguirti.":
+            case NotificationType.FOLLOW:
                 console.log("case follow");
                 this.router.navigate(['/profiles', notification.idProfileNotificator]);
                 break;
-            case "ha messo like a un tuo post.":
+            case NotificationType.LIKE:
                 console.log("case like");
                 console.log(notification.idPost);
                 this.router.navigate(['/post', notification.idPost]);

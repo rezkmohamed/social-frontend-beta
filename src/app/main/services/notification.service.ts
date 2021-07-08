@@ -9,6 +9,10 @@ export enum NotificationType{
     COMMENT_LIKE = "COMMENT_LIKE",
     LIKE = "LIKE"
 }
+const mapNotificationTypeNotificationView: Map<NotificationType, string> = new Map(); 
+    mapNotificationTypeNotificationView.set(NotificationType.FOLLOW, "ha iniziato a seguirti.");
+    mapNotificationTypeNotificationView.set(NotificationType.LIKE, "ha messo like a un tuo post.");
+
 
 @Injectable({
     providedIn: 'root'
@@ -25,16 +29,9 @@ export class NotificationsService {
             console.log("ci sono le notifiche");
             this.notificationsResponse = [];
             for(let notification of this.notifications){
-                switch(notification.notificationType){
-                    case NotificationType.FOLLOW:
-                        notification.notificationType = "ha iniziato a seguirti.";
-                        break;
-                    case NotificationType.LIKE:
-                        notification.notificationType = "ha messo like a un tuo post.";
-                        break;
-                }
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis, notification.seen);
-                if(tmp.notificationType === "ha messo like a un tuo post."){
+                this.setNotificationView(tmp);
+                if(tmp.notificationType === NotificationType.LIKE){
                     tmp.idPost = notification.post.idPost;
                 }
                 this.notificationsResponse.push(tmp);
@@ -61,7 +58,9 @@ export class NotificationsService {
         let newNotifications = new Subject<boolean>();
 
         this.http.get<any[]>(this.urlBase + "notifications").subscribe(response => {
+            console.log(response);
             if(response.length){
+                this.notifications = response;
                 for(let notif of this.notifications){
                     if(!notif.seen){
                         newNotifications.next(true);
@@ -82,12 +81,6 @@ export class NotificationsService {
             if(response.length){
                 console.log(response);
                 this.notifications = response;
-                for(let notif of this.notifications){
-                    if(!notif.seen){
-                        newNotifications.next(true);
-                        return newNotifications.asObservable();
-                    }
-                }
                 newNotifications.next(true);
             }
             else {
@@ -100,5 +93,16 @@ export class NotificationsService {
 
     setNotificationsAsSeen(){
         return this.http.put(this.urlBase + "notifications/setseen", null);
+    }
+
+    private setNotificationView(notification: NotificationModel){
+        switch(notification.notificationType){
+            case NotificationType.FOLLOW:
+                notification.notificationView = "ha iniziato a seguirti.";
+                break;
+            case NotificationType.LIKE:
+                notification.notificationView = "ha messo like a un tuo post.";
+                break;
+        }
     }
 }

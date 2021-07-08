@@ -12,7 +12,7 @@ import { NotificationsService } from "../services/notification.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     @ViewChild('f') searchForm: NgForm;
-    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+    idLoggedUser: string;
     newNotifications: Subscription;
     newNotificationsBoolean: boolean
 
@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 private router: Router) {}
 
     ngOnInit(): void {
+        this.idLoggedUser = JSON.parse(localStorage.getItem('userData')).id.toString();
         this.newNotificationsBoolean = false;
         this.getNewNotifications();
     }
@@ -44,13 +45,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     getNewNotifications(){
         setInterval(() => {
             console.log("notifications:");
-            this.newNotifications = this.notificationsService.checkNewNotifications().subscribe(response => {
-                if(response){
-                    this.newNotificationsBoolean = true;
-                } else {
-                    this.newNotificationsBoolean = false;
-                }
-            });
+            if(JSON.parse(localStorage.getItem('userData'))){
+                this.newNotifications = this.notificationsService.checkNewNotifications().subscribe(response => {
+                    if(response){
+                        this.newNotificationsBoolean = true;
+                    } else {
+                        this.newNotificationsBoolean = false;
+                    }
+                });
+            }
         }, 5000);
     }
 
