@@ -31,7 +31,7 @@ export class NotificationsService {
             for(let notification of this.notifications){
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis, notification.seen);
                 this.setNotificationView(tmp);
-                if(tmp.notificationType === NotificationType.LIKE){
+                if(tmp.notificationType === NotificationType.LIKE || tmp.notificationType === NotificationType.COMMENT){
                     tmp.idPost = notification.post.idPost;
                 }
                 this.notificationsResponse.push(tmp);
@@ -102,6 +102,9 @@ export class NotificationsService {
                 break;
             case NotificationType.LIKE:
                 notification.notificationView = "ha messo like a un tuo post.";
+                break;
+            case NotificationType.COMMENT:
+                notification.notificationView = "ha commentato un tuo post.";
                 break;
         }
     }

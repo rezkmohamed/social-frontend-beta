@@ -34,9 +34,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/profiles', notification.idProfileNotificator]);
                 break;
             case NotificationType.LIKE:
-                console.log("case like");
                 console.log(notification.idPost);
                 this.router.navigate(['/post', notification.idPost]);
+                break;
+            case NotificationType.COMMENT:
+                this.router.navigate(['post', notification.idPost]);
                 break;
         }
     }
