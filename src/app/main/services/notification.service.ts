@@ -9,10 +9,6 @@ export enum NotificationType{
     COMMENT_LIKE = "COMMENT_LIKE",
     LIKE = "LIKE"
 }
-const mapNotificationTypeNotificationView: Map<NotificationType, string> = new Map(); 
-    mapNotificationTypeNotificationView.set(NotificationType.FOLLOW, "ha iniziato a seguirti.");
-    mapNotificationTypeNotificationView.set(NotificationType.LIKE, "ha messo like a un tuo post.");
-
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +27,7 @@ export class NotificationsService {
             for(let notification of this.notifications){
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis, notification.seen);
                 this.setNotificationView(tmp);
-                if(tmp.notificationType === NotificationType.LIKE || tmp.notificationType === NotificationType.COMMENT){
+                if(tmp.notificationType === NotificationType.LIKE || tmp.notificationType === NotificationType.COMMENT || tmp.notificationType === NotificationType.COMMENT_LIKE){
                     tmp.idPost = notification.post.idPost;
                 }
                 this.notificationsResponse.push(tmp);
@@ -106,6 +102,8 @@ export class NotificationsService {
             case NotificationType.COMMENT:
                 notification.notificationView = "ha commentato un tuo post.";
                 break;
+            case NotificationType.COMMENT_LIKE:
+                notification.notificationView = "ha messo like a un tuo commento.";
         }
     }
 }

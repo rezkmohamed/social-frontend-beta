@@ -3,10 +3,7 @@
         nessuna nuova notifica
     </div>
     <div class="col-12" *ngIf="notificationsLoaded.ok">
-
         <div class="notifications" *ngFor="let notification of notifications">
-            
-            
             <div class="media" 
                 [ngClass]="{notSeen: !notification.isSeen}"
                 (click)="onNavigateToNotification(notification)">
@@ -16,31 +13,5 @@
                     </div>
             </div>
         </div>
-
     </div>
-
-        <!--<div class="media">
-            <img src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
-            <div class="media-body">
-                <h5 class="mt-0">profilo_test ha commentato un tuo post</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-
-        <div class="media">
-            <img src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
-            <div class="media-body">
-                <h5 class="mt-0">profilo_test ha messo like a un tuo commento</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-    </div>
-
-    <div class="media">
-        <img src="../../../assets/images/no-propic.png" width="64px" height="64px" class="mr-3" alt="...">
-        <div class="media-body">
-            <h5 class="mt-0">profilo_test ha iniziato a seguirti</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-        </div>
-    </div>-->
 </div>
