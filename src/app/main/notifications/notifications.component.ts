@@ -16,11 +16,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 private sanitizer: DomSanitizer,
                 private router: Router){}
 
-    notifications: NotificationModel[];
+    notifications: NotificationModel[] = [];
     notificationsLoaded: {ok: boolean} = {ok : false};
 
     ngOnInit(): void {
-        this.notifications = [];
         this.notificationsLoaded.ok = false;
         console.log("ngOnInit");
         //this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);

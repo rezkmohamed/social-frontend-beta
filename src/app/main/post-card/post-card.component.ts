@@ -69,6 +69,10 @@ export class PostCardComponent implements OnInit {
             this.likeService.removeLike(this.post.idPost).subscribe(response => {
                 this.isLiked = false;
                 this.post.likesCounter--;
+                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, null, null, NotificationType.LIKE, null, false, this.post.idPost);
+                notification.nicknameProfileNotificator = "delete_code";
+
+                this.notificationService.sendMessage(notification);
             })
         } else {
             let like: Like = new Like(null, this.post.idPost, this.idLoggedUser);
