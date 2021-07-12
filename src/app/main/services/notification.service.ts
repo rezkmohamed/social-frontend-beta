@@ -17,81 +17,59 @@ export class NotificationsService {
     private urlBase: string = "http://localhost:8080/";
     private notifications; 
     private notificationsResponse: NotificationModel[] = [];
+    mapProfilesNotifications: Map<string, NotificationModel[]> = new Map();
+
+    webSocket: WebSocket;
 
     constructor(private http: HttpClient){}
 
-    getNotifications(notificationsLoaded, notifs){
-        if(this.notifications){
-            console.log("ci sono le notifiche");
-            this.notificationsResponse = [];
-            for(let notification of this.notifications){
-                let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.dateMillis, notification.seen);
-                this.setNotificationView(tmp);
-                if(tmp.notificationType === NotificationType.LIKE || tmp.notificationType === NotificationType.COMMENT || tmp.notificationType === NotificationType.COMMENT_LIKE){
-                    tmp.idPost = notification.post.idPost;
-                }
-                this.notificationsResponse.push(tmp);
-            }
-            for(let notification of this.notificationsResponse){
-                notifs.push(notification);
-            }
-            notificationsLoaded.ok = true;
-            return this.notificationsResponse;
-        }
-        else {
-            this.checkNotifications().subscribe(response => {
-                console.log("sono nell'else");
-                if(response){
-                    console.log(response);
-                    console.log("discesa ricorsiva");
-                    this.getNotifications(notificationsLoaded, notifs);
-                }
-            })
-        }
+    openWebSocket(){
+        this.webSocket = new WebSocket('ws://localhost:8080/stranger');
+
+        this.webSocket.onopen = (event) => {
+            console.log('Open: ' + event);
+            let token: string = JSON.parse(localStorage.getItem('userData'))._token.toString();
+            let idProfile: string = JSON.parse(localStorage.getItem('userData')).id.toString();
+
+            this.webSocket.send(JSON.stringify("Bearer " + token));
+            //this.mapProfilesNotifications.set(idProfile, []);
+        };
+
+        this.webSocket.onmessage = (event) => {
+            let notificationDTO: NotificationModel = JSON.parse(event.data);
+            console.log("ON MESSAGE::: ");
+            console.log(notificationDTO);
+            this.setNotificationView(notificationDTO);
+            this.notifications.unshift(notificationDTO);
+            //this.mapProfilesNotifications.get(notificationDTO.idProfileToNotify).push(notificationDTO);
+        };
+
+        this.webSocket.onclose = (event) => {
+            console.log('Close: ' + event);
+        };
     }
 
-    checkNewNotifications(){
-        let newNotifications = new Subject<boolean>();
-
-        this.http.get<any[]>(this.urlBase + "notifications").subscribe(response => {
-            console.log(response);
-            if(response.length){
-                this.notifications = response;
-                for(let notif of this.notifications){
-                    if(!notif.seen){
-                        newNotifications.next(true);
-                        return newNotifications.asObservable();
-                    }
-                }
-                newNotifications.next(false);
-            }
-        });
-
-        return newNotifications.asObservable();
+    sendMessage(notifiationDTO: NotificationModel){
+        this.webSocket.send(JSON.stringify(notifiationDTO));
     }
 
-    checkNotifications() {
-        let newNotifications = new Subject<boolean>();
+    closeWebSocket(){
+        this.webSocket.close();
+    }
 
-        this.http.get<any[]>(this.urlBase + "notifications").subscribe(response => {
-            if(response.length){
-                console.log(response);
-                this.notifications = response;
-                newNotifications.next(true);
-            }
-            else {
-                newNotifications.next(false);
-            }
-        });
-
-        return newNotifications.asObservable();
+    getNotifications(){
+        return this.http.get<any[]>(this.urlBase + "notifications");
     }
 
     setNotificationsAsSeen(){
         return this.http.put(this.urlBase + "notifications/setseen", null);
     }
 
-    private setNotificationView(notification: NotificationModel){
+    setNotifications(notificationsProfile: NotificationModel[]){
+        this.notifications = notificationsProfile;
+    }
+
+    setNotificationView(notification: NotificationModel){
         switch(notification.notificationType){
             case NotificationType.FOLLOW:
                 notification.notificationView = "ha iniziato a seguirti.";

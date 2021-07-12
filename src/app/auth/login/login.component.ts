@@ -15,7 +15,8 @@ class responseAuth {
         public exp: number,
         public iat: number,
         public idUser: string,
-        public nickname: string
+        public nickname: string,
+        public proPic: string
     ){}
 }
 

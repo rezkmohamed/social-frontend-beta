@@ -51,7 +51,7 @@ export class AuthService implements OnInit{
     autoLogin(){
         const userData: {email: string, id: string, nickname: string ,_token: string, _tokenExpirationDate: Date} = JSON.parse(localStorage.getItem('userData'));
         //caso in cui non c'è utente, esco dal metodo.
-        console.log(userData);
+        //console.log(userData);
         if(!userData){
             console.log("no user found");
             return;
@@ -64,15 +64,6 @@ export class AuthService implements OnInit{
             this.user.next(loadedUser);
 
             this.profilesService.setProfileLogged(loadedUser);
-            /*this.profilesService.fetchAccount(loadedUser.id).subscribe(response => {
-                let responseProfile: Profile = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
-                this.profilesService.setProfileLogged(responseProfile);
-            })*/
-            
-            //const expirationDuration =        
-            //new Date(loadedUser.tokenExpirationDate).getTime() -
-            //new Date().getTime();
-            //console.log("expiration duration: "+ +JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
             this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
         }
     }

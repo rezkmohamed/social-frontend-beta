@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.idLoggedUser = JSON.parse(localStorage.getItem('userData')).id.toString();
         this.newNotificationsBoolean = false;
-        this.getNewNotifications();
+        this.notificationsService.openWebSocket();
+        //this.getNewNotifications();
     }
 
     onSubmit(){
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     getNewNotifications(){
-        setInterval(() => {
+        /*setInterval(() => {
             console.log("notifications:");
             if(JSON.parse(localStorage.getItem('userData'))){
                 this.newNotifications = this.notificationsService.checkNewNotifications().subscribe(response => {
@@ -54,10 +55,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     }
                 });
             }
-        }, 5000);
+        }, 5000);*/
     }
 
     ngOnDestroy(): void {
+        this.notificationsService.closeWebSocket();
         this.newNotifications ? this.newNotifications.unsubscribe() : null;
     }
 }

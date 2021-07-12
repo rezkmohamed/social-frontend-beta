@@ -4,10 +4,12 @@ import { Router } from "@angular/router";
 import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
+import { NotificationModel } from "../models/notification.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { CommentsService } from "../services/comment.service";
 import { LikesService } from "../services/likes.service";
+import { NotificationsService, NotificationType } from "../services/notification.service";
 import { PostsService } from "../services/posts.service";
 import { ProfilesService } from "../services/profiles.service";
 
@@ -22,7 +24,8 @@ export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
     @Input('comments') comments: CommentPost[];
-    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id;
+    idLoggedUser: string;    
+    loggedUserData;
 
     profileLogged: Profile;
     isLiked: boolean = false;
@@ -38,9 +41,14 @@ export class PostCardComponent implements OnInit {
         private commentService: CommentsService,
         private likeService: LikesService,
         private postService: PostsService,
-        private profilesService: ProfilesService, private router: Router, private sanitizer: DomSanitizer){}
+        private profilesService: ProfilesService, 
+        private router: Router, 
+        private sanitizer: DomSanitizer,
+        private notificationService: NotificationsService){}
 
     ngOnInit(): void {
+        this.idLoggedUser = JSON.parse(localStorage.getItem('userData')).id;
+        this.loggedUserData = JSON.parse(localStorage.getItem('userData'));
         this.checkLike();        
     }
 
@@ -59,7 +67,6 @@ export class PostCardComponent implements OnInit {
     onToggleLike(){
         if(this.isLiked){
             this.likeService.removeLike(this.post.idPost).subscribe(response => {
-                console.log(response);
                 this.isLiked = false;
                 this.post.likesCounter--;
             })
@@ -67,9 +74,10 @@ export class PostCardComponent implements OnInit {
             let like: Like = new Like(null, this.post.idPost, this.idLoggedUser);
 
             this.likeService.addLike(this.post.idPost, like).subscribe(response => {
-                console.log(response);
+                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, null, NotificationType.LIKE, null, false, this.post.idPost);
                 this.isLiked = true;
                 this.post.likesCounter++;
+                this.notificationService.sendMessage(notification);
             });
         }
     }   

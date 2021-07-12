@@ -61,7 +61,7 @@ export class ChatContent implements OnInit, OnChanges{
         this.conversation.latestMessage = value;
         this.messagesService.sendMessage(msg);
         this.messagesService.newMessagesForConversation.set(this.conversation, 0);
-        console.log(this.conversation);
+        //console.log(this.conversation);
     }
 
     setNewMessagesAsSeen(){

@@ -23,7 +23,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notifications = [];
         this.notificationsLoaded.ok = false;
         console.log("ngOnInit");
-        this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);
+        //this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);
+        this.getNotificationsOnInit();
+        this.notificationService.setNotifications(this.notifications);
+    }
+
+    getNotificationsOnInit(){
+        this.notificationService.getNotifications().subscribe(response => {
+            console.log(response);
+            for(let notification of response){
+                let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileToNotify.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.date, notification.seen);
+                if(tmp.notificationType != NotificationType.FOLLOW){
+                    tmp.idPost = notification.post.idPost;
+                    if(tmp.notificationType != NotificationType.LIKE){
+                        tmp.commentMessage = notification.comment;
+                    }
+                }
+                this.notificationService.setNotificationView(tmp);
+                this.notifications.push(tmp);
+            }
+            this.notificationsLoaded.ok = true;
+        })
     }
 
     onNavigateToNotification(notification: NotificationModel){
