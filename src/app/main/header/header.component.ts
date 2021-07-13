@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     @ViewChild('f') searchForm: NgForm;
     idLoggedUser: string;
     newNotifications: Subscription;
-    newNotificationsBoolean: boolean
+    newNotificationsBoolean: {ok : boolean} = {ok : false};
 
     constructor(private profilesService: ProfilesService,
                 private authService: AuthService,
@@ -25,9 +25,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.idLoggedUser = JSON.parse(localStorage.getItem('userData')).id.toString();
         this.setProPicLocalStorage();
-        this.newNotificationsBoolean = false;
+        this.newNotificationsBoolean.ok = false;
+        this.notificationsService.newNotification = this.newNotificationsBoolean;
         this.notificationsService.openWebSocket();
-        //this.getNewNotifications();
+        this.getNewNotifications();
     }
 
     onSubmit(){
@@ -42,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     onNavigateToNotifications(){
-        this.newNotificationsBoolean = false;
+        this.newNotificationsBoolean.ok = false;
         this.router.navigate(['/notifications']);
     }
 
@@ -53,18 +54,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     getNewNotifications(){
-        /*setInterval(() => {
-            console.log("notifications:");
-            if(JSON.parse(localStorage.getItem('userData'))){
-                this.newNotifications = this.notificationsService.checkNewNotifications().subscribe(response => {
-                    if(response){
-                        this.newNotificationsBoolean = true;
-                    } else {
-                        this.newNotificationsBoolean = false;
-                    }
-                });
+        this.notificationsService.getNotifications().subscribe(response => {
+            console.log(response);
+            for(let n of response){
+                if(!n.seen){
+                    this.newNotificationsBoolean.ok = true;
+                }
             }
-        }, 5000);*/
+        })
     }
 
     ngOnDestroy(): void {

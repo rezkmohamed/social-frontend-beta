@@ -19,6 +19,7 @@ export class NotificationsService {
     private notifications: NotificationModel[]; 
     private notificationsResponse: NotificationModel[] = [];
     mapProfilesNotifications: Map<string, NotificationModel[]> = new Map();
+    newNotification: {ok : boolean};
 
     DELETING_CODE = "delete_code";
 
@@ -45,7 +46,8 @@ export class NotificationsService {
                 this.setNotificationView(notificationDTO);
                 if(this.notifications){
                     this.setNotificationView(notificationDTO);
-                    this.notifications.unshift(notificationDTO);    
+                    this.notifications.unshift(notificationDTO);  
+                    this.newNotification.ok = true;
                 }
             }
             else {
@@ -71,6 +73,7 @@ export class NotificationsService {
     }
 
     setNotificationsAsSeen(){
+        this.newNotification.ok = false;
         return this.http.put(this.urlBase + "notifications/setseen", null);
     }
 

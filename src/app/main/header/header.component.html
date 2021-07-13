@@ -32,13 +32,13 @@
 
         <li class="main-nav__nav-link" style="cursor: pointer;" 
         (click)="onNavigateToNotifications()"
-        *ngIf="!newNotificationsBoolean">
+        *ngIf="!newNotificationsBoolean.ok">
           <img src="../../../assets/icons/bell.svg">
         </li>
 
         <li class="main-nav__nav-link" style="cursor: pointer;" 
         (click)="onNavigateToNotifications()"
-        *ngIf="newNotificationsBoolean">
+        *ngIf="newNotificationsBoolean.ok">
           <img src="../../../assets/icons/bell-fill.svg">
         </li>
 

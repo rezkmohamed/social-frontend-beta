@@ -88,7 +88,6 @@ export class PostCardComponent implements OnInit {
                 let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.LIKE, null, false, this.post.idPost);
                 console.log(notification);
 
-
                 this.isLiked = true;
                 this.post.likesCounter++;
                 this.notificationService.sendMessage(notification);
