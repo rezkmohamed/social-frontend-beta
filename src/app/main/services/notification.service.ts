@@ -43,7 +43,10 @@ export class NotificationsService {
             if(notificationDTO.nicknameProfileNotificator != this.DELETING_CODE){
                 console.log("notification to add");
                 this.setNotificationView(notificationDTO);
-                this.notifications.unshift(notificationDTO);    
+                if(this.notifications){
+                    this.setNotificationView(notificationDTO);
+                    this.notifications.unshift(notificationDTO);    
+                }
             }
             else {
                 this.removeNotification(notificationDTO);

@@ -1,7 +1,7 @@
+import { LocalizedString } from "@angular/compiler";
 import { Component, OnInit, Input } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import * as moment from "moment";
 import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
 import { NotificationModel } from "../models/notification.model";
@@ -14,7 +14,6 @@ import { PostsService } from "../services/posts.service";
 import { ProfilesService } from "../services/profiles.service";
 
 
-
 @Component({
     selector: 'app-post-card',
     templateUrl: './post-card.component.html',
@@ -24,8 +23,9 @@ export class PostCardComponent implements OnInit {
     @Input('profilo') profilo: Profile;
     @Input('post') post: Post;
     @Input('comments') comments: CommentPost[];
-    idLoggedUser: string;    
+    idLoggedUser: string;
     loggedUserData;
+    loggedUserProPic: string;
 
     profileLogged: Profile;
     isLiked: boolean = false;
@@ -64,27 +64,37 @@ export class PostCardComponent implements OnInit {
         }
     }
 
-    onToggleLike(){
+    onToggleLike(){        
+        if(!this.loggedUserProPic){
+            this.loggedUserProPic = localStorage.getItem('proPic').toString();
+            this.toggleLike();
+        } else {
+            this.toggleLike();
+        }
+    }   
+
+    toggleLike(){
         if(this.isLiked){
             this.likeService.removeLike(this.post.idPost).subscribe(response => {
                 this.isLiked = false;
                 this.post.likesCounter--;
                 let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, null, null, NotificationType.LIKE, null, false, this.post.idPost);
-                notification.nicknameProfileNotificator = "delete_code";
-
+                notification.nicknameProfileNotificator = this.notificationService.DELETING_CODE;
                 this.notificationService.sendMessage(notification);
             })
         } else {
             let like: Like = new Like(null, this.post.idPost, this.idLoggedUser);
-
             this.likeService.addLike(this.post.idPost, like).subscribe(response => {
-                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, null, NotificationType.LIKE, null, false, this.post.idPost);
+                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.LIKE, null, false, this.post.idPost);
+                console.log(notification);
+
+
                 this.isLiked = true;
                 this.post.likesCounter++;
                 this.notificationService.sendMessage(notification);
             });
         }
-    }   
+    }
 
     viewLikesList(){
         this.router.navigate(['/profiles/list/likes', this.post.idPost]);

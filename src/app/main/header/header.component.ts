@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthService } from "src/app/auth/auth.service";
 import { NotificationsService } from "../services/notification.service";
+import { ProfilesService } from "../services/profiles.service";
 
 @Component({
     selector: 'app-header-component',
@@ -16,12 +17,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     newNotifications: Subscription;
     newNotificationsBoolean: boolean
 
-    constructor(private authService: AuthService,
+    constructor(private profilesService: ProfilesService,
+                private authService: AuthService,
                 private notificationsService: NotificationsService,
                 private router: Router) {}
 
     ngOnInit(): void {
         this.idLoggedUser = JSON.parse(localStorage.getItem('userData')).id.toString();
+        this.setProPicLocalStorage();
         this.newNotificationsBoolean = false;
         this.notificationsService.openWebSocket();
         //this.getNewNotifications();
@@ -41,6 +44,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     onNavigateToNotifications(){
         this.newNotificationsBoolean = false;
         this.router.navigate(['/notifications']);
+    }
+
+    setProPicLocalStorage(){
+        this.profilesService.fetchAccount(this.idLoggedUser).subscribe(response => {
+            localStorage.setItem('proPic', response.proPic);
+        })
     }
 
     getNewNotifications(){

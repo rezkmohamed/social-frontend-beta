@@ -18,6 +18,7 @@ export class ProfilesService {
     urlBase: string = "http://localhost:8080/";
     noBioProfilePage: string = "nessuna biografia aggiunta";
     defaultProPic = "/assets/images/no-propic.png";
+    loggedProfileProPic: string;
 
     private userLogged: User;
 
