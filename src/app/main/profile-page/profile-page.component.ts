@@ -3,10 +3,12 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import * as moment from "moment";
 import { Follow } from "../models/follow.model";
+import { NotificationModel } from "../models/notification.model";
 import { Post } from "../models/post.model";
 import { Profile } from "../models/profile.model";
 import { FollowService } from "../services/follow.service";
 import { MessagesService } from "../services/messages.service";
+import { NotificationsService, NotificationType } from "../services/notification.service";
 import { PostsService } from "../services/posts.service";
 import { ProfilesService } from "../services/profiles.service";
 
@@ -16,13 +18,13 @@ import { ProfilesService } from "../services/profiles.service";
     styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-    idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
-
+    idLoggedUser: string;
+    loggedUser;
+    loggedProfileProPic: string;
 
     inizioIdDaCercare = 10;
     idProfilo = this.router.url.substring(this.inizioIdDaCercare, this.router.url.length);
 
-    //idProfilo: string = "";
     profilo: Profile;
     posts: Post[] = [];
     numberOfPosts: number;
@@ -39,6 +41,7 @@ export class ProfilePageComponent implements OnInit {
     notScrolly: boolean = true;
 
     constructor(
+                private notificationsSerivce: NotificationsService,
                 private postService: PostsService,
                 private followService: FollowService,
                 private profilesService: ProfilesService,
@@ -49,6 +52,9 @@ export class ProfilePageComponent implements OnInit {
 
 
     ngOnInit(): void {
+        this.idLoggedUser =JSON.parse(localStorage.getItem('userData')).id.toString();
+        this.loggedUser = JSON.parse(localStorage.getItem('userData'));
+        this.loggedProfileProPic = localStorage.getItem('proPic');
         this.route.params.subscribe(
             (params: Params) => {
                 this.fillProfile();
@@ -93,9 +99,6 @@ export class ProfilePageComponent implements OnInit {
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
                 this.loadingProfile = false;
                 this.posts = [];
-                /*if(response.posts.length <= 0){
-                    this.notScrolly = false;
-                }*/
                 for(let post of response.posts){
                     const postResponse: Post = new Post(post.idPost, post.urlImg, post.description, post.dateMillis, post.idProfile, post.commentsCounter, post.likesCounter);
                     this.posts.push(postResponse);
@@ -129,12 +132,17 @@ export class ProfilePageComponent implements OnInit {
         if(this.following){
             this.followService.removeFollow(this.idProfilo).subscribe(response => {
                 console.log(response);
+                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.idProfilo, this.notificationsSerivce.DELETING_CODE, this.loggedProfileProPic, NotificationType.FOLLOW, null, false);
+                this.notificationsSerivce.sendMessage(notification);
             });
             this.followers--;
             this.following = false;
         } else {
             let followToAdd: Follow = new Follow(null, this.idLoggedUser, this.idProfilo);
             this.followService.addFollow(this.idProfilo, followToAdd).subscribe(response => {
+                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.idProfilo, this.loggedUser.nickname, this.loggedProfileProPic, NotificationType.FOLLOW, null, false);
+                this.notificationsSerivce.sendMessage(notification);
+                
                 console.log(response);
             });
             this.followers++;

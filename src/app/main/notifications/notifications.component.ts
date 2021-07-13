@@ -21,8 +21,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.notificationsLoaded.ok = false;
-        console.log("ngOnInit");
-        //this.notificationService.getNotifications(this.notificationsLoaded, this.notifications);
         this.getNotificationsOnInit();
         this.notificationService.setNotifications(this.notifications);
     }
@@ -46,8 +44,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     onNavigateToNotification(notification: NotificationModel){
-        console.log('notification cliccked!');
-
         if(notification.notificationType === NotificationType.FOLLOW){
             this.router.navigate(['/profiles', notification.idProfileNotificator]);
         } else if(notification.notificationType === NotificationType.LIKE || notification.notificationType === NotificationType.COMMENT_LIKE || notification.notificationType === NotificationType.COMMENT){
