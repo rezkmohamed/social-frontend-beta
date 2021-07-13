@@ -123,11 +123,21 @@ export class PostCardComponent implements OnInit {
         if(this.comments[index].isLiked){
             this.commentService.removeCommentLike(this.comments[index].idComment).subscribe(response => {
                 console.log(response);
+                if(this.comments[index].idProfile != this.idLoggedUser){
+                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.notificationService.DELETING_CODE, null, NotificationType.COMMENT_LIKE, null, false, this.post.idPost);
+                    this.notificationService.sendMessage(notification);
+                }
+
                 this.comments[index].commentLikesCounter--;
                 this.comments[index].isLiked = false;
             })
         } else if(!this.comments[index].isLiked) {
             this.commentService.addCommentLike(this.comments[index].idComment).subscribe(response => {
+                if(this.comments[index].idProfile != this.idLoggedUser){
+                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.COMMENT_LIKE, null, false, this.post.idPost);
+                    notification.commentMessage = this.comments[index].comment;
+                    this.notificationService.sendMessage(notification);
+                }
                 console.log(response);
                 this.comments[index].commentLikesCounter++;
                 this.comments[index].isLiked = true;
