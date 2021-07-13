@@ -35,7 +35,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 if(tmp.notificationType != NotificationType.FOLLOW){
                     tmp.idPost = notification.post.idPost;
                     if(tmp.notificationType != NotificationType.LIKE){
-                        tmp.commentMessage = notification.comment;
+                        tmp.commentMessage = notification.commentMessage;
                     }
                 }
                 this.notificationService.setNotificationView(tmp);

@@ -10,6 +10,7 @@
                     <img [src]="transform(notification.imgProfileNotificator)" width="64px" height="64px" class="mr-3">
                     <div class="media-body">
                         <h5 class="mt-0 notification-type">{{notification.nicknameProfileNotificator}} {{notification.notificationView}}</h5>
+                        <p *ngIf="notification.commentMessage">{{notification.commentMessage}}</p>
                     </div>
             </div>
         </div>

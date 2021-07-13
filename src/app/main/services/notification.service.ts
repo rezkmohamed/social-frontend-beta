@@ -17,7 +17,6 @@ export enum NotificationType{
 export class NotificationsService {
     private urlBase: string = "http://localhost:8080/";
     private notifications: NotificationModel[]; 
-    private notificationsResponse: NotificationModel[] = [];
     mapProfilesNotifications: Map<string, NotificationModel[]> = new Map();
     newNotification: {ok : boolean};
 
@@ -44,10 +43,10 @@ export class NotificationsService {
             if(notificationDTO.nicknameProfileNotificator != this.DELETING_CODE){
                 console.log("notification to add");
                 this.setNotificationView(notificationDTO);
+                this.newNotification.ok = true;
                 if(this.notifications){
                     this.setNotificationView(notificationDTO);
                     this.notifications.unshift(notificationDTO);  
-                    this.newNotification.ok = true;
                 }
             }
             else {

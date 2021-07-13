@@ -1,4 +1,3 @@
-import { LocalizedString } from "@angular/compiler";
 import { Component, OnInit, Input } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -49,6 +48,7 @@ export class PostCardComponent implements OnInit {
     ngOnInit(): void {
         this.idLoggedUser = JSON.parse(localStorage.getItem('userData')).id;
         this.loggedUserData = JSON.parse(localStorage.getItem('userData'));
+        this.loggedUserProPic = localStorage.getItem('proPic').toString();
         this.checkLike();        
     }
 
@@ -85,12 +85,13 @@ export class PostCardComponent implements OnInit {
         } else {
             let like: Like = new Like(null, this.post.idPost, this.idLoggedUser);
             this.likeService.addLike(this.post.idPost, like).subscribe(response => {
-                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.LIKE, null, false, this.post.idPost);
-                console.log(notification);
-
+                if(this.idLoggedUser != this.profilo.id){
+                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.LIKE, null, false, this.post.idPost);
+                    console.log(notification);
+                    this.notificationService.sendMessage(notification);
+                }
                 this.isLiked = true;
                 this.post.likesCounter++;
-                this.notificationService.sendMessage(notification);
             });
         }
     }
@@ -100,14 +101,17 @@ export class PostCardComponent implements OnInit {
     }
 
     onSubmitComment(){
-        console.log(this.commento);
-
+        let commentToAdd = this.commento
         let newComment: CommentPost = new CommentPost(null, this.commento, -1, this.post.idPost, this.idLoggedUser)
         this.commentService.addComment(newComment).subscribe(response => {
-            console.log(response);
             newComment.idComment = response.idComment;
+            if(this.idLoggedUser != this.profilo.id){
+                let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.COMMENT, null, false, this.post.idPost);
+                notification.commentMessage = commentToAdd;
+                this.notificationService.sendMessage(notification);
+                console.log(notification);
+            }
         });
-        console.log(this.profilesService.getProfileLogged());
         newComment.nicknameProfile = this.profilesService.getProfileLogged().nickname;
         newComment.commentLikesCounter = 0;
         newComment.isLiked = false;
