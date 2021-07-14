@@ -6,6 +6,7 @@ import { Profile } from "../main/models/profile.model";
 import jwt_decode  from "jwt-decode";
 import { HttpClient } from "@angular/common/http";
 import { ProfilesService } from "../main/services/profiles.service";
+import { environment } from "src/environments/environment";
 
 class responseAuth {
     constructor(
@@ -20,7 +21,7 @@ class responseAuth {
     providedIn: 'root'
 })
 export class AuthService implements OnInit{
-    private urlBase: string = "http://localhost:8080/";
+    private urlBase: string = environment.urlBase;
     defaultPassword: string = "password";
     user = new BehaviorSubject<User>(null);
     //private tokenExpirationTimer: any;
