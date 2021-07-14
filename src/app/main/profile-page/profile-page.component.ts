@@ -82,7 +82,6 @@ export class ProfilePageComponent implements OnInit {
     private getAccount(idProfilo: string){
         this.profilesService.fetchAccount(idProfilo).subscribe(
             response => {
-                console.log(response);
                 this.profilo = new Profile(response.id, response.name, response.nickname, response.bio, response.proPic, response.email);
                 this.numberOfPosts = response.postsCounter;
                 this.profilesService.adjustProfilePageData(this.profilo);
@@ -93,7 +92,6 @@ export class ProfilePageComponent implements OnInit {
                     console.log(this.myProfile);
                 }
                 else {
-                    console.log("i'm inside follow check");
                     this.followCheck();
                 }
                 //SPOSTO IL FLAG A FALSE. PROFILO CARICATO.
@@ -112,18 +110,13 @@ export class ProfilePageComponent implements OnInit {
     }
 
     private followCheck(){
-        console.log("follow check:");
         this.followService.getFollow(this.idLoggedUser, this.idProfilo).subscribe(response => {
-            console.log(response);
             if(!response){
-                console.log(false);
                 this.following = false;
             } else if(response.idFollower === this.idLoggedUser && response.idFollowed === this.idProfilo){
-                console.log(true);
                 this.following = true;
             }
         }, error => {
-            console.log(error);
             this.following = false;
         });
     }
@@ -131,7 +124,6 @@ export class ProfilePageComponent implements OnInit {
     onToggleFollow(){
         if(this.following){
             this.followService.removeFollow(this.idProfilo).subscribe(response => {
-                console.log(response);
                 let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.idProfilo, this.notificationsSerivce.DELETING_CODE, this.loggedProfileProPic, NotificationType.FOLLOW, null, false);
                 this.notificationsSerivce.sendMessage(notification);
             });
@@ -142,8 +134,6 @@ export class ProfilePageComponent implements OnInit {
             this.followService.addFollow(this.idProfilo, followToAdd).subscribe(response => {
                 let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.idProfilo, this.loggedUser.nickname, this.loggedProfileProPic, NotificationType.FOLLOW, null, false);
                 this.notificationsSerivce.sendMessage(notification);
-                
-                console.log(response);
             });
             this.followers++;
             this.following = true;

@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Post } from "../models/post.model";
+import { environment } from "src/environments/environment";
 
 
 
@@ -8,7 +9,7 @@ import { Post } from "../models/post.model";
     providedIn: 'root'
 })
 export class PostsService {
-    private urlBase: string = "http://localhost:8080/";
+    private urlBase: string = environment.urlBase;
 
     constructor(private http: HttpClient){}
 

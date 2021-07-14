@@ -40,21 +40,15 @@ export class AddPostComponent implements OnInit {
         let date = moment().format();
 
         uploadData.append('myFile', this.selectedFile);
-        console.log(uploadData.get('myFile'));
         uploadData.append('description', this.descrizione);
-        console.log(uploadData.get('description'));
 
         uploadData.append('date', date);
-        console.log(uploadData.get('date'));
 
 
         this.postService.createPost(uploadData).subscribe(response => {
-            console.log(response);
             this.fileIsOkay = true;
             this.fileIsSended = true;
-            //this.router.navigate([`/profiles/${this.idLoggedUser}`]);
         }, err => {
-            console.log(err);
             this.fileIsOkay = false;
             this.fileIsSended = true;
         })

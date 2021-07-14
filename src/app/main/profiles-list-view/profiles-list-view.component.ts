@@ -55,7 +55,6 @@ export class ProfilesListViewComponent implements OnInit{
                 }
                 break;
             default:
-                console.log('debugga il check del url');
                 break;
         }
     }
@@ -75,7 +74,6 @@ export class ProfilesListViewComponent implements OnInit{
                 this.getFollowing();
                 break;
             default:
-                console.log('errore');
                 break;
         }
     }
@@ -84,10 +82,8 @@ export class ProfilesListViewComponent implements OnInit{
     getLikes(){
         let startId: number = 21;
         let idPost: string = this.router.url.substring(startId, this.router.url.length);
-        console.log(idPost);
 
         this.likeService.getLikesForPost(idPost).subscribe(response => {
-            console.log(response);
             for(let i = 0; i < response.length; i++){
                 let profileResponse = new Profile(response[i].id, response[i].name, response[i].nickname, response[i].bio, response[i].proPic, response[i].email);
                 this.profilesService.adjustProfilePageData(profileResponse);
@@ -100,7 +96,6 @@ export class ProfilesListViewComponent implements OnInit{
     getFollowers(){
         let startId: number = 25;
         let idProfile: string = this.router.url.substring(startId, this.router.url.length);
-        console.log(idProfile);
 
         this.followService.getFollowersProfile(idProfile).subscribe(response => {
             for(let i = 0; i < response.length; i++){
@@ -115,7 +110,6 @@ export class ProfilesListViewComponent implements OnInit{
     getFollowing(){
         let startId: number = 23;
         let idProfile: string = this.router.url.substring(startId, this.router.url.length);
-        console.log(idProfile);
     
         this.followService.getFollowingProfile(idProfile).subscribe(response => {
             for(let i = 0; i < response.length; i++){

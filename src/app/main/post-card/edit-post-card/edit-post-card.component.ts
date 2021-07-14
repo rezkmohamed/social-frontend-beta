@@ -30,12 +30,9 @@ export class EditPostCardComponent implements OnInit, OnDestroy {
         this.post.description = this.descrizione;
         this.postService.updatePost(this.post).subscribe(response => {
             if(response.status === 200){
-                console.log("post modificato");
                 confirm("post modificato");
             }
         }, error => {
-            console.log("errore");
-            console.log(error);
             confirm("errore nella modifica!");
         })
     }

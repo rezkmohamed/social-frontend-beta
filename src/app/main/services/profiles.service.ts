@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Profile } from "../models/profile.model";
 import { User } from "../models/user.model";
+import { environment } from "src/environments/environment";
 
 class UserRequest{
     constructor(
@@ -15,7 +16,7 @@ class UserRequest{
     providedIn: 'root'
 })
 export class ProfilesService {
-    urlBase: string = "http://localhost:8080/";
+    urlBase: string = environment.urlBase;
     noBioProfilePage: string = "nessuna biografia aggiunta";
     defaultProPic = "/assets/images/no-propic.png";
     loggedProfileProPic: string;

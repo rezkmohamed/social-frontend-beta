@@ -1,12 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Follow } from "../models/follow.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class FollowService {
-    private urlBase: string = "http://localhost:8080/";
+    private urlBase: string = environment.urlBase;
 
     constructor(private http: HttpClient){}
 

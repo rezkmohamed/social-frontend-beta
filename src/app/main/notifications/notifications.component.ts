@@ -27,7 +27,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     getNotificationsOnInit(){
         this.notificationService.getNotifications().subscribe(response => {
-            console.log(response);
             for(let notification of response){
                 let tmp: NotificationModel = new NotificationModel(notification.profileNotificator.id, notification.profileToNotify.id, notification.profileNotificator.nickname, notification.profileNotificator.proPic, notification.notificationType, notification.date, notification.seen);
                 if(tmp.notificationType != NotificationType.FOLLOW){
@@ -59,11 +58,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log("ngOnDestroy");
         this.notifications.forEach(notification => {
             if(!notification.isSeen){
                 this.notificationService.setNotificationsAsSeen().subscribe(response => {
-                    console.log(response);
                     for(let notification of this.notifications){
                         notification.isSeen = true;
                     }

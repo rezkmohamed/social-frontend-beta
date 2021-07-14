@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit{
             let date: Date = add(new Date(Date.now()), {seconds: (decoded.exp * 0.001)});
 
             let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date, decoded.exp);
-            console.log(userLogged);
 
             this.profilesService.setProfileLogged(userLogged);
             this.authService.user.next(userLogged);
@@ -58,7 +57,6 @@ export class LoginComponent implements OnInit{
             this.authService.autoLogout(decoded.exp);
             this.router.navigate(['/homepage']);
         }, error => {
-            console.log(error);
             this.errorLogin = true;
         })
     }

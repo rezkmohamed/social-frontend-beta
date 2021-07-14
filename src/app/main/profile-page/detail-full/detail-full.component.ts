@@ -37,7 +37,6 @@ export class DetailFullCompont implements OnInit {
 
     private getPost(){
         this.postService.getPost(this.idPost).subscribe(response => {
-            console.log(response);
             let responsePost = new Post(response.idPost, response.urlImg, response.description, response.dateMillis, response.idProfile, response.commentsCounter, response.likesCounter, response.liked);
 
             let comments: CommentPost[] = [];

@@ -2,12 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Conversation } from "../models/conversation.model";
 import { MessageModel } from "../models/message.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class MessagesService {
-    private urlBase: string = "http://localhost:8080/";
+    private urlBase: string = environment.urlBase;
     conversation;
     conversations: Conversation[];
     newMessagesForConversation: Map<Conversation, number> = new Map();
@@ -17,7 +18,7 @@ export class MessagesService {
     constructor(private http: HttpClient){}
 
     openWebSocket(){
-        this.webSocket = new WebSocket('ws://localhost:8080/strange');
+        this.webSocket = new WebSocket(environment.wsBase + 'strange');
 
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);

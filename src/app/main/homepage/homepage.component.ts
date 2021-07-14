@@ -52,7 +52,6 @@ export class HomepageComponent implements OnInit {
 
                         let comments: CommentPost[] = [];
                         for(let comment of response[i].comments){
-                            console.log(comment);
                             let commentResponse = new CommentPost(comment.idComment, comment.comment, comment.dateMillis, comment.idPost, comment.idProfile, comment.nicknameProfile, comment.commentLikesCounter, comment.liked);
                             comments.push(commentResponse);
                         }
@@ -70,9 +69,7 @@ export class HomepageComponent implements OnInit {
                     this.profiles.push(profile);
                 }
             }
-
             this.notScrolly = true;
-
         })
     }
 

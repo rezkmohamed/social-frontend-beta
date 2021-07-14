@@ -60,17 +60,12 @@ export class UpdateProfileComponent implements OnInit {
     onChangeGeneralData(){
         let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, null, this.profile.email);
         this.generalDataFormSubmitted = true;
-        console.log(this.updateProfileForm.value);
-
 
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
-            console.log(response);
-            console.log(response.status);
             if(response.status === STATUS_OK){
                 this.generalDataChanged = true;
             }
         }, error => {
-            console.log(error);
             this.generalDataChanged = false;
         })
     }
@@ -100,15 +95,12 @@ export class UpdateProfileComponent implements OnInit {
             this.profilesService.checkPassword(userRequest).subscribe(response =>{
                 if(response.status === STATUS_OK){
                     this.profilesService.updateProfile(profileUpdated).subscribe(response => {
-                        console.log(response);
                         this.emailChangeSuccess = true;
                     }, error => {
-                        console.log(error);
                         this.emailChangeSuccess = false;
                     });
                 }
             }, error => {
-                console.log(error);
                 this.emailChangeSuccess = false;
             });
         }
@@ -137,16 +129,13 @@ export class UpdateProfileComponent implements OnInit {
             pass: string
         } = {idUser: this.idLoggedUser,nickname: this.profile.nickname, email: this.profile.email, pass: this.passwordForm.get('old').value};
         this.profilesService.checkPassword(userRequest).subscribe(response => {
-            console.log(response);
             this.profilesService.updatePassword(this.idLoggedUser, newPassword).subscribe(response => {
-                console.log(response);
                 if(response.status === STATUS_OK){
                     this.passwordChangeSubmitted = true;
                     this.passwordChangeSuccess = true;
                 }
             })
         }, error => {
-            console.log(error);
             this.passwordChangeSubmitted = true;
             this.passwordChangeSuccess = false;
         })
@@ -174,11 +163,9 @@ export class UpdateProfileComponent implements OnInit {
         uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
 
         this.profilesService.uploadProfilePic(uploadData).subscribe(response => {
-            console.log(response);
             this.fileIsOkay = true;
             this.fileIsSended = true;
         }, err => {
-            console.log(err);
             this.fileIsOkay = false;
             this.fileIsSended = true;
         });

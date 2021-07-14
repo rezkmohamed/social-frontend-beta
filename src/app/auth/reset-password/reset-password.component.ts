@@ -24,7 +24,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.formSubmitted = true;
             this.errorReset = false;
         }, err => {
-            console.log(err);
             this.formSubmitted = true;
             this.errorReset = true;
         })

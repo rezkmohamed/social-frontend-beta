@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { NotificationModel } from "../models/notification.model";
+import { environment } from "src/environments/environment";
 
 export enum NotificationType{
     FOLLOW = "FOLLOW",
@@ -15,7 +16,7 @@ export enum NotificationType{
     providedIn: 'root'
 })
 export class NotificationsService {
-    private urlBase: string = "http://localhost:8080/";
+    private urlBase: string = environment.urlBase;
     private notifications: NotificationModel[]; 
     mapProfilesNotifications: Map<string, NotificationModel[]> = new Map();
     newNotification: {ok : boolean};
@@ -27,7 +28,7 @@ export class NotificationsService {
     constructor(private http: HttpClient){}
 
     openWebSocket(){
-        this.webSocket = new WebSocket('ws://localhost:8080/stranger');
+        this.webSocket = new WebSocket(environment.wsBase + 'stranger');
 
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);
@@ -81,19 +82,12 @@ export class NotificationsService {
     }
 
     removeNotification(notification: NotificationModel): boolean {
-        console.log("REMOVING:")
-        console.log(this.notifications);
         if(this.notifications){
             for(let i = 0; i < this.notifications.length; i++){
                 if(this.notifications[i].idProfileNotificator === notification.idProfileNotificator){
-                    console.log("same idProfileNotificator: " + this.notifications[i].idProfileNotificator);
                     if(notification.nicknameProfileNotificator == this.DELETING_CODE){
-                        console.log("deleting code.");
                         if(this.notifications[i].notificationType === notification.notificationType){
-                            console.log("same notification type: " + this.notifications[i].notificationType);
                             if(this.notifications[i].idPost == notification.idPost){
-
-                                console.log("REMOVED");
                                 this.notifications.splice(i, 1);
                                 return true;
                             }

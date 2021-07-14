@@ -2,10 +2,10 @@
     <div class="header-chat">
         <div class="avatar-section">
             <div class="avatar-picture">
-                <img [src]="transform(conversation.profile2.proPic)">
+                <img [src]="transform(conversation.profile1.id === user.id ? conversation.profile2.proPic : conversation.profile1.proPic)">
             </div>
             <div class="avatar-name">
-                {{conversation.profile2.nickname}}
+                {{conversation.profile1.id === user.id ? conversation.profile2.nickname : conversation.profile1.nickname}}
             </div>
         </div>
     </div>

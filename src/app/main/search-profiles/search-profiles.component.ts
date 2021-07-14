@@ -55,7 +55,6 @@ export class SearchProfilesComponent implements OnInit {
                 if(response.length <= 0){
                     this.notScrolly = false;
                 } 
-                console.log(response);
                 for(let i = 0; i < response.length; i++){
                     let profile: Profile = new Profile(response[i].id,
                         response[i].name, response[i].nickname,

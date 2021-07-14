@@ -22,7 +22,6 @@ export class ChatComponent implements OnInit, OnDestroy{
 
     onConversationSelected(conversation){
         this.conversation = conversation;
-
         this.messageService.getMessagesForConversation(conversation.idConversation).subscribe(response =>{
             const messagesOfConversationResponse: MessageModel[] = [];
             for(let msg of response){
@@ -32,10 +31,8 @@ export class ChatComponent implements OnInit, OnDestroy{
             this.conversation.messages = messagesOfConversationResponse;
             this.messageService.newMessagesForConversation.set(conversation, 0);
             this.messageService.setMessagesAsSeen(conversation.idConversation).subscribe(response => {
-                console.log(response);
             })
         });
-
         this.messageService.conversation = this.conversation;
     }
 
