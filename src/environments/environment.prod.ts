@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  urlBase: "http://localhost:8080/",
+  wsBase: "ws://localhost:8080/"
 };
