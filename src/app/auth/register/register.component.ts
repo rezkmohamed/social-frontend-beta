@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
     @ViewChild('f') registraForm: NgForm;
     emailExists: boolean = false;
     signupRequest: boolean = false;
+    errorPsw: boolean = false;
     BAD_REQUEST: number = 400;
 
     constructor(private authService: AuthService, private router: Router){}
@@ -21,6 +22,7 @@ export class RegisterComponent implements OnInit {
 
     onSubmit(){
         if(this.registraForm.value.password !== this.registraForm.value.confermapassword){
+            this.errorPsw = true;
             return;
         }
 

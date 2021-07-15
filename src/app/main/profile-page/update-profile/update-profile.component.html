@@ -5,11 +5,11 @@
             <div class="loading" *ngIf="loadingProfile">loading...</div>
 
             <div class="alert alert-danger" role="alert"
-            *ngIf="!generalDataChanged && generalDataFormSubmitted">
+            *ngIf="!generalDataChanged && generalDataFormSubmitted && !loading">
             Errore nella modifica dei dati!
             </div>
 
-            <div class="alert alert-success" role="alert" *ngIf="generalDataChanged && generalDataFormSubmitted">
+            <div class="alert alert-success" role="alert" *ngIf="generalDataChanged && generalDataFormSubmitted && !loading">
                 Dati cambiati con successo
             </div>
 
@@ -54,7 +54,7 @@
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="alert alert-danger" role="alert"
-                *ngIf="!fileIsOkay && fileIsSended">
+                *ngIf="!fileIsOkay && fileIsSended ">
                 Errore nel caricamento della foto!
                 </div>
     
@@ -88,10 +88,6 @@
 
             </div>
             <div class="col-3"></div>
-
-
-
-
     </div>
 
     <!-- 
@@ -103,11 +99,11 @@
         <div class="col-6">
             <div class="alert alert-danger" role="alert"
                     *ngIf="emailChangeSubmitted &&
-                    !emailChangeSuccess">
+                    !emailChangeSuccess && !loading">
                     Errore nel cambio email, ricontrolla la password!
             </div>
 
-            <div class="alert alert-success" role="alert" *ngIf="emailChangeSuccess">
+            <div class="alert alert-success" role="alert" *ngIf="emailChangeSuccess && !loading">
                 Email cambiata con successo
             </div>
 
@@ -146,12 +142,12 @@
         <div class="col-6">
 
             <div class="alert alert-danger" role="alert"
-            *ngIf="!passwordChangeSuccess && passwordChangeSubmitted">
+            *ngIf="!passwordChangeSuccess && passwordChangeSubmitted && !loading">
             password sbagliata!
             </div>
 
             <div class="alert alert-success" role="alert"
-                *ngIf="passwordChangeSuccess && passwordChangeSubmitted">
+                *ngIf="passwordChangeSuccess && passwordChangeSubmitted && !loading">
                 Password modificata con successo.
             </div>
 

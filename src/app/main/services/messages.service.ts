@@ -10,7 +10,7 @@ import { environment } from "src/environments/environment";
 export class MessagesService {
     private urlBase: string = environment.urlBase;
     conversation;
-    conversations: Conversation[];
+    conversations: Conversation[] = [];
     newMessagesForConversation: Map<Conversation, number> = new Map();
 
 

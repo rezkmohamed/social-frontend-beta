@@ -17,6 +17,8 @@ export class UpdateProfileComponent implements OnInit {
     loadingProfile: boolean = true;
     idLoggedUser: string = JSON.parse(localStorage.getItem('userData')).id.toString();
 
+
+    loading: boolean;
     generalDataChanged: boolean = false;
     generalDataFormSubmitted: boolean = false;
     /**
@@ -58,15 +60,18 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     onChangeGeneralData(){
+        this.loading = true;
         let profileUpdated: Profile = new Profile(this.idLoggedUser,this.updateProfileForm.value.nome, this.updateProfileForm.value.nickname, this.updateProfileForm.value.biografia, null, this.profile.email);
         this.generalDataFormSubmitted = true;
 
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             if(response.status === STATUS_OK){
                 this.generalDataChanged = true;
+                this.loading = false;
             }
         }, error => {
             this.generalDataChanged = false;
+            this.loading = false;
         })
     }
 
@@ -79,6 +84,8 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     onChangeMail(){
+        this.loading = true;
+
         if((this.emailForm.get('password').valid && 
         this.emailForm.get('confirm').valid ) && 
         this.emailForm.touched) {
@@ -96,12 +103,15 @@ export class UpdateProfileComponent implements OnInit {
                 if(response.status === STATUS_OK){
                     this.profilesService.updateProfile(profileUpdated).subscribe(response => {
                         this.emailChangeSuccess = true;
+                        this.loading = false;
                     }, error => {
                         this.emailChangeSuccess = false;
+                        this.loading = false;
                     });
                 }
             }, error => {
                 this.emailChangeSuccess = false;
+                this.loading = false;
             });
         }
     }
@@ -115,11 +125,14 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     onChangePassword(){
+        this.loading = true;
+
         let newPassword: string = this.passwordForm.get('new').value;
         let confirmNewPassword: string = this.passwordForm.get('confirm').value;
         this.passwordChangeSuccess = false;
         if(newPassword != confirmNewPassword){
             this.passwordChangeSubmitted = true;
+            this.loading = false;
             return;
         }
         let userRequest: {
@@ -133,11 +146,14 @@ export class UpdateProfileComponent implements OnInit {
                 if(response.status === STATUS_OK){
                     this.passwordChangeSubmitted = true;
                     this.passwordChangeSuccess = true;
+                    this.loading = false;
+
                 }
             })
         }, error => {
             this.passwordChangeSubmitted = true;
             this.passwordChangeSuccess = false;
+            this.loading = false;
         })
 
     }
