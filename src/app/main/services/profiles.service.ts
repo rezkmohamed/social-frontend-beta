@@ -21,18 +21,18 @@ export class ProfilesService {
     defaultProPic = "/assets/images/no-propic.png";
     loggedProfileProPic: string;
 
-    private userLogged: User;
+//    private userLogged: User;
 
     constructor(private http: HttpClient){}
 
-    setProfileLogged(user: User){
+/*    setProfileLogged(user: User){
         this.userLogged = user;
     }
 
     getProfileLogged(){
         return this.userLogged;
     }
-
+*/
     adjustProfilePageData(profile: Profile) {
         if(!profile.bio){
             profile.bio = this.noBioProfilePage;
@@ -136,5 +136,11 @@ export class ProfilesService {
 
     searchProfiles(profileName: string, lastProfile: number){
         return this.http.get<any[]>(this.urlBase + "profiles/search/" + profileName + "/" + lastProfile);
+    }
+
+    fetchLoggedProfile(token: string){
+        return this.http.get<any>(this.urlBase + "logged",
+        {headers: new HttpHeaders().set('Authorization' , "Bearer " + token)}
+        );
     }
 }

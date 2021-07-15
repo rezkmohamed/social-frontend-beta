@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
+import { AuthService } from "src/app/auth/auth.service";
 import { MessageModel } from "../../models/message.model";
 import { MessagesService } from "../../services/messages.service";
 import { ProfilesService } from "../../services/profiles.service";
@@ -17,7 +18,8 @@ export class ChatContent implements OnInit, OnChanges{
     newMessages: number = 0;
     firstNewMessageId: string;
 
-    constructor(public messagesService: MessagesService,
+    constructor(private authService: AuthService,
+                public messagesService: MessagesService,
                 public profilesService: ProfilesService,
                 private sanitizer: DomSanitizer){}
 
@@ -33,7 +35,9 @@ export class ChatContent implements OnInit, OnChanges{
 
     ngOnInit(): void {
         this.firstNewMessageId = "";
-        this.user = this.profilesService.getProfileLogged();
+        this.user = this.authService.user.getValue();
+        console.log(this.user);
+        //this.user = this.profilesService.getProfileLogged();
     }
 
     ngAfterViewChecked(){

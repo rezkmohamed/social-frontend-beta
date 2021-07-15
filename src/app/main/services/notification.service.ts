@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { NotificationModel } from "../models/notification.model";
 import { environment } from "src/environments/environment";
+import { ProfilesService } from "./profiles.service";
 
 export enum NotificationType{
     FOLLOW = "FOLLOW",
@@ -25,7 +26,9 @@ export class NotificationsService {
 
     webSocket: WebSocket;
 
-    constructor(private http: HttpClient){}
+    constructor(
+                private profilesService: ProfilesService,
+                private http: HttpClient){}
 
     openWebSocket(){
         this.webSocket = new WebSocket(environment.wsBase + 'stranger');
@@ -39,6 +42,9 @@ export class NotificationsService {
 
         this.webSocket.onmessage = (event) => {
             let notificationDTO: NotificationModel = JSON.parse(event.data);
+            if(!notificationDTO.imgProfileNotificator || notificationDTO.imgProfileNotificator === "null" ){
+                notificationDTO.imgProfileNotificator = this.profilesService.defaultProPic;
+            }
             console.log("ON MESSAGE::: ");
             console.log(notificationDTO);
             if(notificationDTO.nicknameProfileNotificator != this.DELETING_CODE){

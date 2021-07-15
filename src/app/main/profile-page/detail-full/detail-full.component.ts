@@ -31,12 +31,12 @@ export class DetailFullCompont implements OnInit {
     private getData(){
         let startingUrl: number = 6;
         this.idPost = this.route.url.substring(startingUrl, this.route.url.length);
-        console.log(this.idPost);
         this.getPost();
     }
 
     private getPost(){
         this.postService.getPost(this.idPost).subscribe(response => {
+            console.log(response);
             let responsePost = new Post(response.idPost, response.urlImg, response.description, response.dateMillis, response.idProfile, response.commentsCounter, response.likesCounter, response.liked);
 
             let comments: CommentPost[] = [];
@@ -49,7 +49,6 @@ export class DetailFullCompont implements OnInit {
                 return moment(a.date).diff(moment(b.date));
             })
 
-
             this.comments = comments;
             this.post = responsePost;
             this.loadingPost = false;
@@ -58,7 +57,6 @@ export class DetailFullCompont implements OnInit {
             this.profilesService.adjustProfilePageData(responseProfile);
             this.profilo = responseProfile;
             this.loadingProfile = false;
-            
-        })
+        });
     }
 }

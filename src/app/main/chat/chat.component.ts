@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { AuthService } from "src/app/auth/auth.service";
 import { Conversation } from "../models/conversation.model";
 import { MessageModel } from "../models/message.model";
 import { MessagesService } from "../services/messages.service";
@@ -11,12 +12,10 @@ import { ProfilesService } from "../services/profiles.service";
 })
 export class ChatComponent implements OnInit, OnDestroy{
     conversation: Conversation;
-    user;
 
-    constructor(private messageService: MessagesService, private profilesService: ProfilesService){}
+    constructor(private messageService: MessagesService){}
 
     ngOnInit(): void {
-        this.user = this.profilesService.getProfileLogged();
         this.messageService.openWebSocket();
     }
 

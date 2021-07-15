@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
+import { AuthService } from "src/app/auth/auth.service";
 import { Conversation } from "../../models/conversation.model";
 import { MessageModel } from "../../models/message.model";
 import { MessagesService } from "../../services/messages.service";
@@ -19,7 +20,9 @@ export class SidebarComponent implements OnInit {
     conversations;
     newMessagesForConversation: Map<Conversation, number> = new Map();
 
-    constructor(private messageService: MessagesService,
+    constructor(
+                private authService: AuthService,
+                private messageService: MessagesService,
                 private profileService: ProfilesService,
                 private sanitizer: DomSanitizer) { }
 
@@ -31,10 +34,8 @@ export class SidebarComponent implements OnInit {
     }
 
     fillProfileData(){
-        this.user = this.profileService.getProfileLogged();
-        this.profileService.fetchAccount(this.user.id).subscribe(response => {
-            this.userProfilePic = response.proPic;
-        })
+        //this.user = this.profileService.getProfileLogged();
+        this.user = this.authService.user;
     }
 
     getConversationsSidebar(){
@@ -43,9 +44,9 @@ export class SidebarComponent implements OnInit {
             for(let conv of response){
                 const messagesOfConversationResponse: MessageModel[] = [];
                 const conversationResponse: Conversation = new Conversation(conv.idConversation, conv.firstProfile, conv.secondProfile, conv.latestMessage, messagesOfConversationResponse);
-                
+
                 this.newMessagesForConversation.set(conversationResponse, 0);
-                
+
                 for(let msg of conv.messages){
                     const msgToAdd: MessageModel = new MessageModel(msg.idMessage, msg.idProfileSender, msg.idProfileReciver, msg.idConversation, msg.message, msg.dateMillis, msg.seen);
                     

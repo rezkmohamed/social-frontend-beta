@@ -2,20 +2,11 @@ import { Injectable, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
 import { User } from "../main/models/user.model";
-import { Profile } from "../main/models/profile.model";
-import jwt_decode  from "jwt-decode";
 import { HttpClient } from "@angular/common/http";
 import { ProfilesService } from "../main/services/profiles.service";
 import { environment } from "src/environments/environment";
+import { StorageData } from "../main/models/storage-data.model";
 
-class responseAuth {
-    constructor(
-        public exp: number,
-        public iat: number,
-        public idUser: string,
-        public nickname: string
-    ){}
-}
 
 @Injectable({
     providedIn: 'root'
@@ -49,11 +40,31 @@ export class AuthService implements OnInit{
         );
     }
 
+    /**
+     * FIXME: 
+     * GET USER DATA FROM BACKEND AND UPDATE user VARIABLE.
+     */
     autoLogin(){
-        const userData: {email: string, id: string, nickname: string ,_token: string, _tokenExpirationDate: Date} = JSON.parse(localStorage.getItem('userData'));
+        const userData: StorageData = JSON.parse(localStorage.getItem('userData'));
+        if(userData._token){
+            this.user.next(new User(null, null, null, userData._token, userData._tokenExpirationDate));
+        }
+
+        this.profilesService.fetchLoggedProfile(userData._token).subscribe(response => {
+            console.log(response);
+            if(response){
+                const loadedUser = new User(response.email, response.nickname, response.id, userData._token, userData._tokenExpirationDate);
+                loadedUser.proPic = response.proPic;
+                this.user.next(loadedUser);
+                console.log(this.user.value);
+                this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
+            }
+        }, err => {
+            console.log(err);
+        })
         //caso in cui non c'è utente, esco dal metodo.
         //console.log(userData);
-        if(!userData){
+        /*if(!userData){
             console.log("no user found");
             return;
         }
@@ -64,9 +75,9 @@ export class AuthService implements OnInit{
             console.log("user found");
             this.user.next(loadedUser);
 
-            this.profilesService.setProfileLogged(loadedUser);
+            //this.profilesService.setProfileLogged(loadedUser);
             this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
-        }
+        }*/
     }
 
     logout(){

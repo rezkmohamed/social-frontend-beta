@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
 import { CommentPost } from "../models/comment.model";
 import { Like } from "../models/like.model";
 import { NotificationModel } from "../models/notification.model";
@@ -10,8 +11,6 @@ import { CommentsService } from "../services/comment.service";
 import { LikesService } from "../services/likes.service";
 import { NotificationsService, NotificationType } from "../services/notification.service";
 import { PostsService } from "../services/posts.service";
-import { ProfilesService } from "../services/profiles.service";
-
 
 @Component({
     selector: 'app-post-card',
@@ -37,10 +36,10 @@ export class PostCardComponent implements OnInit {
     isCommentsLikesLoaded: boolean = true;
 
     constructor(
+        private authSerivce: AuthService,
         private commentService: CommentsService,
         private likeService: LikesService,
         private postService: PostsService,
-        private profilesService: ProfilesService, 
         private router: Router, 
         private sanitizer: DomSanitizer,
         private notificationService: NotificationsService){}
@@ -112,7 +111,8 @@ export class PostCardComponent implements OnInit {
                 console.log(notification);
             }
         });
-        newComment.nicknameProfile = this.profilesService.getProfileLogged().nickname;
+        newComment.nicknameProfile = this.authSerivce.user.getValue().nickname;
+        //newComment.nicknameProfile = this.profilesService.getProfileLogged().nickname;
         newComment.commentLikesCounter = 0;
         newComment.isLiked = false;
         this.comments.push(newComment);
@@ -124,7 +124,7 @@ export class PostCardComponent implements OnInit {
             this.commentService.removeCommentLike(this.comments[index].idComment).subscribe(response => {
                 console.log(response);
                 if(this.comments[index].idProfile != this.idLoggedUser){
-                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.notificationService.DELETING_CODE, null, NotificationType.COMMENT_LIKE, null, false, this.post.idPost);
+                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.comments[index].idProfile, this.notificationService.DELETING_CODE, null, NotificationType.COMMENT_LIKE, null, false, this.post.idPost);
                     this.notificationService.sendMessage(notification);
                 }
 
@@ -134,7 +134,7 @@ export class PostCardComponent implements OnInit {
         } else if(!this.comments[index].isLiked) {
             this.commentService.addCommentLike(this.comments[index].idComment).subscribe(response => {
                 if(this.comments[index].idProfile != this.idLoggedUser){
-                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.profilo.id, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.COMMENT_LIKE, null, false, this.post.idPost);
+                    let notification: NotificationModel = new NotificationModel(this.idLoggedUser, this.comments[index].idProfile, this.loggedUserData.nickname, this.loggedUserProPic, NotificationType.COMMENT_LIKE, null, false, this.post.idPost);
                     notification.commentMessage = this.comments[index].comment;
                     this.notificationService.sendMessage(notification);
                 }
@@ -165,7 +165,7 @@ export class PostCardComponent implements OnInit {
         let textArea = document.getElementById(this.post.idPost);
         textArea.focus();
     }
-        /**
+    /**
      * questo metodo serve ad aprire il menù (cancella, modifica) di operazioni sul post
      */
     dropdownToggle(){

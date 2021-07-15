@@ -6,7 +6,6 @@ import { AuthService } from "../auth.service";
 import jwt_decode  from "jwt-decode";
 import { User } from "src/app/main/models/user.model";
 import { add } from "date-fns/esm";
-import { sub } from "date-fns";
 import { ProfilesService } from "src/app/main/services/profiles.service";
 
 
@@ -30,11 +29,10 @@ export class LoginComponent implements OnInit{
     errorLogin: boolean = false;
     loginSubscription: Subscription;
 
-    constructor(private authService: AuthService, private router: Router, private profilesService: ProfilesService){}
+    constructor(private authService: AuthService, private router: Router){}
 
     ngOnInit(): void {
     }
-    
 
     login(){
         const startingToken: number = 7;
@@ -50,7 +48,7 @@ export class LoginComponent implements OnInit{
 
             let userLogged: User = new User(email, decoded.nickname, decoded.idUser, token, date, decoded.exp);
 
-            this.profilesService.setProfileLogged(userLogged);
+//            this.profilesService.setProfileLogged(userLogged);
             this.authService.user.next(userLogged);
 
             localStorage.setItem("userData", JSON.stringify(userLogged));

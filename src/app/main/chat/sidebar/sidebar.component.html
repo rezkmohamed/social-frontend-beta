@@ -2,10 +2,10 @@
     <div class="row1">
         <div class="sidebar-header">
             <div class="avatar-container">
-                <img [src]="transform(userProfilePic)" />
+                <img [src]="transform(user.value.proPic)" />
             </div>
             <div class="avatar-info">
-                {{user.nickname}}
+                {{user.value.nickname}}
             </div>
             <div class="actions-container"></div>
         </div>
@@ -33,7 +33,7 @@
             <div class="content">
                 <div class="conversation-header">
                     <div class="name">
-                        {{conversation.profile1.nickname === user.nickname ? conversation.profile2.nickname : conversation.profile1.nickname}}
+                        {{conversation.profile1.id === user.id ? conversation.profile2.nickname : conversation.profile1.nickname}}
                     </div>
                     <!--<div class="time">{{conversation.time}}</div>-->
                 </div>

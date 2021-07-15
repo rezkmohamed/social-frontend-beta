@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
 import { Profile } from "../../models/profile.model";
+import { StorageData } from "../../models/storage-data.model";
+import { User } from "../../models/user.model";
 import { ProfilesService } from "../../services/profiles.service";
 
 const STATUS_OK = 200;
@@ -53,7 +56,8 @@ export class UpdateProfileComponent implements OnInit {
     fileName: string = "";
 
 
-    constructor(private profilesService: ProfilesService, private router: Router){}
+    constructor(private authService: AuthService,
+                private profilesService: ProfilesService){}
 
     ngOnInit() {
         this.getProfile();
@@ -66,6 +70,7 @@ export class UpdateProfileComponent implements OnInit {
 
         this.profilesService.updateProfile(profileUpdated).subscribe(response => {
             if(response.status === STATUS_OK){
+                this.onChangeStorageDataNickname();
                 this.generalDataChanged = true;
                 this.loading = false;
             }
@@ -73,6 +78,13 @@ export class UpdateProfileComponent implements OnInit {
             this.generalDataChanged = false;
             this.loading = false;
         })
+    }
+
+    private onChangeStorageDataNickname(){
+        let storageData:StorageData = JSON.parse(localStorage.getItem('userData'));
+        storageData.nickname = this.updateProfileForm.value.nickname;
+        localStorage.setItem('userData', JSON.stringify(storageData));
+        this.authService.user.next(new User(storageData.email, storageData.nickname, storageData.id, storageData._token, storageData._tokenExpirationDate));
     }
 
     private startingEmailForm(){
@@ -102,6 +114,7 @@ export class UpdateProfileComponent implements OnInit {
             this.profilesService.checkPassword(userRequest).subscribe(response =>{
                 if(response.status === STATUS_OK){
                     this.profilesService.updateProfile(profileUpdated).subscribe(response => {
+                        this.onChangeStorageDataMail(profileUpdated.email);
                         this.emailChangeSuccess = true;
                         this.loading = false;
                     }, error => {
@@ -114,6 +127,13 @@ export class UpdateProfileComponent implements OnInit {
                 this.loading = false;
             });
         }
+    }
+
+    private onChangeStorageDataMail(email: string){
+        let storageData:StorageData = JSON.parse(localStorage.getItem('userData'));
+        storageData.email = email;
+        localStorage.setItem('userData', JSON.stringify(storageData));
+        this.authService.user.next(new User(storageData.email, storageData.nickname, storageData.id, storageData._token, storageData._tokenExpirationDate));
     }
 
     private startingPasswordForm(){
