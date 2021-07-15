@@ -7,7 +7,6 @@ import { ProfilesService } from "../main/services/profiles.service";
 import { environment } from "src/environments/environment";
 import { StorageData } from "../main/models/storage-data.model";
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -44,24 +43,22 @@ export class AuthService implements OnInit{
      * FIXME: 
      * GET USER DATA FROM BACKEND AND UPDATE user VARIABLE.
      */
-    autoLogin(){
+    async autoLogin(){
         const userData: StorageData = JSON.parse(localStorage.getItem('userData'));
-        if(userData._token){
-            this.user.next(new User(null, null, null, userData._token, userData._tokenExpirationDate));
+        if(userData){
+            const tmp = await this.profilesService.fetchLoggedProfile(userData._token)
+            const loadedUser = new User(tmp.email, tmp.nickname, tmp.id, userData._token, userData._tokenExpirationDate);
+            loadedUser.proPic = tmp.proPic;
+            this.user.next(loadedUser);
+            console.log(this.user.value);
+            this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
+            console.log("LOADED USER: ");
+            console.log(loadedUser);
+            return tmp;
         }
-
-        this.profilesService.fetchLoggedProfile(userData._token).subscribe(response => {
-            console.log(response);
-            if(response){
-                const loadedUser = new User(response.email, response.nickname, response.id, userData._token, userData._tokenExpirationDate);
-                loadedUser.proPic = response.proPic;
-                this.user.next(loadedUser);
-                console.log(this.user.value);
-                this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
-            }
-        }, err => {
-            console.log(err);
-        })
+        else {
+            return new Promise(() => false);
+        }
         //caso in cui non c'è utente, esco dal metodo.
         //console.log(userData);
         /*if(!userData){

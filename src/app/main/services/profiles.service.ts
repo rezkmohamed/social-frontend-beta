@@ -21,18 +21,9 @@ export class ProfilesService {
     defaultProPic = "/assets/images/no-propic.png";
     loggedProfileProPic: string;
 
-//    private userLogged: User;
 
     constructor(private http: HttpClient){}
 
-/*    setProfileLogged(user: User){
-        this.userLogged = user;
-    }
-
-    getProfileLogged(){
-        return this.userLogged;
-    }
-*/
     adjustProfilePageData(profile: Profile) {
         if(!profile.bio){
             profile.bio = this.noBioProfilePage;
@@ -87,7 +78,6 @@ export class ProfilesService {
             {headers: new HttpHeaders({
                 'Content-Type': 'multipart/form-data',
             })},
-           // { observe: 'response' }
         );
     }
 
@@ -141,6 +131,6 @@ export class ProfilesService {
     fetchLoggedProfile(token: string){
         return this.http.get<any>(this.urlBase + "logged",
         {headers: new HttpHeaders().set('Authorization' , "Bearer " + token)}
-        );
+        ).toPromise();
     }
 }
