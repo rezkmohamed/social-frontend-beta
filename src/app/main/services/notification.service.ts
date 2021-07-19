@@ -18,7 +18,7 @@ export enum NotificationType{
 })
 export class NotificationsService {
     private urlBase: string = environment.urlBase;
-    private notifications: NotificationModel[]; 
+    private notifications: NotificationModel[];
     mapProfilesNotifications: Map<string, NotificationModel[]> = new Map();
     newNotification: {ok : boolean};
 
@@ -53,9 +53,11 @@ export class NotificationsService {
                 this.newNotification.ok = true;
                 if(this.notifications){
                     this.setNotificationView(notificationDTO);
-                    this.notifications.unshift(notificationDTO);  
+                    this.notifications.unshift(notificationDTO);
                 }
             }
+
+
             else {
                 this.removeNotification(notificationDTO);
             }
