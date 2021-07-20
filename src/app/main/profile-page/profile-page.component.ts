@@ -34,8 +34,8 @@ export class ProfilePageComponent implements OnInit {
     myProfile: boolean = false;
     following: boolean = false;
 
-    followers: number; 
-    follows: number; 
+    followers: number;
+    follows: number;
 
     notEmptyPost: boolean = true;
     notScrolly: boolean = true;
@@ -61,7 +61,7 @@ export class ProfilePageComponent implements OnInit {
             }
         )
     }
-    
+
     private fillProfile(){
         let inizioIdDaCercare = 10;
         this.idProfilo = this.router.url.substring(inizioIdDaCercare, this.router.url.length);

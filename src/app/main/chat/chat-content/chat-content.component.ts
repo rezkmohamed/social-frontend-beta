@@ -37,6 +37,9 @@ export class ChatContent implements OnInit, OnChanges{
         this.firstNewMessageId = "";
         this.user = this.authService.user.getValue();
         console.log(this.user);
+        this.profilesService.fetchLoggedProfile(this.user._token).subscribe(response => {
+          console.log(response);
+        })
         //this.user = this.profilesService.getProfileLogged();
     }
 

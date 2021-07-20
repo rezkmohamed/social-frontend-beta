@@ -25,7 +25,6 @@ export class MessagesService {
             let token: string = JSON.parse(localStorage.getItem('userData'))._token.toString();
 
             this.webSocket.send(JSON.stringify("Bearer " + token));
-            this.conversations = [];
         };
 
         this.webSocket.onmessage = (event) => {

@@ -28,6 +28,7 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit(): void {
         this.conversations = [];
+        //this.messageService.conversations = this.conversations;
         this.conversationsLoaded = false;
         this.fillProfileData();
         this.getConversationsSidebar();
@@ -49,7 +50,7 @@ export class SidebarComponent implements OnInit {
 
                 for(let msg of conv.messages){
                     const msgToAdd: MessageModel = new MessageModel(msg.idMessage, msg.idProfileSender, msg.idProfileReciver, msg.idConversation, msg.message, msg.dateMillis, msg.seen);
-                    
+
                     if(!msgToAdd.isSeen && msgToAdd.idProfileReciver === this.user.id){
                         this.newMessagesForConversation.set(conversationResponse, this.newMessagesForConversation.get(conversationResponse) + 1);
                     }

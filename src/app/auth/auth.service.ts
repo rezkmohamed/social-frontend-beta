@@ -22,13 +22,13 @@ export class AuthService implements OnInit{
 
     ngOnInit(): void {
     }
-    
+
     signup(email: string, password: string, username: string){
         let nickname = username;
         return this.profilesService.createAccount(username, nickname, email, password)
     }
 
-    
+
 
     login(email: string, password: string){
         return this.http.post<any>(this.urlBase + "login" ,
@@ -41,27 +41,28 @@ export class AuthService implements OnInit{
     }
 
     /**
-     * FIXME: 
+     * FIXME:
      * GET USER DATA FROM BACKEND AND UPDATE user VARIABLE.
      */
     autoLogin(){
         const userData: StorageData = JSON.parse(localStorage.getItem('userData'));
-        if(userData._token){
-            this.user.next(new User(null, null, null, userData._token, userData._tokenExpirationDate));
+        if(userData){
+          if(userData._token){
+              this.user.next(new User(null, null, null, userData._token, userData._tokenExpirationDate));
+              this.profilesService.fetchLoggedProfile(userData._token).subscribe(response => {
+                console.log(response);
+                if(response){
+                    const loadedUser = new User(response.email, response.nickname, response.id, userData._token, userData._tokenExpirationDate);
+                    loadedUser.proPic = response.proPic;
+                    this.user.next(loadedUser);
+                    console.log(this.user.value);
+                    this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
+                }
+            }, err => {
+                console.log(err);
+            })
+          }
         }
-
-        this.profilesService.fetchLoggedProfile(userData._token).subscribe(response => {
-            console.log(response);
-            if(response){
-                const loadedUser = new User(response.email, response.nickname, response.id, userData._token, userData._tokenExpirationDate);
-                loadedUser.proPic = response.proPic;
-                this.user.next(loadedUser);
-                console.log(this.user.value);
-                this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
-            }
-        }, err => {
-            console.log(err);
-        })
         //caso in cui non c'è utente, esco dal metodo.
         //console.log(userData);
         /*if(!userData){

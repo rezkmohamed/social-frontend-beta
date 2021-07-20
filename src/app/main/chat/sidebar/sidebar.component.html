@@ -9,31 +9,31 @@
             </div>
             <div class="actions-container"></div>
         </div>
-    
+
         <div class="search-box">
             <img width="20" src="../../../assets/images/search-icon.png">
             <input type="text" placeholder="Cerca o inizia nuova chat">
-        </div>    
+        </div>
     </div>
 
     <div class="sidebar-content" *ngIf="conversationsLoaded">
         <!--<div class="no-conversations">
             Non ci sono conversazioni.
         </div>-->
-        <div 
-            class="conversation" 
+        <div
+            class="conversation"
             *ngFor="let conversation of conversations"
             [ngClass]="{newmsg: newMessagesForConversation.get(conversation) > 0}"
             (click)="conversationClicked.emit(conversation)">
 
             <div class="picture">
-                <img [src]="transform(conversation.profile1.id === user.id ? conversation.profile2.proPic : conversation.profile1.proPic)" />
+                <img [src]="transform(conversation.profile1.id === user.value.id ? conversation.profile2.proPic : conversation.profile1.proPic)" />
             </div>
 
             <div class="content">
                 <div class="conversation-header">
                     <div class="name">
-                        {{conversation.profile1.id === user.id ? conversation.profile2.nickname : conversation.profile1.nickname}}
+                        {{conversation.profile1.id === user.value.id ? conversation.profile2.nickname : conversation.profile1.nickname}}
                     </div>
                     <!--<div class="time">{{conversation.time}}</div>-->
                 </div>
