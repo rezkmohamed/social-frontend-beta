@@ -2,10 +2,10 @@
     <div class="row1">
         <div class="sidebar-header">
             <div class="avatar-container">
-                <img [src]="transform(user.value.proPic)" />
+                <img *ngIf="loadedProfileData" [src]="transform(user.proPic)" />
             </div>
-            <div class="avatar-info">
-                {{user.value.nickname}}
+            <div class="avatar-info" *ngIf="loadedProfileData">
+                {{user.nickname}}
             </div>
             <div class="actions-container"></div>
         </div>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="sidebar-content" *ngIf="conversationsLoaded">
+    <div class="sidebar-content" *ngIf="conversationsLoaded && loadedProfileData">
         <!--<div class="no-conversations">
             Non ci sono conversazioni.
         </div>-->
@@ -27,13 +27,13 @@
             (click)="conversationClicked.emit(conversation)">
 
             <div class="picture">
-                <img [src]="transform(conversation.profile1.id === user.value.id ? conversation.profile2.proPic : conversation.profile1.proPic)" />
+                <img [src]="transform(conversation.profile1.id === user.id ? conversation.profile2.proPic : conversation.profile1.proPic)" />
             </div>
 
             <div class="content">
                 <div class="conversation-header">
                     <div class="name">
-                        {{conversation.profile1.id === user.value.id ? conversation.profile2.nickname : conversation.profile1.nickname}}
+                        {{conversation.profile1.id === user.id ? conversation.profile2.nickname : conversation.profile1.nickname}}
                     </div>
                     <!--<div class="time">{{conversation.time}}</div>-->
                 </div>

@@ -60,7 +60,7 @@ export class ProfilesService {
     }
 
     checkPassword(userRequest: UserRequest){
-        return this.http.post<any>(this.urlBase + "checkpassword", 
+        return this.http.post<any>(this.urlBase + "checkpassword",
         userRequest,
         { observe: 'response' });
     }
@@ -73,7 +73,7 @@ export class ProfilesService {
         formData.append('nickname', profile.nickname);
         formData.append('email', profile.email);
 
-        return this.http.post<any>(this.urlBase + "profiles/updategeneraldata", 
+        return this.http.post<any>(this.urlBase + "profiles/updategeneraldata",
             formData,
             {headers: new HttpHeaders({
                 'Content-Type': 'multipart/form-data',
@@ -89,7 +89,7 @@ export class ProfilesService {
     }
 
     updateProfile(profile: Profile) {
-        return this.http.post<any>(this.urlBase + "profiles/updategeneraldata", 
+        return this.http.post<any>(this.urlBase + "profiles/updategeneraldata",
             profile,
             { observe: 'response' }
         );
@@ -131,6 +131,6 @@ export class ProfilesService {
     fetchLoggedProfile(token: string){
         return this.http.get<any>(this.urlBase + "logged",
         {headers: new HttpHeaders().set('Authorization' , "Bearer " + token)}
-        ).toPromise();
+        );
     }
 }

@@ -27,8 +27,6 @@ export class AuthService implements OnInit{
         return this.profilesService.createAccount(username, nickname, email, password)
     }
 
-
-
     login(email: string, password: string){
         return this.http.post<any>(this.urlBase + "login" ,
             {
@@ -43,12 +41,12 @@ export class AuthService implements OnInit{
      * FIXME:
      * GET USER DATA FROM BACKEND AND UPDATE user VARIABLE.
      */
-    async autoLogin(){
+    autoLogin(){
         const userData: StorageData = JSON.parse(localStorage.getItem('userData'));
         if(userData){
           if(userData._token){
               this.user.next(new User(null, null, null, userData._token, userData._tokenExpirationDate));
-              this.profilesService.fetchLoggedProfile(userData._token).then(response => {
+              this.profilesService.fetchLoggedProfile(userData._token).subscribe(response => {
                 console.log(response);
                 if(response){
                     const loadedUser = new User(response.email, response.nickname, response.id, userData._token, userData._tokenExpirationDate);

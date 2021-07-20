@@ -14,9 +14,11 @@ import { ProfilesService } from "../../services/profiles.service";
 export class SidebarComponent implements OnInit {
     @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
 
+    userToken;
     user;
     userProfilePic;
     conversationsLoaded: boolean = false;
+    loadedProfileData: boolean = false;
     conversations;
     newMessagesForConversation: Map<Conversation, number> = new Map();
 
@@ -30,13 +32,19 @@ export class SidebarComponent implements OnInit {
         this.conversations = [];
         //this.messageService.conversations = this.conversations;
         this.conversationsLoaded = false;
+        this.loadedProfileData = false;
         this.fillProfileData();
         this.getConversationsSidebar();
     }
 
     fillProfileData(){
         //this.user = this.profileService.getProfileLogged();
-        this.user = this.authService.user;
+        this.userToken = this.authService.user.getValue().token;
+        this.profileService.fetchLoggedProfile(this.userToken).subscribe(response => {
+          console.log(response);
+          this.user = response;
+          this.loadedProfileData = true;
+        })
     }
 
     getConversationsSidebar(){
