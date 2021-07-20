@@ -7,7 +7,6 @@ import { ProfilesService } from "../main/services/profiles.service";
 import { environment } from "src/environments/environment";
 import { StorageData } from "../main/models/storage-data.model";
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -44,12 +43,12 @@ export class AuthService implements OnInit{
      * FIXME:
      * GET USER DATA FROM BACKEND AND UPDATE user VARIABLE.
      */
-    autoLogin(){
+    async autoLogin(){
         const userData: StorageData = JSON.parse(localStorage.getItem('userData'));
         if(userData){
           if(userData._token){
               this.user.next(new User(null, null, null, userData._token, userData._tokenExpirationDate));
-              this.profilesService.fetchLoggedProfile(userData._token).subscribe(response => {
+              this.profilesService.fetchLoggedProfile(userData._token).then(response => {
                 console.log(response);
                 if(response){
                     const loadedUser = new User(response.email, response.nickname, response.id, userData._token, userData._tokenExpirationDate);
