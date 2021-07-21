@@ -34,7 +34,6 @@ export class SidebarComponent implements OnInit {
         this.conversationsLoaded = false;
         this.loadedProfileData = false;
         this.fillProfileData();
-        this.getConversationsSidebar();
     }
 
     fillProfileData(){
@@ -44,6 +43,7 @@ export class SidebarComponent implements OnInit {
           console.log(response);
           this.user = response;
           this.loadedProfileData = true;
+          this.getConversationsSidebar();
         })
     }
 

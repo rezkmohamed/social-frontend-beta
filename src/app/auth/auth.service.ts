@@ -56,6 +56,7 @@ export class AuthService implements OnInit{
                     this.autoLogout(JSON.parse(localStorage.getItem('userData'))._tokenExpirationSeconds);
                 }
             }, err => {
+                localStorage.removeItem('userData');
                 console.log(err);
             })
           }

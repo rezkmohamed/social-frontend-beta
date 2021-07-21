@@ -37,10 +37,6 @@ export class ChatContent implements OnInit, OnChanges{
         this.firstNewMessageId = "";
         this.user = this.authService.user.getValue();
         console.log(this.user);
-        this.profilesService.fetchLoggedProfile(this.user._token).subscribe(response => {
-          console.log(response);
-        })
-        //this.user = this.profilesService.getProfileLogged();
     }
 
     ngAfterViewChecked(){
@@ -59,8 +55,8 @@ export class ChatContent implements OnInit, OnChanges{
         }
         //aggiungo il msg
         let date = moment().valueOf();
-        let profile2 = this.conversation.profile1.id === this.user.id ? this.conversation.profile2.id : this.conversation.profile1.id;
-        let msg = new MessageModel(null, this.user.id, profile2, this.conversation.idConversation, value, date, false);
+        let profile2Id = this.conversation.profile1.id === this.user.id ? this.conversation.profile2.id : this.conversation.profile1.id;
+        let msg = new MessageModel(null, this.user.id, profile2Id, this.conversation.idConversation, value, date, false);
         console.log(msg);
 
         this.setNewMessagesAsSeen();
@@ -68,7 +64,7 @@ export class ChatContent implements OnInit, OnChanges{
         this.conversation.latestMessage = value;
         this.messagesService.sendMessage(msg);
         this.messagesService.newMessagesForConversation.set(this.conversation, 0);
-        //console.log(this.conversation);
+        console.log(this.conversation);
     }
 
     setNewMessagesAsSeen(){

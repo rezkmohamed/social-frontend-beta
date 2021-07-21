@@ -12,6 +12,7 @@ export class MessagesService {
     conversation;
     conversations: Conversation[] = [];
     newMessagesForConversation: Map<Conversation, number> = new Map();
+    inChat: boolean;
 
 
     webSocket: WebSocket;
@@ -25,6 +26,7 @@ export class MessagesService {
             let token: string = JSON.parse(localStorage.getItem('userData'))._token.toString();
 
             this.webSocket.send(JSON.stringify("Bearer " + token));
+            this.inChat = true;
         };
 
         this.webSocket.onmessage = (event) => {
@@ -43,6 +45,9 @@ export class MessagesService {
         }
 
         this.webSocket.onclose = (event) => {
+          if(this.inChat){
+            this.openWebSocket();
+          }
             console.log('Close: ' + event);
         }
     }
@@ -56,6 +61,7 @@ export class MessagesService {
     }
 
     closeWebSocket(){
+        this.inChat = false;
         this.webSocket.close();
     }
 
