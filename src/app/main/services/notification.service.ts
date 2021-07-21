@@ -21,7 +21,7 @@ export class NotificationsService {
     private notifications: NotificationModel[];
     mapProfilesNotifications: Map<string, NotificationModel[]> = new Map();
     newNotification: {ok : boolean};
-
+    isLogged: boolean;
     DELETING_CODE = "delete_code";
 
     webSocket: WebSocket;
@@ -36,7 +36,7 @@ export class NotificationsService {
         this.webSocket.onopen = (event) => {
             console.log('Open: ' + event);
             let token: string = JSON.parse(localStorage.getItem('userData'))._token.toString();
-
+            this.isLogged = true;
             this.webSocket.send(JSON.stringify("Bearer " + token));
         };
 
@@ -64,6 +64,9 @@ export class NotificationsService {
         };
 
         this.webSocket.onclose = (event) => {
+            if(this.isLogged){
+              this.openWebSocket();
+            }
             console.log('Close: ' + event);
         };
     }
