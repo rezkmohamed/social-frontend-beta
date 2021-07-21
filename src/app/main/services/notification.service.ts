@@ -68,6 +68,7 @@ export class NotificationsService {
               this.openWebSocket();
             }
             console.log('Close: ' + event);
+
         };
     }
 
